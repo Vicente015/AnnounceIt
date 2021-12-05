@@ -1,9 +1,9 @@
-import "dotenv/config"
+import 'dotenv/config'
 import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
-import { CommandInteraction } from "discord.js"
-import Client from "./structures/Client"
-import mongoose from "mongoose"
+import { CommandInteraction } from 'discord.js'
+import Client from './structures/Client'
+import mongoose from 'mongoose'
 
 const publish = false
 const DEV_GUILD = '909070968360685598'
@@ -14,12 +14,12 @@ const client: Client = new Client({
 
 client.once('ready', async (client) => {
   //* Sistema de carga de comandos
-  let commands = readdirSync(join(__dirname, `./commands/`))
+  const commands = readdirSync(join(__dirname, './commands/'))
     .filter(file => file.startsWith('index') && file.endsWith('.js'))
 
-  for (let command of commands) {
+  for (const command of commands) {
     const { default: cmd } = await import(join(__dirname, `./commands/${command}`))
-    
+
     if (publish) client.guilds.cache.get(DEV_GUILD).commands.create(cmd)
 
     // @ts-expect-error
@@ -37,8 +37,9 @@ client.once('ready', async (client) => {
   console.log('Conectado!')
 })
 
+// @ts-expect-error
 client.on('interactionCreate', async (interaction: CommandInteraction) => {
-  let subCommandName = interaction.options.getSubcommand(false)
+  const subCommandName = interaction.options.getSubcommand(false)
 
   const { default: run } = await import(`./commands/${subCommandName}`)
 
