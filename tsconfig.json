@@ -3,7 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "strictNullChecks": false,
-    "outDir": "dist/"
+    "outDir": "dist/",
+    "noImplicitAny": false
   },
   "include": ["src/**/*"],
   "ts-standard": {

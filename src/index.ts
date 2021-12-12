@@ -1,12 +1,15 @@
 import 'dotenv/config'
 import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
-import { CommandInteraction } from 'discord.js'
+import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from 'discord.js'
 import Client from './structures/Client'
 import mongoose from 'mongoose'
+import iso from 'iso-639-1'
+import Announcement from './schemas/Announcement'
 
 const publish = false
 const DEV_GUILD = '909070968360685598'
+
 
 const client: Client = new Client({
   intents: ['GUILDS', 'GUILD_EMOJIS_AND_STICKERS', 'GUILD_MESSAGES']
@@ -14,13 +17,16 @@ const client: Client = new Client({
 
 client.once('ready', async (client) => {
   //* Sistema de carga de comandos
-  const commands = readdirSync(join(__dirname, './commands/'))
+  const commands = readdirSync(join(__dirname, '../dist/commands/'))
     .filter(file => file.startsWith('index') && file.endsWith('.js'))
 
   for (const command of commands) {
-    const { default: cmd } = await import(join(__dirname, `./commands/${command}`))
+    const { default: cmd } = await import(join(__dirname, `../dist/commands/${command}`))
 
-    if (publish) client.guilds.cache.get(DEV_GUILD).commands.create(cmd)
+    if (publish) {
+      await client.guilds.cache.get(DEV_GUILD).commands.set([])
+      client.guilds.cache.get(DEV_GUILD).commands.create(cmd)
+    }
 
     // @ts-expect-error
     client.commands.set(cmd.name, cmd)
@@ -29,21 +35,46 @@ client.once('ready', async (client) => {
   //* Conección base de datos
   await mongoose.connect(process.env.MONGO_URI)
 
-  /*
-  // @ts-expect-error
-  client.mongoose = mongoose
-  */
-
   console.log('Conectado!')
 })
 
 // @ts-expect-error
-client.on('interactionCreate', async (interaction: CommandInteraction) => {
-  const subCommandName = interaction.options.getSubcommand(false)
+client.on('interactionCreate', async (interaction: CommandInteraction | AutocompleteInteraction) => {
+  if (interaction.isCommand()) {
+    const subCommandName = interaction.options.getSubcommand(false)
+    const { default: run } = await import(`../dist/commands/${subCommandName}`)
 
-  const { default: run } = await import(`./commands/${subCommandName}`)
+    run(client, interaction)
+  }
+  if (interaction.isAutocomplete()) {
+    const value = interaction.options.getFocused()
+    const names = iso.getAllNativeNames()
 
-  run(client, interaction)
+    const res = names
+      .filter(name => name.includes(value.toString()))
+      .map((name) => ({ name: name, value: iso.getCode(name) }))
+
+    if (res.length > 25) res.length = 25
+
+    return interaction.respond(res)
+  }
+  if (interaction.isMessageComponent()) {
+    const translationId = interaction.customId
+
+    const announcement = await Announcement.findOne({ 'translations.id': translationId }).exec()
+    const translation = announcement
+      .translations.find(translation => translation._id.toString() === translationId)
+
+    const embed = new MessageEmbed()
+      .setColor(announcement.color)
+    if (translation.title) embed.setTitle(translation.title)
+    if (translation.description) embed.setDescription(translation.description)
+
+    return await interaction.reply({
+      embeds: [embed],
+      ephemeral: true
+    })
+  }
 })
 
 client.login(process.env.TOKEN)
