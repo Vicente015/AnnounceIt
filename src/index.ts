@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from 'discord.js'
+import {  MessageEmbed } from 'discord.js'
 import Client from './structures/Client'
 import mongoose from 'mongoose'
 import iso from 'iso-639-1'
@@ -15,7 +15,7 @@ const client: Client = new Client({
   intents: ['GUILDS', 'GUILD_EMOJIS_AND_STICKERS', 'GUILD_MESSAGES']
 })
 
-client.once('ready', async (client) => {
+client.once('ready', (async (client: Client)  => {
   //* Sistema de carga de comandos
   const commands = readdirSync(join(__dirname, '../dist/commands/'))
     .filter(file => file.startsWith('index') && file.endsWith('.js'))
@@ -28,7 +28,6 @@ client.once('ready', async (client) => {
       client.guilds.cache.get(DEV_GUILD).commands.create(cmd)
     }
 
-    // @ts-expect-error
     client.commands.set(cmd.name, cmd)
   }
 
@@ -36,10 +35,9 @@ client.once('ready', async (client) => {
   await mongoose.connect(process.env.MONGO_URI)
 
   console.log('Conectado!')
-})
+}) as any)
 
-// @ts-expect-error
-client.on('interactionCreate', async (interaction: CommandInteraction | AutocompleteInteraction) => {
+client.on('interactionCreate', async (interaction) => {
   if (interaction.isCommand()) {
     const subCommandName = interaction.options.getSubcommand(false)
     const { default: run } = await import(`../dist/commands/${subCommandName}`)

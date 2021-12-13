@@ -33,5 +33,5 @@ const Announcement = new Schema<Announcement>({
   ]
 })
 
-const Model = models.Announcement || model<Announcement>('Announcement', Announcement)
+const Model = models.Announcement ?? model<Announcement>('Announcement', Announcement)
 export default Model

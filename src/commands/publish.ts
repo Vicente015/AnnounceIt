@@ -6,8 +6,7 @@ import iso from 'iso-639-1'
 
 export default async function run (client: Client, interaction: CommandInteraction) {
   const name = interaction.options.getString('name')
-  // @ts-expect-error
-  const channel: TextChannel = interaction.options.getChannel('channel')
+  const channel: TextChannel = interaction.options.getChannel('channel') as any
   const announcement = await Announcement.findOne({ name }).exec()
 
   const embed = new MessageEmbed()
