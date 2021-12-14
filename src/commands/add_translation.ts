@@ -2,10 +2,11 @@ import { CommandInteraction } from 'discord.js'
 import Announcement from '../schemas/Announcement'
 import Client from '../structures/Client'
 
-export default async function run (client: Client, interaction: CommandInteraction) {
+export default async function run(client: Client, interaction: CommandInteraction) {
+  if (!interaction.channel) return 
   await interaction.deferReply()
-  const name = interaction.options.getString('name')
-  const lang = interaction.options.getString('lang')
+  const name = interaction.options.getString('name', true)
+  const lang = interaction.options.getString('lang', true)
   const title = interaction.options.getString('title', false)
 
   await interaction.channel.send('Manda un mensaje con la descripción')
@@ -17,9 +18,10 @@ export default async function run (client: Client, interaction: CommandInteracti
   const description = msgCollector.first()?.content
 
   const announcement = await Announcement.findOne({ name })
+  if (!announcement) return
   announcement.translations.push({
     lang,
-    title,
+    title: title ?? undefined,
     description
   })
   // TODO: Hacer comprobación de error en todos los cambios a la db

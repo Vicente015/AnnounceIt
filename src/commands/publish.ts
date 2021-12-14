@@ -1,13 +1,15 @@
 import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed, TextChannel } from 'discord.js'
 import Announcement from '../schemas/Announcement'
 import Client from '../structures/Client'
-// import {countryCodeEmoji} from 'country-code-emoji'
 import iso from 'iso-639-1'
 
 export default async function run (client: Client, interaction: CommandInteraction) {
   const name = interaction.options.getString('name')
+
+  if (!name) return
   const channel: TextChannel = interaction.options.getChannel('channel') as any
   const announcement = await Announcement.findOne({ name }).exec()
+  if (!announcement) return
 
   const embed = new MessageEmbed()
     .setColor(announcement.color)
@@ -21,7 +23,7 @@ export default async function run (client: Client, interaction: CommandInteracti
     .addComponents(announcement.translations.map(translation => {
       return new MessageButton({
         label: iso.getNativeName(translation.lang),
-        customId: translation._id.toString(),
+        customId: translation._id?.toString(),
         style: 'PRIMARY'
         // emoji: countryCodeEmoji(translation.lang)
       })

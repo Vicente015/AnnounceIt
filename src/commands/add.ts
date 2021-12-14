@@ -3,6 +3,7 @@ import Annnouncement from '../schemas/Announcement'
 import Client from '../structures/Client'
 
 export default async function run (client: Client, interaction: CommandInteraction) {
+  if (!interaction.channel) return
   await interaction.deferReply()
   const name = interaction.options.getString('name')
   const title = interaction.options.getString('title', false)

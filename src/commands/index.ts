@@ -1,5 +1,4 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { ChannelTypes } from 'discord.js/typings/enums'
 
 const AnnouncementsCommands = new SlashCommandBuilder()
   .setName('announcements')

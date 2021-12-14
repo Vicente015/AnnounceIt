@@ -2,9 +2,9 @@
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     "strict": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "outDir": "dist/",
-    "noImplicitAny": false
+    "noImplicitAny": true
   },
   "include": ["src/**/*"],
   "ts-standard": {
