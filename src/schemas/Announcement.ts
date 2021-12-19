@@ -1,21 +1,20 @@
 import { model, ObjectId, Schema, models, Model } from 'mongoose'
 import { ColorResolvable } from 'discord.js'
 
-interface Announcement {
+interface AnnouncementType {
   name: string
   title?: string
   description?: string
   color: ColorResolvable
-  translations: [Translation]
+  translations: Array<{
+    _id?: ObjectId
+    lang: string
+    title?: string
+    description?: string
+  }>
 }
 
-interface Translation {
-  lang: string
-  title?: string
-  description?: string
-}
-
-const Announcement = new Schema<Announcement>({
+const Announcement = new Schema<AnnouncementType>({
   name: { type: String, required: true },
   title: { type: String, required: false },
   description: { type: String, required: false, maxlength: 4096, minlength: 10 },
@@ -29,5 +28,5 @@ const Announcement = new Schema<Announcement>({
   ]
 })
 
-const uwu: Model<Announcement> = models.Announcement ?? model<Announcement>('Announcement', Announcement)
+const uwu: Model<AnnouncementType> = models.Announcement ?? model<AnnouncementType>('Announcement', Announcement)
 export default uwu

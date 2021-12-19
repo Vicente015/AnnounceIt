@@ -2,8 +2,8 @@ import { CommandInteraction } from 'discord.js'
 import Annnouncement from '../schemas/Announcement'
 import Client from '../structures/Client'
 
-export default async function run (client: Client, interaction: CommandInteraction) {
-  if (!interaction.channel) return
+export default async function run (client: Client, interaction: CommandInteraction): Promise <void> {
+  if (interaction.channel == null) return
   await interaction.deferReply()
   const name = interaction.options.getString('name')
   const title = interaction.options.getString('title', false)
@@ -25,5 +25,5 @@ export default async function run (client: Client, interaction: CommandInteracti
   })
   await announcement.save()
 
-  interaction.editReply('Anuncio creado uwu (✿◡‿◡)')
+  await interaction.editReply('Anuncio creado uwu (✿◡‿◡)')
 }

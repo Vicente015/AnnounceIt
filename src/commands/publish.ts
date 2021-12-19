@@ -3,19 +3,19 @@ import Announcement from '../schemas/Announcement'
 import Client from '../structures/Client'
 import iso from 'iso-639-1'
 
-export default async function run (client: Client, interaction: CommandInteraction) {
+export default async function run (client: Client, interaction: CommandInteraction): Promise<void> {
   const name = interaction.options.getString('name')
 
-  if (!name) return
+  if (name == null) return
   const channel: TextChannel = interaction.options.getChannel('channel') as any
   const announcement = await Announcement.findOne({ name }).exec()
-  if (!announcement) return
+  if (announcement == null) return
 
   const embed = new MessageEmbed()
     .setColor(announcement.color)
 
-  if (announcement.title) embed.setTitle(announcement.title)
-  if (announcement.description) embed.setDescription(announcement.description)
+  if (announcement.title != null) embed.setTitle(announcement.title)
+  if (announcement.description != null) embed.setDescription(announcement.description)
 
   console.log(announcement)
 
@@ -23,7 +23,7 @@ export default async function run (client: Client, interaction: CommandInteracti
     .addComponents(announcement.translations.map(translation => {
       return new MessageButton({
         label: iso.getNativeName(translation.lang),
-        customId: translation._id?.toString(),
+        customId: translation._id?.toString() ?? '',
         style: 'PRIMARY'
         // emoji: countryCodeEmoji(translation.lang)
       })
@@ -31,5 +31,5 @@ export default async function run (client: Client, interaction: CommandInteracti
     )
   await channel.send({ embeds: [embed], components: [buttons] })
 
-  interaction.reply({ content: 'El anuncio fue publicado', ephemeral: true })
+  await interaction.reply({ content: 'El anuncio fue publicado', ephemeral: true })
 }

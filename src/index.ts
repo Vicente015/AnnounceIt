@@ -31,7 +31,7 @@ client.once('ready', (async (client: Client) => {
   }
 
   //* Conección base de datos
-  mongoose.connect(process.env?.MONGO_URI ?? '')
+  await mongoose.connect(process.env?.MONGO_URI ?? '')
 
   console.log('Conectado!')
 }) as any)
@@ -39,7 +39,7 @@ client.once('ready', (async (client: Client) => {
 client.on('interactionCreate', async (interaction) => {
   if (interaction.isCommand()) {
     const subCommandName = interaction.options.getSubcommand(false)
-    const { default: run } = await import(`../dist/commands/${subCommandName}`)
+    const { default: run } = await import(`../dist/commands/${subCommandName ?? ''}`)
 
     run(client, interaction)
   }
@@ -62,12 +62,12 @@ client.on('interactionCreate', async (interaction) => {
     if (announcement == null) return
     const translation = announcement
       .translations.find(translation => translation._id?.toString() === translationId)
-    if (!translation) return
+    if (translation == null) return
 
     const embed = new MessageEmbed()
       .setColor(announcement?.color)
-    if (translation.title) embed.setTitle(translation.title)
-    if (translation.description) embed.setDescription(translation.description)
+    if (translation.title != null) embed.setTitle(translation.title)
+    if (translation.description != null) embed.setDescription(translation.description)
 
     return await interaction.reply({
       embeds: [embed],
@@ -76,4 +76,4 @@ client.on('interactionCreate', async (interaction) => {
   }
 })
 
-client.login(process.env.TOKEN)
+void client.login(process.env.TOKEN)

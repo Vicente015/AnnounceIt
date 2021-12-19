@@ -2,8 +2,8 @@ import { CommandInteraction } from 'discord.js'
 import Announcement from '../schemas/Announcement'
 import Client from '../structures/Client'
 
-export default async function run(client: Client, interaction: CommandInteraction) {
-  if (!interaction.channel) return 
+export default async function run (client: Client, interaction: CommandInteraction): Promise<void> {
+  if (interaction.channel == null) return
   await interaction.deferReply()
   const name = interaction.options.getString('name', true)
   const lang = interaction.options.getString('lang', true)
@@ -18,14 +18,14 @@ export default async function run(client: Client, interaction: CommandInteractio
   const description = msgCollector.first()?.content
 
   const announcement = await Announcement.findOne({ name })
-  if (!announcement) return
+  if (announcement == null) return
   announcement.translations.push({
     lang,
     title: title ?? undefined,
     description
   })
   // TODO: Hacer comprobación de error en todos los cambios a la db
-  announcement.save()
+  await announcement.save()
 
-  interaction.editReply('Se ha añadido la traducción del anuncio correctamente!')
+  await interaction.editReply('Se ha añadido la traducción del anuncio correctamente!')
 }
