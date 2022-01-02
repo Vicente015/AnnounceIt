@@ -1,4 +1,4 @@
-import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed, TextChannel } from 'discord.js'
+import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed, TextChannel, GuildMember } from 'discord.js'
 import Announcement from '../schemas/Announcement'
 import Client from '../structures/Client'
 // import {countryCodeEmoji} from 'country-code-emoji'
@@ -9,6 +9,13 @@ export default async function run (client: Client, interaction: CommandInteracti
 
   // @ts-expect-error
   const channel: TextChannel = interaction.options.getChannel('channel')
+  if (!channel.permissionsFor(interaction.user.id)?.has('SEND_MESSAGES')) {
+    return interaction.reply({ content: '❌ No tienes permiso para enviar mensajes en ese canal.', ephemeral: true })
+  }
+  if (!channel.permissionsFor(client.user.id).has('SEND_MESSAGES')) {
+    return interaction.reply({ content: '❌ No puedo enviar mensajes en ese canal.', ephemeral: true })
+  }
+
   const announcement = await Announcement.findById(id).exec()
   let haveTranslations = announcement.translations.length > 0
 
@@ -32,7 +39,7 @@ export default async function run (client: Client, interaction: CommandInteracti
   haveTranslations
     ? await channel.send({ embeds: [embed], components: [buttons] })
     : await channel.send({ embeds: [embed], })
-  await Announcement.findByIdAndUpdate(id, { published: true })
+  await Announcement.findByIdAndUpdate(id, { published: true }).exec()
 
-  interaction.reply({ content: 'El anuncio fue publicado', ephemeral: true })
+  interaction.reply({ content: '✅ El anuncio fue publicado.', ephemeral: true })
 }

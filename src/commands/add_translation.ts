@@ -15,9 +15,11 @@ export default async function run (client: Client, interaction: CommandInteracti
     max: 1
   })
   const description = msgCollector.first()?.content
+  if (!description) return interaction.editReply('❌ Debe introducir una descripción.')
+  if (description.length > 4096) return interaction.editReply('❌ La descripción debe ser menor de 4096 caracteres.')
 
-  const announcement = await Announcement.findById(id)
-  if (!announcement) return await interaction.reply({ content: 'Anuncio no encontrado, asegúrate de escribir bien el nombre.', ephemeral: true })
+  const announcement = await Announcement.findById(id).exec()
+
   announcement.translations.push({
     lang,
     title,
@@ -26,5 +28,5 @@ export default async function run (client: Client, interaction: CommandInteracti
   // TODO: Hacer comprobación de error en todos los cambios a la db
   announcement.save()
 
-  interaction.editReply('Se ha añadido la traducción del anuncio correctamente!')
+  interaction.editReply('✅ Se ha añadido la traducción del anuncio.')
 }

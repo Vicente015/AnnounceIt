@@ -10,10 +10,11 @@ import pino from 'pino'
 
 const logger = pino()
 const publish = false
+const devMode = false
 const DEV_GUILD = '909070968360685598'
 
 const client: Client = new Client({
-  intents: ['GUILDS', 'GUILD_EMOJIS_AND_STICKERS', 'GUILD_MESSAGES'],
+  intents: ['GUILDS', 'GUILD_MESSAGES'],
   allowedMentions: { parse: ['users', 'roles'], repliedUser: false },
   presence: {
     activities: [{ name: 'Publishing announcements', type: 'PLAYING' }],
@@ -26,12 +27,17 @@ client.once('ready', async (client) => {
   const commands = readdirSync(join(__dirname, '../dist/commands/'))
     .filter(file => file.startsWith('index') && file.endsWith('.js'))
 
+  if (publish && !devMode) await client.application.commands.set([])
   for (const command of commands) {
     const { default: cmd } = await import(join(__dirname, `../dist/commands/${command}`))
 
     if (publish) {
-      await client.guilds.cache.get(DEV_GUILD).commands.set([])
-      client.guilds.cache.get(DEV_GUILD).commands.create(cmd)
+      if (devMode) {
+        await client.guilds.cache.get(DEV_GUILD).commands.set([])
+        client.guilds.cache.get(DEV_GUILD).commands.create(cmd)
+      } else {
+        await client.application.commands.create(cmd)
+      }
     }
 
     // @ts-expect-error
@@ -42,6 +48,7 @@ client.once('ready', async (client) => {
   await mongoose.connect(process.env.MONGO_URI)
 
   logger.info(`Conectado a ${client.guilds.cache.size} servidores`)
+  console.log(await client.application.commands.fetch())
 })
 
 client.on('guildCreate', (guild) => logger.info(`Nuevo servidor ${guild.name} ${guild.id}`))
@@ -55,6 +62,7 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
 
     run(client, interaction)
   }
+  
   if (interaction.isAutocomplete()) {
     const { name: optionName, value: optionValue } = interaction.options.getFocused(true)
 
@@ -80,6 +88,8 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
       return await interaction.respond(res)
     }
   }
+
+  // ? Devolver anuncio traducido en ephemeral
   if (interaction.isMessageComponent()) {
     const translationId = interaction.customId
 

@@ -8,13 +8,15 @@ export default async function run (client: Client, interaction: CommandInteracti
   const title = interaction.options.getString('title', false)
   const color = interaction.options.getString('color', false)
 
-  await interaction.channel.send('Manda un mensaje con la descripción')
+  await interaction.channel.send('Envíe un mensaje con la descripción, tiene 14 minutos.')
   const msgCollector = await interaction.channel.awaitMessages({
     filter: (msg) => msg.author.id === interaction.user.id,
-    time: 30 * 1000,
+    time: 840 * 1000, // 14 minutes
     max: 1
   })
   const description = msgCollector.first()?.content
+  if (!description) return interaction.editReply('❌ Debe introducir una descripción.')
+  if (description.length > 4096) return interaction.editReply('❌ La descripción debe ser menor de 4096 caracteres.')
 
   const announcement = new Annnouncement({
     guildId: interaction.guildId,
@@ -25,5 +27,5 @@ export default async function run (client: Client, interaction: CommandInteracti
   })
   await announcement.save()
 
-  interaction.editReply('Anuncio creado uwu (✿◡‿◡)')
+  interaction.editReply('✅ Anuncio creado.')
 }
