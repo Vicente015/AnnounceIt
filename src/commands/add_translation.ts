@@ -11,7 +11,7 @@ export default async function run (client: Client, interaction: CommandInteracti
   await interaction.channel.send('Manda un mensaje con la descripción')
   const msgCollector = await interaction.channel.awaitMessages({
     filter: (msg) => msg.author.id === interaction.user.id,
-    time: 30 * 1000,
+    time: 840 * 1000, // 14 minutes
     max: 1
   })
   const description = msgCollector.first()?.content
