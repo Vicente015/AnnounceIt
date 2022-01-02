@@ -16,10 +16,8 @@
     "chalk": "^4.1.2",
     "country-code-emoji": "^2.3.0",
     "discord.js": "^13.3.1",
-    "i18n-iso-countries": "^7.1.0",
     "iso-639-1": "^2.1.11",
     "mongoose": "^6.0.13",
-    "node-emojify": "^0.0.15",
     "pino": "^7.3.0",
     "ts-standard": "^11.0.0"
   },
