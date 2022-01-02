@@ -1,5 +1,4 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { ChannelTypes } from 'discord.js/typings/enums'
 
 const AnnouncementsCommands = new SlashCommandBuilder()
   .setName('announcements')
@@ -68,6 +67,10 @@ const AnnouncementsCommands = new SlashCommandBuilder()
           .setDescription('El canal del anuncio')
           .setRequired(true)
           .addChannelType(0)
+          .addChannelType(5)
+          .addChannelType(10)
+          .addChannelType(11)
+          .addChannelType(12)
       })
   })
 
