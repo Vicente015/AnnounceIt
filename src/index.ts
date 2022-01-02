@@ -10,9 +10,13 @@ import Announcement from './schemas/Announcement'
 const publish = false
 const DEV_GUILD = '909070968360685598'
 
-
 const client: Client = new Client({
-  intents: ['GUILDS', 'GUILD_EMOJIS_AND_STICKERS', 'GUILD_MESSAGES']
+  intents: ['GUILDS', 'GUILD_EMOJIS_AND_STICKERS', 'GUILD_MESSAGES'],
+  allowedMentions: { parse: ['users', 'roles'], repliedUser: false },
+  presence: {
+    activities: [{ name: 'Publishing announcements', type: 'PLAYING' }],
+    status: 'online'
+  }
 })
 
 client.once('ready', async (client) => {
@@ -56,12 +60,12 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
 
     if (res.length > 25) res.length = 25
 
-    return interaction.respond(res)
+    return await interaction.respond(res)
   }
   if (interaction.isMessageComponent()) {
     const translationId = interaction.customId
 
-    const announcement = await Announcement.findOne({ 'translations.id': translationId }).exec()
+    const announcement = await Announcement.findOne({ 'translations._id': translationId }).exec()
     const translation = announcement
       .translations.find(translation => translation._id.toString() === translationId)
 

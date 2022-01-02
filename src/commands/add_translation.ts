@@ -17,6 +17,7 @@ export default async function run (client: Client, interaction: CommandInteracti
   const description = msgCollector.first()?.content
 
   const announcement = await Announcement.findOne({ name })
+  if (!announcement) return await interaction.reply({ content: 'Anuncio no encontrado, asegúrate de escribir bien el nombre.', ephemeral: true })
   announcement.translations.push({
     lang,
     title,

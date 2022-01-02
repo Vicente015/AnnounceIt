@@ -16,8 +16,6 @@ export default async function run (client: Client, interaction: CommandInteracti
   if (announcement.title) embed.setTitle(announcement.title)
   if (announcement.description) embed.setDescription(announcement.description)
 
-  console.log(announcement)
-
   const buttons = new MessageActionRow()
     .addComponents(announcement.translations.map(translation => {
       return new MessageButton({
