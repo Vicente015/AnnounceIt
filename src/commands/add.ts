@@ -15,8 +15,8 @@ export default async function run (client: Client, interaction: CommandInteracti
     max: 1
   })
   const description = msgCollector.first()?.content
-  if (!description) return interaction.editReply('❌ Debe introducir una descripción.')
-  if (description.length > 4096) return interaction.editReply('❌ La descripción debe ser menor de 4096 caracteres.')
+  if (!description) return await interaction.editReply('❌ Debe introducir una descripción.')
+  if (description.length > 4096) return await interaction.editReply('❌ La descripción debe ser menor de 4096 caracteres.')
 
   const announcement = new Annnouncement({
     guildId: interaction.guildId,

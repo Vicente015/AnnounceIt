@@ -62,7 +62,7 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
 
     run(client, interaction)
   }
-  
+
   if (interaction.isAutocomplete()) {
     const { name: optionName, value: optionValue } = interaction.options.getFocused(true)
 

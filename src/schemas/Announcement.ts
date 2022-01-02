@@ -32,7 +32,7 @@ const Announcement = new Schema<Announcement>({
     {
       lang: { type: String, required: true },
       title: { type: String, required: false },
-      description: { type: String, required: false, maxlength: 4096}
+      description: { type: String, required: false, maxlength: 4096 }
     }
   ]
 })
