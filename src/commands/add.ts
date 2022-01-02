@@ -17,6 +17,7 @@ export default async function run (client: Client, interaction: CommandInteracti
   const description = msgCollector.first()?.content
 
   const announcement = new Annnouncement({
+    guildId: interaction.guildId,
     name,
     title,
     color,

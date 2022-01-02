@@ -4,7 +4,7 @@ import Client from '../structures/Client'
 
 export default async function run (client: Client, interaction: CommandInteraction) {
   await interaction.deferReply()
-  const name = interaction.options.getString('name')
+  const id = interaction.options.getString('name')
   const lang = interaction.options.getString('lang')
   const title = interaction.options.getString('title', false)
 
@@ -16,7 +16,7 @@ export default async function run (client: Client, interaction: CommandInteracti
   })
   const description = msgCollector.first()?.content
 
-  const announcement = await Announcement.findOne({ name })
+  const announcement = await Announcement.findById(id)
   if (!announcement) return await interaction.reply({ content: 'Anuncio no encontrado, asegúrate de escribir bien el nombre.', ephemeral: true })
   announcement.translations.push({
     lang,

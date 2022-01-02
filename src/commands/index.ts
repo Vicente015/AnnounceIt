@@ -34,8 +34,8 @@ const AnnouncementsCommands = new SlashCommandBuilder()
         return option
           .setName('name')
           .setDescription('El identificador o nombre del anuncio')
-
           .setRequired(true)
+          .setAutocomplete(true)
       })
       .addStringOption((option) => {
         return option
@@ -60,6 +60,7 @@ const AnnouncementsCommands = new SlashCommandBuilder()
           .setName('name')
           .setDescription('Nombre del anuncio que desea publicar')
           .setRequired(true)
+          .setAutocomplete(true)
       })
       .addChannelOption((option) => {
         return option

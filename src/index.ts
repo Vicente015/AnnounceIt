@@ -6,7 +6,9 @@ import Client from './structures/Client'
 import mongoose from 'mongoose'
 import iso from 'iso-639-1'
 import Announcement from './schemas/Announcement'
+import pino from 'pino'
 
+const logger = pino()
 const publish = false
 const DEV_GUILD = '909070968360685598'
 
@@ -39,8 +41,11 @@ client.once('ready', async (client) => {
   //* Conección base de datos
   await mongoose.connect(process.env.MONGO_URI)
 
-  console.log('Conectado!')
+  logger.info(`Conectado a ${client.guilds.cache.size} servidores`)
 })
+
+client.on('guildCreate', (guild) => logger.info(`Nuevo servidor ${guild.name} ${guild.id}`))
+client.on('guildDelete', (guild) => logger.info(`Salí de servidor ${guild.name} ${guild.id}`))
 
 // @ts-expect-error
 client.on('interactionCreate', async (interaction: CommandInteraction | AutocompleteInteraction) => {
@@ -51,16 +56,29 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
     run(client, interaction)
   }
   if (interaction.isAutocomplete()) {
-    const value = interaction.options.getFocused()
-    const names = iso.getAllNativeNames()
+    const { name: optionName, value: optionValue } = interaction.options.getFocused(true)
 
-    const res = names
-      .filter(name => name.includes(value.toString()))
-      .map((name) => ({ name: name, value: iso.getCode(name) }))
+    // ? Devolver autocompletado de nombres de anuncios
+    if (optionName === 'name') {
+      const announcements = await Announcement.find({ guildId: interaction.guildId })
+      const res = announcements
+        .filter(announcement => announcement.name.includes(optionValue.toString()))
+        .map((announcement) => ({ name: announcement.name, value: announcement._id }))
 
-    if (res.length > 25) res.length = 25
+      return await interaction.respond(res)
+    }
 
-    return await interaction.respond(res)
+    // ? Devolver autocompletado de idiomas
+    if (optionName === 'lang') {
+      const names = iso.getAllNativeNames()
+
+      const res = names
+        .filter(name => name.includes(optionValue.toString()))
+        .map((name) => ({ name: name, value: iso.getCode(name) }))
+      if (res.length > 25) res.length = 25
+
+      return await interaction.respond(res)
+    }
   }
   if (interaction.isMessageComponent()) {
     const translationId = interaction.customId

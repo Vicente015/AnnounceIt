@@ -3,10 +3,12 @@ import HexColorString from './HexColorStringType'
 import { HexColorString as HexColorStringType } from 'discord.js'
 
 interface Announcement {
+  guildId: string
   name: string
   title?: string
   description?: string
-  color: HexColorStringType
+  color?: HexColorStringType
+  published: Boolean
   translations: [
     {
       _id?: ObjectId
@@ -18,17 +20,19 @@ interface Announcement {
 }
 
 const Announcement = new Schema<Announcement>({
+  guildId: { type: String, required: true },
   name: { type: String, required: true },
   title: { type: String, required: false },
-  description: { type: String, required: false, maxlength: 4096, minlength: 10 },
-  // TODO: Crear tipo de color de mongos
+  // TODO: Haced comprobación de maxLength en los comandos
+  description: { type: String, required: false, maxlength: 4096 },
   // @ts-expect-error
-  color: { type: HexColorString, required: true },
+  color: { type: HexColorString, required: false },
+  published: { type: Boolean, required: true, default: false },
   translations: [
     {
       lang: { type: String, required: true },
       title: { type: String, required: false },
-      description: { type: String, required: false, maxlength: 4096, minlength: 10 }
+      description: { type: String, required: false, maxlength: 4096}
     }
   ]
 })
