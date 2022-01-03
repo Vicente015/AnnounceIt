@@ -1,4 +1,4 @@
-import { model, ObjectId, Schema, models } from 'mongoose'
+import { model, ObjectId, Schema } from 'mongoose'
 
 export interface AnnouncementType {
   _id?: ObjectId

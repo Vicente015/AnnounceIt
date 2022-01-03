@@ -1,5 +1,5 @@
 import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed, TextBasedChannel, DMChannel, PartialDMChannel, HexColorString } from 'discord.js'
-import { Announcement, AnnouncementType } from '../schemas/Announcement'
+import { Announcement } from '../schemas/Announcement'
 import Client from '../structures/Client'
 import iso from 'iso-639-1'
 
@@ -15,7 +15,7 @@ export default async function run (client: Client, interaction: CommandInteracti
     return await interaction.reply({ content: '❌ No puedo enviar mensajes en ese canal.', ephemeral: true })
   }
 
-  const announcement = await Announcement.findById(id).exec()
+  const announcement = await Announcement.findById(id).exec().catch(() => {})
   if (announcement == null) return await interaction.reply({ content: '❌ No se ha encontrado el anuncio.', ephemeral: true })
   const haveTranslations = announcement?.translations.length > 0
 

@@ -15,24 +15,28 @@ extend([namesPlugin, cmykPlugin, hwbPlugin, labPlugin, lchPlugin, xyzPlugin])
 const validColorTypes = ['name', 'hex', 'rbg', 'hsl', 'hsv', 'hwb', 'xyz', 'lab', 'lch', 'cmyk']
 
 export default async function run (client: Client, interaction: CommandInteraction): Promise<Message | void> {
-  await interaction.deferReply()
   const name = interaction.options.getString('name')
   const title = interaction.options.getString('title', false)
   let color = interaction.options.getString('color', false)
 
   if (color && (!getFormat(color) || !validColorTypes.includes(getFormat(color) as string))) {
-    return await interaction.reply({ content: `❌ Formato de color inválido, pruebe con alguno de los siguientes: ${validColorTypes.join(', ')}.` })
+    return await interaction.reply({
+      content: `❌ Formato de color inválido, pruebe con alguno de los siguientes: ${validColorTypes.join(', ')}.\nPuede usar un selector de color online o usar alguno de los siguientes nombres válidos:\nhttps://i.imgur.com/mGKeXCT.png`,
+      ephemeral: true
+    })
   } else {
     color = colord(color as string).toHex()
   }
+  await interaction.deferReply()
 
-  await interaction.channel!.send('Envíe un mensaje con la descripción, tiene 14 minutos.')
+  const botMsg = await interaction.channel!.send('Envíe un mensaje con la descripción, tiene 14 minutos.')
   const msgCollector = await interaction.channel!.awaitMessages({
     filter: (msg) => msg.author.id === interaction.user.id,
     time: 840 * 1000, // 14 minutes
     max: 1
   })
   const description = msgCollector.first()?.content
+  await botMsg.delete()
   if (!description) return await interaction.editReply('❌ Debe introducir una descripción.') as Message
   if (description.length > 4096) return await interaction.editReply('❌ La descripción debe ser menor de 4096 caracteres.') as Message
 
