@@ -5,7 +5,7 @@ import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from 'disco
 import Client from './structures/Client'
 import mongoose from 'mongoose'
 import iso from 'iso-639-1'
-import Announcement from './schemas/Announcement'
+import { Announcement } from './schemas/Announcement'
 import pino from 'pino'
 
 const logger = pino()
@@ -33,8 +33,10 @@ client.once('ready', async (client) => {
 
     if (publish) {
       if (devMode) {
-        await client.guilds.cache.get(DEV_GUILD).commands.set([])
-        client.guilds.cache.get(DEV_GUILD).commands.create(cmd)
+        const guild = client.guilds.cache.get(DEV_GUILD)
+        if (guild == null) return
+        await guild.commands.set([])
+        guild.commands.create(cmd)
       } else {
         await client.application.commands.create(cmd)
       }
@@ -45,6 +47,7 @@ client.once('ready', async (client) => {
   }
 
   //* Conección base de datos
+  // @ts-expect-error
   await mongoose.connect(process.env.MONGO_URI)
 
   logger.info(`Conectado a ${client.guilds.cache.size} servidores`)
@@ -57,6 +60,7 @@ client.on('guildDelete', (guild) => logger.info(`Salí de servidor ${guild.name}
 // @ts-expect-error
 client.on('interactionCreate', async (interaction: CommandInteraction | AutocompleteInteraction) => {
   if (interaction.isCommand()) {
+    if (interaction.channel == null) return
     const subCommandName = interaction.options.getSubcommand(false)
     const { default: run } = await import(`../dist/commands/${subCommandName}`)
 
@@ -71,7 +75,7 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
       const announcements = await Announcement.find({ guildId: interaction.guildId })
       const res = announcements
         .filter(announcement => announcement.name.includes(optionValue.toString()))
-        .map((announcement) => ({ name: announcement.name, value: announcement._id }))
+        .map((announcement) => ({ name: announcement.name, value: announcement._id.toString() }))
 
       return await interaction.respond(res)
     }
@@ -94,11 +98,14 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
     const translationId = interaction.customId
 
     const announcement = await Announcement.findOne({ 'translations._id': translationId }).exec()
+    if (announcement == null) return await interaction.reply({ content: '❌ No se ha encontrado el anuncio.', ephemeral: true })
+
     const translation = announcement
-      .translations.find(translation => translation._id.toString() === translationId)
+      .translations.find(translation => translation._id?.toString() === translationId)
+    if (translation == null) return await interaction.reply({ content: '❌ Error, no se ha encontrado la traducción.', ephemeral: true })
 
     const embed = new MessageEmbed()
-      .setColor(announcement.color)
+      .setColor(announcement.color ?? 'BLURPLE')
     if (translation.title) embed.setTitle(translation.title)
     if (translation.description) embed.setDescription(translation.description)
 

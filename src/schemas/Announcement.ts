@@ -1,13 +1,12 @@
 import { model, ObjectId, Schema, models } from 'mongoose'
-import HexColorString from './HexColorStringType'
-import { HexColorString as HexColorStringType } from 'discord.js'
 
-interface Announcement {
+export interface AnnouncementType {
+  _id?: ObjectId
   guildId: string
   name: string
   title?: string
   description?: string
-  color?: HexColorStringType
+  color?: String
   published: Boolean
   translations: [
     {
@@ -19,14 +18,12 @@ interface Announcement {
   ]
 }
 
-const Announcement = new Schema<Announcement>({
+const AnnouncementSchema = new Schema<AnnouncementType>({
   guildId: { type: String, required: true },
   name: { type: String, required: true },
   title: { type: String, required: false },
-  // TODO: Haced comprobación de maxLength en los comandos
   description: { type: String, required: false, maxlength: 4096 },
-  // @ts-expect-error
-  color: { type: HexColorString, required: false },
+  color: { type: String, required: false },
   published: { type: Boolean, required: true, default: false },
   translations: [
     {
@@ -37,5 +34,5 @@ const Announcement = new Schema<Announcement>({
   ]
 })
 
-const Model = models.Announcement || model<Announcement>('Announcement', Announcement)
-export default Model
+const Model = model<AnnouncementType>('Announcement', AnnouncementSchema)
+export const Announcement = Model
