@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from 'discord.js'
+import { AutocompleteInteraction, CommandInteraction, HexColorString, MessageEmbed } from 'discord.js'
 import Client from './structures/Client'
 import mongoose from 'mongoose'
 import iso from 'iso-639-1'
@@ -105,7 +105,7 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
     if (translation == null) return await interaction.reply({ content: '❌ Error, no se ha encontrado la traducción.', ephemeral: true })
 
     const embed = new MessageEmbed()
-      .setColor(announcement.color ?? 'BLURPLE')
+      .setColor(announcement.color as HexColorString ?? 'BLURPLE')
     if (translation.title) embed.setTitle(translation.title)
     if (translation.description) embed.setDescription(translation.description)
 

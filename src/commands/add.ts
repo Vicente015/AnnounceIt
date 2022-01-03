@@ -21,7 +21,7 @@ export default async function run (client: Client, interaction: CommandInteracti
   let color = interaction.options.getString('color', false)
 
   if (color && (!getFormat(color) || !validColorTypes.includes(getFormat(color) as string))) {
-    return interaction.reply({ content: `❌ Formato de color inválido, pruebe con alguno de los siguientes: ${validColorTypes.join(', ')}.` })
+    return await interaction.reply({ content: `❌ Formato de color inválido, pruebe con alguno de los siguientes: ${validColorTypes.join(', ')}.` })
   } else {
     color = colord(color as string).toHex()
   }
