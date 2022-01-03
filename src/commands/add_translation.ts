@@ -10,7 +10,7 @@ export default async function run (client: Client, interaction: CommandInteracti
   if (!iso.getNativeName(lang)) return await interaction.reply({ content: '❌ Ese idioma no es válido.', ephemeral: true })
   const title = interaction.options.getString('title', false) ?? undefined
 
-  await interaction.channel!.send('Manda un mensaje con la descripción')
+  await interaction.channel!.send('Envíe un mensaje con la descripción, tiene 14 minutos.')
   const msgCollector = await interaction.channel!.awaitMessages({
     filter: (msg) => msg.author.id === interaction.user.id,
     time: 840 * 1000, // 14 minutes
