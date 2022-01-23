@@ -1,12 +1,16 @@
 import { model, ObjectId, Schema } from 'mongoose'
 
 export interface AnnouncementType {
-  _id?: ObjectId
+  _id: ObjectId
   guildId: string
   name: string
   title?: string
   description?: string
   color?: String
+  image?: String
+  thumbnail?: String
+  footer?: String
+  url?: String
   published: Boolean
   translations: [
     {
