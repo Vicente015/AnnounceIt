@@ -1,7 +1,7 @@
-import { model, ObjectId, Schema } from 'mongoose'
+import * as mongoose from 'mongoose'
 
 export interface AnnouncementType {
-  _id: ObjectId
+  _id: mongoose.ObjectId
   guildId: string
   name: string
   title?: string
@@ -14,7 +14,7 @@ export interface AnnouncementType {
   published: Boolean
   translations: [
     {
-      _id?: ObjectId
+      _id?: mongoose.ObjectId
       lang: string
       title?: string
       description?: string
@@ -22,7 +22,7 @@ export interface AnnouncementType {
   ]
 }
 
-const AnnouncementSchema = new Schema<AnnouncementType>({
+const AnnouncementSchema = new mongoose.Schema<AnnouncementType>({
   guildId: { type: String, required: true },
   name: { type: String, required: true },
   title: { type: String, required: false },
@@ -38,5 +38,4 @@ const AnnouncementSchema = new Schema<AnnouncementType>({
   ]
 })
 
-const Model = model<AnnouncementType>('Announcement', AnnouncementSchema)
-export const Announcement = Model
+export const Announcement: mongoose.Model<AnnouncementType> = mongoose.models.Announcement || mongoose.model<AnnouncementType>('Announcement', AnnouncementSchema)
