@@ -10,7 +10,7 @@ const AnnouncementsCommands = new SlashCommandBuilder()
       .addStringOption((option) => {
         return option
           .setName('name')
-          .setDescription('El identificador o nombre del anuncio')
+          .setDescription('El nombre del anuncio')
           .setRequired(true)
       })
       .addStringOption((option) => {
@@ -32,7 +32,7 @@ const AnnouncementsCommands = new SlashCommandBuilder()
       .addStringOption((option) => {
         return option
           .setName('name')
-          .setDescription('El identificador o nombre del anuncio')
+          .setDescription('El nombre del anuncio')
           .setRequired(true)
           .setAutocomplete(true)
       })

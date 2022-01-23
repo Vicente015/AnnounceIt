@@ -7,6 +7,7 @@ import mongoose from 'mongoose'
 import iso from 'iso-639-1'
 import { Announcement } from './schemas/Announcement'
 import pino from 'pino'
+import languages from '@cospired/i18n-iso-languages'
 
 const logger = pino()
 const publish = false
@@ -82,7 +83,9 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
 
     // ? Devolver autocompletado de idiomas
     if (optionName === 'lang') {
-      const names = iso.getAllNativeNames()
+      const names = iso
+        .getAllCodes()
+        .map(code => languages.getName(code, interaction.locale.split('-')[0]) ?? iso.getNativeName(code))
 
       const res = names
         .filter(name => name.includes(optionValue.toString()))
