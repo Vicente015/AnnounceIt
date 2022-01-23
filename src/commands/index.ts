@@ -73,5 +73,28 @@ const AnnouncementsCommands = new SlashCommandBuilder()
           .addChannelType(12)
       })
   })
+  .addSubcommand((subcommand) => {
+    return subcommand
+      .setName('list')
+      .setDescription('Lista los anuncios')
+      .addBooleanOption((option) => {
+        return option
+          .setName('only_published')
+          .setDescription('Si debe mostrar solo los anuncios publicados')
+          .setRequired(false)
+      })
+  })
+  .addSubcommand((subcommand) => {
+    return subcommand
+      .setName('remove')
+      .setDescription('Borra un anuncio (esto no borra también los mensajes)')
+      .addStringOption((option) => {
+        return option
+          .setName('name')
+          .setDescription('Nombre del anuncio que desea publicar')
+          .setRequired(true)
+          .setAutocomplete(true)
+      })
+  })
 
 export default AnnouncementsCommands.toJSON()
