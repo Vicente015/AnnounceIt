@@ -83,13 +83,18 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
 
     // ? Devolver autocompletado de idiomas
     if (optionName === 'lang') {
-      const names = iso
+      const locales = iso
         .getAllCodes()
-        .map(code => languages.getName(code, interaction.locale.split('-')[0]) ?? iso.getNativeName(code))
+        .map(code =>
+          ({
+            name: languages.getName(code, interaction.locale.split('-')[0]) ?? iso.getNativeName(code),
+            code: code
+          })
+        )
 
-      const res = names
-        .filter(name => name.includes(optionValue.toString()))
-        .map((name) => ({ name: name, value: iso.getCode(name) }))
+      const res = locales
+        .filter(locale => locale.name.toLowerCase().includes(optionValue.toString()))
+        .map((locale) => ({ name: locale.name, value: locale.code }))
       if (res.length > 25) res.length = 25
 
       return await interaction.respond(res)
