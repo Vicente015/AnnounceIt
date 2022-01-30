@@ -2,5 +2,12 @@
   "files.exclude": {
     ".env": true
   },
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "i18n-ally.localesPaths": ["src/lang"],
+  "i18n-ally.sourceLanguage": "es-ES",
+  "i18n-ally.displayLanguage": "es-ES",
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.namespace": true,
+  "i18n-ally.pathMatcher": "{locale}/{namespaces}.json",
+  "i18n-ally.regex.usageMatch": ["[^\\w\\d]t\\(['\"`]({key})['\"`]"],
 }

@@ -1,6 +1,7 @@
 
 import { CommandInteraction, Message } from 'discord.js'
 import { Announcement } from '../schemas/Announcement'
+import { TFunction } from 'i18next'
 import Client from '../structures/Client'
 
 import { getFormat, extend, colord } from 'colord'
@@ -14,14 +15,14 @@ import xyzPlugin from 'colord/plugins/xyz'
 extend([namesPlugin, cmykPlugin, hwbPlugin, labPlugin, lchPlugin, xyzPlugin])
 const validColorTypes = ['name', 'hex', 'rbg', 'hsl', 'hsv', 'hwb', 'xyz', 'lab', 'lch', 'cmyk']
 
-export default async function run (client: Client, interaction: CommandInteraction): Promise<Message | void> {
+export default async function run (client: Client, interaction: CommandInteraction, t: TFunction): Promise<Message | void> {
   const name = interaction.options.getString('name')
   const title = interaction.options.getString('title', false)
   let color = interaction.options.getString('color', false)
 
   if (color && (!getFormat(color) || !validColorTypes.includes(getFormat(color) as string))) {
     return await interaction.reply({
-      content: `❌ Formato de color inválido, pruebe con alguno de los siguientes: ${validColorTypes.join(', ')}.\nPuede usar un selector de color online o usar alguno de los siguientes nombres válidos:\nhttps://i.imgur.com/mGKeXCT.png`,
+      content: t('commands:add.notValidColor', { validColors: validColorTypes.join(', ') }),
       ephemeral: true
     })
   } else {
@@ -29,7 +30,7 @@ export default async function run (client: Client, interaction: CommandInteracti
   }
   await interaction.deferReply()
 
-  const botMsg = await interaction.channel!.send('Envíe un mensaje con la descripción, tiene 14 minutos.')
+  const botMsg = await interaction.channel!.send(t('commands:add_translation.sendAnnouncementDescription'))
   const msgCollector = await interaction.channel!.awaitMessages({
     filter: (msg) => msg.author.id === interaction.user.id,
     time: 840 * 1000, // 14 minutes
@@ -37,8 +38,8 @@ export default async function run (client: Client, interaction: CommandInteracti
   })
   const description = msgCollector.first()?.content
   await botMsg.delete()
-  if (!description) return await interaction.editReply('❌ Debe introducir una descripción.') as Message
-  if (description.length > 4096) return await interaction.editReply('❌ La descripción debe ser menor de 4096 caracteres.') as Message
+  if (!description) return await interaction.editReply(t('commands:add_translation.descriptionNotSended')) as Message
+  if (description.length > 4096) return await interaction.editReply(t('commands:add_translation.descriptionMaxChars')) as Message
 
   const announcement = new Announcement({
     guildId: interaction.guildId,
@@ -49,5 +50,5 @@ export default async function run (client: Client, interaction: CommandInteracti
   })
   await announcement.save()
 
-  interaction.editReply('✅ Anuncio creado.')
+  interaction.editReply(t('commands:add.done'))
 }

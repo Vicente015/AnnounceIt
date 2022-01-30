@@ -1,0 +1,5 @@
+{
+  "debug": true,
+  "languages": ["es-ES", "en-US"],
+  "defaultLanguage": "es-ES"
+}
