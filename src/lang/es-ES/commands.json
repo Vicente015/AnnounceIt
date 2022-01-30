@@ -1,0 +1,38 @@
+{
+  "add_translation": {
+    "notFound": "❌ No se ha encontrado el anuncio.",
+    "notValidLanguage": "❌ Ese idioma no es válido.",
+    "sendAnnouncementDescription": "Envíe un mensaje con la descripción, tiene 14 minutos.",
+    "descriptionNotSended": "❌ Debe introducir una descripción.",
+    "descriptionMaxChars": "❌ La descripción debe ser menor de 4096 caracteres.",
+    "done": "✅ Se ha añadido la traducción del anuncio."
+  },
+  "add": {
+    "notValidColor": "❌ Formato de color inválido, pruebe con alguno de los siguientes: {{validColors}}.\nPuede usar un selector de color online o usar alguno de los siguientes nombres válidos:\nhttps://i.imgur.com/mGKeXCT.png",
+    "done": "'✅ Anuncio creado.'"
+  },
+  "list": {
+    "notAnnouncements": "❌ No tiene ningún anuncio, cree uno con  `/announcements add`.",
+    "listValue": "Título: {{title}}\nPublicado: {{published}}{{color}}",
+    "color": "\nColor: {{color}}"
+  },
+  "managers": {
+    "error": "❌ Se ha producido un error.",
+    "add": {
+      "done": "✅ Se ha añadido el rol a la lista de encargados."
+    },
+    "remove": {
+      "done": "✅ Se ha eliminado el rol de la lista de encargados."
+    }
+  },
+  "publish": {
+    "errorPerms": "❌ No tienes permiso para enviar mensajes en ese canal.",
+    "cannotSend": "❌ No puedo enviar mensajes en ese canal.",
+    "announcementNotFound": "❌ No se ha encontrado el anuncio.",
+    "done": "✅ El anuncio fue publicado."
+  },
+  "remove": {
+    "error": "❌ Se ha producido un error al borrar el comando.",
+    "done": "✅ Se ha eliminado correctamente el anuncio."
+  }
+}

@@ -96,5 +96,32 @@ const AnnouncementsCommands = new SlashCommandBuilder()
           .setAutocomplete(true)
       })
   })
+  .addSubcommandGroup((subcommandGroup) => {
+    return subcommandGroup
+      .setName('managers')
+      .setDescription('Gestiona los encargados del bot')
+      .addSubcommand((subcommand) => {
+        return subcommand
+          .setName('add')
+          .setDescription('Añade un rol a la lista de encargados que pueden hacer uso del bot')
+          .addRoleOption((role) => {
+            return role
+              .setName('role')
+              .setDescription('El rol a añadir')
+              .setRequired(true)
+          })
+      })
+      .addSubcommand((subcommand) => {
+        return subcommand
+          .setName('remove')
+          .setDescription('Elimina un rol a la lista de encargados que pueden hacer uso del bot')
+          .addRoleOption((role) => {
+            return role
+              .setName('role')
+              .setDescription('El rol a añadir')
+              .setRequired(true)
+          })
+      })
+  })
 
 export default AnnouncementsCommands.toJSON()

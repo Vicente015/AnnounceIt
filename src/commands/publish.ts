@@ -2,21 +2,22 @@ import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed, Text
 import { Announcement } from '../schemas/Announcement'
 import Client from '../structures/Client'
 import iso from 'iso-639-1'
+import { TFunction } from 'i18next'
 
-export default async function run (client: Client, interaction: CommandInteraction) {
+export default async function run (client: Client, interaction: CommandInteraction, t: TFunction) {
   const id = interaction.options.getString('name')
 
   // @ts-expect-error
   const channel: Exclude<Exclude<TextBasedChannel, DMChannel>, PartialDMChannel> = interaction.options.getChannel('channel', true)
   if (!channel.permissionsFor(interaction.user.id)?.has('SEND_MESSAGES')) {
-    return await interaction.reply({ content: '❌ No tienes permiso para enviar mensajes en ese canal.', ephemeral: true })
+    return await interaction.reply({ content: t('commands:publish.errorPerms'), ephemeral: true })
   }
   if (!channel.permissionsFor(client.user!.id)?.has('SEND_MESSAGES')) {
-    return await interaction.reply({ content: '❌ No puedo enviar mensajes en ese canal.', ephemeral: true })
+    return await interaction.reply({ content: t('commands:publish.cannotSend'), ephemeral: true })
   }
 
   const announcement = await Announcement.findById(id).exec().catch(() => {})
-  if (announcement == null) return await interaction.reply({ content: '❌ No se ha encontrado el anuncio.', ephemeral: true })
+  if (announcement == null) return await interaction.reply({ content: t('commands:publish.announcementNotFound'), ephemeral: true })
   const haveTranslations = announcement?.translations.length > 0
 
   const embed = new MessageEmbed()
@@ -40,5 +41,5 @@ export default async function run (client: Client, interaction: CommandInteracti
   }
 
   await Announcement.findByIdAndUpdate(id, { published: true }).exec()
-  interaction.reply({ content: '✅ El anuncio fue publicado.', ephemeral: true })
+  interaction.reply({ content: t('commands:publish.done'), ephemeral: true })
 }

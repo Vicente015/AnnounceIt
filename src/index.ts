@@ -1,17 +1,19 @@
 import 'dotenv/config'
 import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
-import { AutocompleteInteraction, CommandInteraction, HexColorString, MessageEmbed } from 'discord.js'
+import { AutocompleteInteraction, CommandInteraction, GuildMember, HexColorString, MessageEmbed, Role } from 'discord.js'
 import Client from './structures/Client'
 import mongoose from 'mongoose'
 import iso from 'iso-639-1'
 import { Announcement } from './schemas/Announcement'
-import pino from 'pino'
 import languages from '@cospired/i18n-iso-languages'
+import { Config } from './schemas/Config'
+import i18next from 'i18next'
+import Backend from 'i18next-fs-backend'
+import { getT } from './utils/i18n'
 
-const logger = pino()
 const publish = false
-const devMode = false
+const devMode = true
 const DEV_GUILD = '909070968360685598'
 
 const client: Client = new Client({
@@ -22,8 +24,17 @@ const client: Client = new Client({
     status: 'online'
   }
 })
+const logger = client.logger
 
 client.once('ready', async (client) => {
+  //* Sistema de carga de idiomas
+  await i18next.use(Backend).init({
+    backend: { loadPath: 'src/lang/{{lng}}/{{ns}}.json' },
+    fallbackLng: 'es-ES',
+    load: 'currentOnly',
+    ns: ['']
+  })
+
   //* Sistema de carga de comandos
   const commands = readdirSync(join(__dirname, '../dist/commands/'))
     .filter(file => file.startsWith('index') && file.endsWith('.js'))
@@ -38,6 +49,7 @@ client.once('ready', async (client) => {
         if (guild == null) return
         await guild.commands.set([])
         guild.commands.create(cmd)
+        logger.info('Comandos publicado', cmd)
       } else {
         await client.application.commands.create(cmd)
       }
@@ -52,7 +64,6 @@ client.once('ready', async (client) => {
   await mongoose.connect(process.env.MONGO_URI)
 
   logger.info(`Conectado a ${client.guilds.cache.size} servidores`)
-  console.log(await client.application.commands.fetch())
 })
 
 client.on('guildCreate', (guild) => logger.info(`Nuevo servidor ${guild.name} ${guild.id}`))
@@ -61,11 +72,25 @@ client.on('guildDelete', (guild) => logger.info(`Salí de servidor ${guild.name}
 // @ts-expect-error
 client.on('interactionCreate', async (interaction: CommandInteraction | AutocompleteInteraction) => {
   if (interaction.isCommand()) {
-    if (interaction.channel == null) return
-    const subCommandName = interaction.options.getSubcommand(false)
+    const t = getT(interaction)
+    if ((interaction.channel == null) || (interaction.member == null)) return
+    const member = interaction.member as GuildMember
+    const managerRoles = (await Config.findOne({ guildId: interaction.guildId }))?.managerRoles
+
+    if (
+      !member.permissions.has('ADMINISTRATOR') &&
+      !member.roles.cache.find((role: Role) => managerRoles?.includes(role.id))
+    ) {
+      return await interaction.reply({
+        content: '❌ No tienes permisos para ejecutar este comando.', // TODO: translate
+        ephemeral: true
+      })
+    }
+
+    const subCommandName = interaction.options.getSubcommandGroup(false) ?? interaction.options.getSubcommand(false)
     const { default: run } = await import(`../dist/commands/${subCommandName}`)
 
-    run(client, interaction)
+    run(client, interaction, t)
   }
 
   if (interaction.isAutocomplete()) {
@@ -106,10 +131,12 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
     const translationId = interaction.customId
 
     const announcement = await Announcement.findOne({ 'translations._id': translationId }).exec()
+    // TODO: translate
     if (announcement == null) return await interaction.reply({ content: '❌ No se ha encontrado el anuncio.', ephemeral: true })
 
     const translation = announcement
       .translations.find(translation => translation._id?.toString() === translationId)
+    // TODO: translate
     if (translation == null) return await interaction.reply({ content: '❌ Error, no se ha encontrado la traducción.', ephemeral: true })
 
     const embed = new MessageEmbed()

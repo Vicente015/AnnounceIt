@@ -4,11 +4,14 @@ specifiers:
   '@cospired/i18n-iso-languages': ^3.1.1
   '@discordjs/builders': 0.12.0
   '@tsconfig/node16': ^1.0.2
+  '@types/i18next-fs-backend': ^1.1.2
   chalk: ~4.1.2
   colord: ~2.9.2
   country-code-emoji: ~2.3.0
   discord.js: 13.6.0
   dotenv: ~10.0.0
+  i18next: ^21.6.10
+  i18next-fs-backend: ^1.1.4
   iso-639-1: ^2.1.12
   mongoose: ~6.1.8
   pagination.djs: 3.1.1
@@ -26,6 +29,8 @@ dependencies:
   country-code-emoji: 2.3.0
   discord.js: 13.6.0
   dotenv: 10.0.0
+  i18next: 21.6.10
+  i18next-fs-backend: 1.1.4
   iso-639-1: 2.1.12
   mongoose: 6.1.8
   pagination.djs: 3.1.1_discord.js@13.6.0
@@ -33,6 +38,7 @@ dependencies:
 
 devDependencies:
   '@tsconfig/node16': 1.0.2
+  '@types/i18next-fs-backend': 1.1.2
   pino-pretty: 7.5.0
   ts-node-dev: 1.1.8_typescript@4.5.5
   ts-standard: 11.0.0_typescript@4.5.5
@@ -59,6 +65,12 @@ packages:
       chalk: 2.4.2
       js-tokens: 4.0.0
     dev: true
+
+  /@babel/runtime/7.16.7:
+    resolution: {integrity: sha512-9E9FJowqAsytyOY6LG+1KuueckRL+aQW+mKvXRXnuFGyRAyepJPmEo9vgMfXUA6O9u3IeEdv9MAkppFcaQwogQ==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.9
 
   /@cospired/i18n-iso-languages/3.1.1:
     resolution: {integrity: sha512-8X3tP5oWBJjRo5nuaeqA5tXIDUvfBTO81coPLVPlyXAn1oe9fjDsvlCenblbD2WKIfVlk+RmU5+6yl5oVB1TKQ==}
@@ -157,6 +169,12 @@ packages:
 
   /@tsconfig/node16/1.0.2:
     resolution: {integrity: sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==}
+    dev: true
+
+  /@types/i18next-fs-backend/1.1.2:
+    resolution: {integrity: sha512-ZzTRXA5B0x0oGhzKNp08IsYjZpli4LjRZpg3q4j0XFxN5lKG2MVLnR4yHX8PPExBk4sj9Yfk1z9O6CjPrAlmIQ==}
+    dependencies:
+      i18next: 21.6.10
     dev: true
 
   /@types/json-schema/7.0.9:
@@ -1248,6 +1266,15 @@ packages:
       function-bind: 1.1.1
     dev: true
 
+  /i18next-fs-backend/1.1.4:
+    resolution: {integrity: sha512-/MfAGMP0jHonV966uFf9PkWWuDjPYLIcsipnSO3NxpNtAgRUKLTwvm85fEmsF6hGeu0zbZiCQ3W74jwO6K9uXA==}
+    dev: false
+
+  /i18next/21.6.10:
+    resolution: {integrity: sha512-Xw+tEGQ61BF6SXtBlFffhM/YhJKHZf2cyDrcNK/l2dE6yVbkPkSasC3VhkAsHXX30vUJ0yG04WIUtf7UvwjOxg==}
+    dependencies:
+      '@babel/runtime': 7.16.7
+
   /ieee754/1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
     dev: false
@@ -1950,6 +1977,9 @@ packages:
     resolution: {integrity: sha512-r/H9MzAWtrv8aSVjPCMFpDMl5q66GqtmmRkRjpHTsp4zBAa+snZyiQNlMONiUmEJcsnaw0wCauJ2GWODr/aFkg==}
     engines: {node: '>= 12.13.0'}
     dev: false
+
+  /regenerator-runtime/0.13.9:
+    resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
 
   /regexp-clone/1.0.0:
     resolution: {integrity: sha512-TuAasHQNamyyJ2hb97IuBEif4qBHGjPHBS64sZwytpLEqtBQ1gPJTnOaQ6qmpET16cK14kkjbazl6+p0RRv0yw==}
