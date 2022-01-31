@@ -10,7 +10,6 @@
     "preserveSymlinks": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
   "ts-standard": {
     "ignore": [
       "dist",
