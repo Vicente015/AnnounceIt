@@ -10,13 +10,13 @@ specifiers:
   country-code-emoji: ~2.3.0
   discord.js: 13.6.0
   dotenv: ~10.0.0
-  i18next: ^21.6.10
-  i18next-fs-backend: ^1.1.4
+  i18next: ~21.6.10
+  i18next-fs-backend: ~1.1.4
   iso-639-1: ^2.1.12
   mongoose: ~6.1.8
   pagination.djs: 3.1.1
-  pino: ~7.6.4
-  pino-pretty: ^7.5.0
+  pino: ~7.6.5
+  pino-pretty: ^7.5.1
   ts-node-dev: ^1.1.8
   ts-standard: 11.0.0
   typescript: ^4.5.5
@@ -34,12 +34,12 @@ dependencies:
   iso-639-1: 2.1.12
   mongoose: 6.1.8
   pagination.djs: 3.1.1_discord.js@13.6.0
-  pino: 7.6.4
+  pino: 7.6.5
 
 devDependencies:
   '@tsconfig/node16': 1.0.2
   '@types/i18next-fs-backend': 1.1.2
-  pino-pretty: 7.5.0
+  pino-pretty: 7.5.1
   ts-node-dev: 1.1.8_typescript@4.5.5
   ts-standard: 11.0.0_typescript@4.5.5
   typescript: 4.5.5
@@ -1860,8 +1860,8 @@ packages:
       duplexify: 4.1.2
       split2: 4.1.0
 
-  /pino-pretty/7.5.0:
-    resolution: {integrity: sha512-vhGvWhb8SZcmO/q8G0NyWTJ6UTfjHzIzHd6kC5Ob8UJH3FIP6f0nJ5+KglmThYTJXjGaaOGe06ulNrNDohCneQ==}
+  /pino-pretty/7.5.1:
+    resolution: {integrity: sha512-xEOUJiokdBGcZ9d0v7OY6SqEp+rrVH2drE3bHOUsK8elw44eh9V83InZqeL1dFwgD1IDnd6crUoec3hIXxfdBQ==}
     hasBin: true
     dependencies:
       args: 5.0.1
@@ -1882,8 +1882,8 @@ packages:
     resolution: {integrity: sha512-cK0pekc1Kjy5w9V2/n+8MkZwusa6EyyxfeQCB799CQRhRt/CqYKiWs5adeu8Shve2ZNffvfC/7J64A2PJo1W/Q==}
     dev: false
 
-  /pino/7.6.4:
-    resolution: {integrity: sha512-ktibPg3ttWONxYQ2Efk1zYbIvofD5zdd/ReoujK84ggEp0REflb9TsXavSjt8u1CdT2mMJe9QQ3ZpyOQxUKipA==}
+  /pino/7.6.5:
+    resolution: {integrity: sha512-38tAwlJ7HevMENHD5FZE+yxSlAH5Wg3FoOjbB3MX2j3/kgpOEkmDHhTVKkecR57qxD5doHo2yi9nac94gqqbiQ==}
     hasBin: true
     dependencies:
       fast-redact: 3.0.2

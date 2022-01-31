@@ -1,5 +1,9 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 
+const HelpCommand = new SlashCommandBuilder()
+  .setName('help')
+  .setDescription('Muestra la ayuda del bot')
+
 const AnnouncementsCommands = new SlashCommandBuilder()
   .setName('announcements')
   .setDescription('Maneja los anuncios')
@@ -124,4 +128,7 @@ const AnnouncementsCommands = new SlashCommandBuilder()
       })
   })
 
-export default AnnouncementsCommands.toJSON()
+export default {
+  Help: HelpCommand.toJSON(),
+  Announcements: AnnouncementsCommands.toJSON()
+}

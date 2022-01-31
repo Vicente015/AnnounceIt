@@ -1,18 +1,17 @@
 import 'dotenv/config'
-import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
-import { AutocompleteInteraction, CommandInteraction, GuildMember, HexColorString, MessageEmbed, Role } from 'discord.js'
+import { Announcement } from './schemas/Announcement'
+import { ApplicationCommandDataResolvable, AutocompleteInteraction, CommandInteraction, GuildMember, HexColorString, MessageEmbed, Role } from 'discord.js'
+import { Config } from './schemas/Config'
+import { getT } from './structures/utils/i18n'
 import Client from './structures/Client'
 import mongoose from 'mongoose'
 import iso from 'iso-639-1'
-import { Announcement } from './schemas/Announcement'
 import languages from '@cospired/i18n-iso-languages'
-import { Config } from './schemas/Config'
 import i18next from 'i18next'
 import Backend from 'i18next-fs-backend'
-import { getT } from './utils/i18n'
 
-const publish = false
+const publish = true
 const devMode = true
 const DEV_GUILD = '909070968360685598'
 
@@ -36,32 +35,29 @@ client.once('ready', async (client) => {
   })
 
   //* Sistema de carga de comandos
-  const commands = readdirSync(join(__dirname, '../dist/commands/'))
-    .filter(file => file.startsWith('index') && file.endsWith('.js'))
+  let { default: cmds }: { default: ApplicationCommandDataResolvable[] } = await import(join(__dirname, './commands/index'))
+  cmds = Object.values(cmds)
 
-  if (publish && !devMode) await client.application.commands.set([])
-  for (const command of commands) {
-    const { default: cmd } = await import(join(__dirname, `../dist/commands/${command}`))
-
-    if (publish) {
-      if (devMode) {
-        const guild = client.guilds.cache.get(DEV_GUILD)
-        if (guild == null) return
-        await guild.commands.set([])
-        guild.commands.create(cmd)
-        logger.info('Comandos publicado', cmd)
-      } else {
-        await client.application.commands.create(cmd)
-      }
+  const publishCommands = async (commands: ApplicationCommandDataResolvable[]) => {
+    if (devMode) {
+      const guild = client.guilds.cache.get(DEV_GUILD)
+      if (!guild) return
+      await guild.commands.set(commands)
+    } else {
+      await client.application.commands.set(commands)
     }
+    logger.info('Comandos publicado')
+  }
 
+  for (const cmd of cmds) {
     // @ts-expect-error
     client.commands.set(cmd.name, cmd)
   }
+  if (publish) await publishCommands(cmds)
 
   //* Conección base de datos
   // @ts-expect-error
-  await mongoose.connect(process.env.MONGO_URI)
+  mongoose.connect(process.env.MONGO_URI)
 
   logger.info(`Conectado a ${client.guilds.cache.size} servidores`)
 })
@@ -87,8 +83,8 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
       })
     }
 
-    const subCommandName = interaction.options.getSubcommandGroup(false) ?? interaction.options.getSubcommand(false)
-    const { default: run } = await import(`../dist/commands/${subCommandName}`)
+    const subCommandName = interaction.options.getSubcommandGroup(false) ?? interaction.options.getSubcommand(false) ?? interaction.commandName
+    const { default: run } = await import(`./commands/${subCommandName}`)
 
     run(client, interaction, t)
   }
