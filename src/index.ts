@@ -67,8 +67,8 @@ client.on('guildDelete', (guild) => logger.info(`Salí de servidor ${guild.name}
 
 // @ts-expect-error
 client.on('interactionCreate', async (interaction: CommandInteraction | AutocompleteInteraction) => {
+  const t = getT(interaction)
   if (interaction.isCommand()) {
-    const t = getT(interaction)
     if ((interaction.channel == null) || (interaction.member == null)) return
     const member = interaction.member as GuildMember
     const managerRoles = (await Config.findOne({ guildId: interaction.guildId }))?.managerRoles
@@ -78,7 +78,7 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
       !member.roles.cache.find((role: Role) => managerRoles?.includes(role.id))
     ) {
       return await interaction.reply({
-        content: '❌ No tienes permisos para ejecutar este comando.', // TODO: translate
+        content: t('common:noPerms'),
         ephemeral: true
       })
     }
@@ -127,13 +127,11 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
     const translationId = interaction.customId
 
     const announcement = await Announcement.findOne({ 'translations._id': translationId }).exec()
-    // TODO: translate
-    if (announcement == null) return await interaction.reply({ content: '❌ No se ha encontrado el anuncio.', ephemeral: true })
+    if (announcement == null) return await interaction.reply({ content: t('common:announcementNotFound'), ephemeral: true })
 
     const translation = announcement
       .translations.find(translation => translation._id?.toString() === translationId)
-    // TODO: translate
-    if (translation == null) return await interaction.reply({ content: '❌ Error, no se ha encontrado la traducción.', ephemeral: true })
+    if (translation == null) return await interaction.reply({ content: t('common:translationNotFound'), ephemeral: true })
 
     const embed = new MessageEmbed()
       .setColor(announcement.color as HexColorString ?? 'BLURPLE')
