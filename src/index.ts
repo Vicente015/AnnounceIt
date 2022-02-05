@@ -106,7 +106,7 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
     if (optionName === 'name') {
       const announcements = await Announcement.find({ guildId: interaction.guildId })
       const res = announcements
-        .filter(announcement => announcement.name.includes(optionValue.toString()))
+        .filter(announcement => announcement.name.toLowerCase().includes(optionValue.toString().toLowerCase()))
         .map((announcement) => ({ name: announcement.name, value: announcement._id.toString() }))
 
       return await interaction.respond(res)
@@ -124,7 +124,7 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
         )
 
       const res = locales
-        .filter(locale => locale.name.toLowerCase().includes(optionValue.toString()))
+        .filter(locale => locale.name.toLowerCase().includes(optionValue.toString().toLowerCase()))
         .map((locale) => ({ name: locale.name, value: locale.code }))
       if (res.length > 25) res.length = 25
 
