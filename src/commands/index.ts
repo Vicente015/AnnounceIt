@@ -25,12 +25,21 @@ const AnnouncementsCommands = new SlashCommandBuilder()
         return option
           .setName('title')
           .setDescription(t('meta:announcements.add.options.title'))
-          .setRequired(false)
       })
       .addStringOption((option) => {
         return option
           .setName('color')
           .setDescription(t('meta:announcements.add.options.color'))
+      })
+      .addStringOption((option) => {
+        return option
+          .setName('footer')
+          .setDescription(t('meta:announcements.add.options.footer'))
+      })
+      .addStringOption((option) => {
+        return option
+          .setName('url')
+          .setDescription(t('meta:announcements.add.options.url'))
       })
   })
   .addSubcommand((subcommand) => {
@@ -55,7 +64,16 @@ const AnnouncementsCommands = new SlashCommandBuilder()
         return option
           .setName('title')
           .setDescription(t('meta:announcements.add.options.title'))
-          .setRequired(false)
+      })
+      .addStringOption((option) => {
+        return option
+          .setName('footer')
+          .setDescription(t('meta:announcements.add.options.footer'))
+      })
+      .addStringOption((option) => {
+        return option
+          .setName('url')
+          .setDescription(t('meta:announcements.add.options.url'))
       })
   })
   .addSubcommand((subcommand) => {
@@ -89,7 +107,6 @@ const AnnouncementsCommands = new SlashCommandBuilder()
         return option
           .setName('only_published')
           .setDescription(t('meta:announcements.list.options.only_published'))
-          .setRequired(false)
       })
   })
   .addSubcommand((subcommand) => {

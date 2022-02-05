@@ -5,11 +5,13 @@
     "sendAnnouncementDescription": "Envíe un mensaje con la descripción, tiene 14 minutos.",
     "descriptionNotSended": "❌ Debe introducir una descripción.",
     "descriptionMaxChars": "❌ La descripción debe ser menor de 4096 caracteres.",
+    "footerMaxChars": "❌ La descripción debe ser menor de 2048 caracteres.",
+    "urlNotValid": "❌ La URL introducida no es válida.",
     "done": "✅ Se ha añadido la traducción del anuncio."
   },
   "add": {
     "notValidColor": "❌ Formato de color inválido, pruebe con alguno de los siguientes: {{validColors}}.\nPuede usar un selector de color online o usar alguno de los siguientes nombres válidos:\nhttps://i.imgur.com/mGKeXCT.png",
-    "done": "'✅ Anuncio creado.'"
+    "done": "✅ Anuncio creado."
   },
   "help": {
     "invite": "Invítame",

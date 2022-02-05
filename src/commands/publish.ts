@@ -25,6 +25,8 @@ export default async function run (client: Client, interaction: CommandInteracti
 
   if (announcement.title) embed.setTitle(announcement.title)
   if (announcement.description) embed.setDescription(announcement.description)
+  if (announcement.footer) embed.setFooter({ text: announcement.footer })
+  if (announcement.url && announcement.title) embed.setURL(announcement.url)
 
   if (haveTranslations) {
     const buttons = new MessageActionRow()

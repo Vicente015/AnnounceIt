@@ -9,7 +9,9 @@
       "options": {
         "name": "El nombre del anuncio",
         "title": "El título del anuncio",
-        "color": "El color que tendrá el mensaje"
+        "color": "El color que tendrá el embed",
+        "url": "La URL que tendrá asociada en el título",
+        "footer": "El footer que tendrá el embed"
       }
     },
     "add_translation": {
