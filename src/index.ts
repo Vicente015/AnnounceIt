@@ -10,10 +10,10 @@ import iso from 'iso-639-1'
 import languages from '@cospired/i18n-iso-languages'
 import i18next from 'i18next'
 import Backend from 'i18next-fs-backend'
+import config from '../config.json'
 
 const publish = true
-const devMode = true
-const DEV_GUILD = '909070968360685598'
+const { mode: devMode, guild: devGuild } = config.dev
 
 const client: Client = new Client({
   intents: ['GUILDS', 'GUILD_MESSAGES'],
@@ -40,7 +40,7 @@ client.once('ready', async (client) => {
 
   const publishCommands = async (commands: ApplicationCommandDataResolvable[]) => {
     if (devMode) {
-      const guild = client.guilds.cache.get(DEV_GUILD)
+      const guild = client.guilds.cache.get(devGuild)
       if (!guild) return
       await guild.commands.set(commands)
     } else {
