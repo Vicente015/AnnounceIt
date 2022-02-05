@@ -1,5 +1,9 @@
 {
   "debug": true,
   "languages": ["es-ES", "en-US"],
-  "defaultLanguage": "es-ES"
+  "defaultLanguage": "es-ES",
+  "dev": {
+    "mode": false,
+    "guild": "909070968360685598"
+  }
 }
