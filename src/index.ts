@@ -82,10 +82,12 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
     if ((interaction.channel == null) || (interaction.member == null)) return
     const member = interaction.member as GuildMember
     const managerRoles = (await Config.findOne({ guildId: interaction.guildId }))?.managerRoles
+    const commandName = interaction.options.getSubcommandGroup(false) ?? interaction.options.getSubcommand(false) ?? interaction.commandName
 
     if (
       !member.permissions.has('ADMINISTRATOR') &&
-      !member.roles.cache.find((role: Role) => managerRoles?.includes(role.id))
+      !member.roles.cache.find((role: Role) => managerRoles?.includes(role.id)) &&
+      commandName !== 'help'
     ) {
       return await interaction.reply({
         content: t('common:noPerms'),
@@ -93,8 +95,7 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
       })
     }
 
-    const subCommandName = interaction.options.getSubcommandGroup(false) ?? interaction.options.getSubcommand(false) ?? interaction.commandName
-    const { default: run } = await import(`./commands/${subCommandName}`)
+    const { default: run } = await import(`./commands/${commandName}`)
 
     run(client, interaction, t)
   }
