@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import { join } from 'node:path'
 import { Announcement } from './schemas/Announcement'
-import { ApplicationCommandDataResolvable, AutocompleteInteraction, CommandInteraction, GuildMember, HexColorString, MessageEmbed, Role } from 'discord.js'
+import { ApplicationCommandDataResolvable, AutocompleteInteraction, CommandInteraction, Guild, GuildMember, HexColorString, MessageEmbed, Role } from 'discord.js'
 import { Config } from './schemas/Config'
 import { getT } from './utils/i18n'
 import Client from './structures/Client'
@@ -12,7 +12,7 @@ import i18next from 'i18next'
 import Backend from 'i18next-fs-backend'
 import config from '../config.json'
 
-const publish = true
+const publish = false
 const { mode: devMode, guild: devGuild } = config.dev
 
 const client: Client = new Client({
@@ -40,13 +40,23 @@ client.once('ready', async (client) => {
 
   const publishCommands = async (commands: ApplicationCommandDataResolvable[]) => {
     if (devMode) {
-      const guild = client.guilds.cache.get(devGuild)
+      const guild: Guild = client.guilds.cache.get(devGuild)
       if (!guild) return
-      await guild.commands.set(commands)
+      const guildCommands = await guild.commands.fetch()
+      commands.forEach(command => {
+        if (guildCommands.get(command.name)?.equals(command) === true) return
+        guild.commands.create(command)
+      })
     } else {
-      await client.application.commands.set(commands)
+      const clientCommands = await client.application?.commands.fetch()
+      commands.forEach(command => {
+        if (clientCommands.get(command.name)?.equals(command) === true) return
+        client.application?.commands.create(command)
+      })
     }
-    logger.info('Comandos publicado')
+
+    logger.info(`Comandos publicados en ${devMode ? 'servidor' : 'global'}`)
+    // console.log('client', await client.application?.commands.fetch(), 'guild', await client.guilds.cache.get(devGuild).commands.fetch())
   }
 
   for (const cmd of cmds) {
@@ -137,6 +147,8 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
       .setColor(announcement.color as HexColorString ?? 'BLURPLE')
     if (translation.title) embed.setTitle(translation.title)
     if (translation.description) embed.setDescription(translation.description)
+    if (translation.footer) embed.setFooter({ text: translation.footer })
+    if (translation.url && translation.title) embed.setURL(translation.url)
 
     return await interaction.reply({
       embeds: [embed],
