@@ -1,4 +1,3 @@
-
 import { CommandInteraction, Message } from 'discord.js'
 import { Announcement } from '../schemas/Announcement'
 import { TFunction } from 'i18next'

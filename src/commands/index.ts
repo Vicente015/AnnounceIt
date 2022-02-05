@@ -1,74 +1,78 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
+import { getFixedT } from 'i18next'
+import config from '../../config.json'
+
+const t = getFixedT(config.defaultLanguage)
 
 const HelpCommand = new SlashCommandBuilder()
   .setName('help')
-  .setDescription('Muestra la ayuda del bot')
+  .setDescription(t('meta:help.description'))
 
 const AnnouncementsCommands = new SlashCommandBuilder()
   .setName('announcements')
-  .setDescription('Maneja los anuncios')
+  .setDescription(t('meta:announcements.description'))
   .addSubcommand((subcommand) => {
     return subcommand
       .setName('add')
-      .setDescription('Añade un anuncio')
+      .setDescription(t('meta:announcements.add.description'))
       .addStringOption((option) => {
         return option
           .setName('name')
-          .setDescription('El nombre del anuncio')
+          .setDescription(t('meta:announcements.add.options.name'))
           .setRequired(true)
       })
       .addStringOption((option) => {
         return option
           .setName('title')
-          .setDescription('El título del anuncio')
+          .setDescription(t('meta:announcements.add.options.title'))
           .setRequired(false)
       })
       .addStringOption((option) => {
         return option
           .setName('color')
-          .setDescription('El color del anuncio')
+          .setDescription(t('meta:announcements.add.options.color'))
       })
   })
   .addSubcommand((subcommand) => {
     return subcommand
       .setName('add_translation')
-      .setDescription('Añade una traducción al anuncio')
+      .setDescription(t('meta:announcements.add_translation.description'))
       .addStringOption((option) => {
         return option
           .setName('name')
-          .setDescription('El nombre del anuncio')
+          .setDescription(t('meta:announcements.add.options.name'))
           .setRequired(true)
           .setAutocomplete(true)
       })
       .addStringOption((option) => {
         return option
           .setName('lang')
-          .setDescription('El idioma del anuncio')
+          .setDescription(t('meta:announcements.add_translation.options.lang'))
           .setRequired(true)
           .setAutocomplete(true)
       })
       .addStringOption((option) => {
         return option
           .setName('title')
-          .setDescription('El título del anuncio')
+          .setDescription(t('meta:announcements.add.options.title'))
           .setRequired(false)
       })
   })
   .addSubcommand((subcommand) => {
     return subcommand
       .setName('publish')
-      .setDescription('Publica un anuncio')
+      .setDescription(t('meta:announcements.publish.description'))
       .addStringOption((option) => {
         return option
           .setName('name')
-          .setDescription('Nombre del anuncio que desea publicar')
+          .setDescription(t('meta:announcements.add.options.name'))
           .setRequired(true)
           .setAutocomplete(true)
       })
       .addChannelOption((option) => {
         return option
           .setName('channel')
-          .setDescription('El canal del anuncio')
+          .setDescription(t('meta:announcements.publish.options.channel'))
           .setRequired(true)
           .addChannelType(0)
           .addChannelType(5)
@@ -80,22 +84,22 @@ const AnnouncementsCommands = new SlashCommandBuilder()
   .addSubcommand((subcommand) => {
     return subcommand
       .setName('list')
-      .setDescription('Lista los anuncios')
+      .setDescription(t('meta:announcements.list.description'))
       .addBooleanOption((option) => {
         return option
           .setName('only_published')
-          .setDescription('Si debe mostrar solo los anuncios publicados')
+          .setDescription(t('meta:announcements.list.options.only_published'))
           .setRequired(false)
       })
   })
   .addSubcommand((subcommand) => {
     return subcommand
       .setName('remove')
-      .setDescription('Borra un anuncio (esto no borra también los mensajes)')
+      .setDescription(t('meta:announcements.remove.description'))
       .addStringOption((option) => {
         return option
           .setName('name')
-          .setDescription('Nombre del anuncio que desea publicar')
+          .setDescription(t('meta:announcements.add.options.name'))
           .setRequired(true)
           .setAutocomplete(true)
       })
@@ -103,26 +107,26 @@ const AnnouncementsCommands = new SlashCommandBuilder()
   .addSubcommandGroup((subcommandGroup) => {
     return subcommandGroup
       .setName('managers')
-      .setDescription('Gestiona los encargados del bot')
+      .setDescription(t('meta:announcements.managers.description'))
       .addSubcommand((subcommand) => {
         return subcommand
           .setName('add')
-          .setDescription('Añade un rol a la lista de encargados que pueden hacer uso del bot')
+          .setDescription(t('meta:announcements.managers.add.description'))
           .addRoleOption((role) => {
             return role
               .setName('role')
-              .setDescription('El rol a añadir')
+              .setDescription(t('meta:announcements.managers.add.options.role'))
               .setRequired(true)
           })
       })
       .addSubcommand((subcommand) => {
         return subcommand
           .setName('remove')
-          .setDescription('Elimina un rol a la lista de encargados que pueden hacer uso del bot')
+          .setDescription(t('meta:announcements.managers.remove.description'))
           .addRoleOption((role) => {
             return role
               .setName('role')
-              .setDescription('El rol a añadir')
+              .setDescription(t('meta:announcements.managers.remove.options.role'))
               .setRequired(true)
           })
       })

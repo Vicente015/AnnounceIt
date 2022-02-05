@@ -31,7 +31,7 @@ client.once('ready', async (client) => {
     backend: { loadPath: 'src/lang/{{lng}}/{{ns}}.json' },
     fallbackLng: 'es-ES',
     load: 'currentOnly',
-    ns: ['']
+    ns: ['commands', 'common', 'meta']
   })
 
   //* Sistema de carga de comandos

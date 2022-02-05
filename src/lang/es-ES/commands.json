@@ -11,6 +11,10 @@
     "notValidColor": "❌ Formato de color inválido, pruebe con alguno de los siguientes: {{validColors}}.\nPuede usar un selector de color online o usar alguno de los siguientes nombres válidos:\nhttps://i.imgur.com/mGKeXCT.png",
     "done": "'✅ Anuncio creado.'"
   },
+  "help": {
+    "invite": "Invítame",
+    "description": "Hey 👋, soy **{{username}}**, un bot que te permite publicar anuncios en varios idiomas en tu servidor.\nPuedes ver mis comandos usando `/announcements`.\n\n__**Comandos principales**__\n• Usa `/announcements add` para añadir un anuncio.\n• Usa `/announcements add_translation` para añadir una traducción a un anuncio.\n• Usa `/announcements publish` para publicar el anuncio.\n• Usa `/announcements managers add` para añadir un rol encargado que pueda hacer uso del bot."
+  },
   "list": {
     "notAnnouncements": "❌ No tiene ningún anuncio, cree uno con  `/announcements add`.",
     "listValue": "Título: {{title}}\nPublicado: {{published}}{{color}}",
@@ -19,9 +23,11 @@
   "managers": {
     "error": "❌ Se ha producido un error.",
     "add": {
+      "already": "❌ Ese rol ya está añadido.",
       "done": "✅ Se ha añadido el rol a la lista de encargados."
     },
     "remove": {
+      "not": "❌ Ese rol no está añadido.",
       "done": "✅ Se ha eliminado el rol de la lista de encargados."
     }
   },
