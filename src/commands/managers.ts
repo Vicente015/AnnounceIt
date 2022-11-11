@@ -3,7 +3,7 @@ import type Client from '../structures/Client'
 import { Config } from '../schemas/Config'
 import { TFunction } from 'i18next'
 
-export default async function run (client: Client, interaction: CommandInteraction, t: TFunction) {
+export default async function run (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction): Promise<void> {
   const subCommand = interaction.options.getSubcommand(true)
 
   switch (subCommand) {
@@ -18,7 +18,7 @@ export default async function run (client: Client, interaction: CommandInteracti
   }
 }
 
-async function add (client: Client, interaction: CommandInteraction, t: TFunction) {
+async function add (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction): Promise<void> {
   const role = interaction.options.getRole('role', true)
 
   const config = await Config.findOne({ guildId: interaction.guildId })
@@ -37,7 +37,7 @@ async function add (client: Client, interaction: CommandInteraction, t: TFunctio
   interaction.reply(t('commands:managers.add.done'))
 }
 
-async function remove (client: Client, interaction: CommandInteraction, t: TFunction) {
+async function remove (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction): Promise<void> {
   const role = interaction.options.getRole('role', true)
 
   const config = await Config.findOne({ guildId: interaction.guildId })

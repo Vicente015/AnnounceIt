@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { getFixedT } from 'i18next'
 import config from '../../config.json'
+import { TextBasedChannels } from '../utils/Constants'
 
 const t = getFixedT(config.defaultLanguage)
 
@@ -92,11 +93,7 @@ const AnnouncementsCommands = new SlashCommandBuilder()
           .setName('channel')
           .setDescription(t('meta:announcements.publish.options.channel'))
           .setRequired(true)
-          .addChannelType(0)
-          .addChannelType(5)
-          .addChannelType(10)
-          .addChannelType(11)
-          .addChannelType(12)
+          .addChannelTypes(TextBasedChannels)
       })
   })
   .addSubcommand((subcommand) => {

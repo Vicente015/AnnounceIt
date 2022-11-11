@@ -5,7 +5,7 @@ import iso from 'iso-639-1'
 import { TFunction } from 'i18next'
 import { URLRegex } from '../utils/Regex'
 
-export default async function run (client: Client, interaction: CommandInteraction, t: TFunction) {
+export default async function run (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction) {
   const id = interaction.options.getString('name')
   const announcement = await Announcement.findById(id).exec().catch(() => {})
   if (announcement == null) return await interaction.reply({ content: t('commands:add_translation.notFound'), ephemeral: true })

@@ -2,7 +2,7 @@ import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed } fro
 import { TFunction } from 'i18next'
 import Client from '../structures/Client'
 
-export default async function run (client: Client, interaction: CommandInteraction, t: TFunction) {
+export default async function run (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction): Promise<void> {
   const embed = new MessageEmbed()
     .setTitle(client.user!.username)
     .setDescription(t('commands:help.description', { username: client.user!.username }))

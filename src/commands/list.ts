@@ -3,7 +3,7 @@ import { Announcement } from '../schemas/Announcement'
 import { Pagination } from 'pagination.djs'
 import { TFunction } from 'i18next'
 
-export default async function run (client: Client, interaction: CommandInteraction, t: TFunction) {
+export default async function run (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction): Promise<void> {
   const showPublished = interaction.options.getBoolean('only_published', false) ?? false
 
   const announcements = await Announcement.find({
@@ -29,5 +29,5 @@ export default async function run (client: Client, interaction: CommandInteracti
     )
     .setColor('BLURPLE')
 
-  pagination.render()
+  await pagination.render()
 }

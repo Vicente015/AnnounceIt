@@ -146,10 +146,10 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
 
     const embed = new MessageEmbed()
       .setColor(announcement.color as HexColorString ?? 'BLURPLE')
-    if (translation.title) embed.setTitle(translation.title)
-    if (translation.description) embed.setDescription(translation.description)
-    if (translation.footer) embed.setFooter({ text: translation.footer })
-    if (translation.url && translation.title) embed.setURL(translation.url)
+    if (translation.title != null) embed.setTitle(translation.title)
+    if (translation.description != null) embed.setDescription(translation.description)
+    if (translation.footer != null) embed.setFooter({ text: translation.footer })
+    if (translation.url != null && translation.title != null) embed.setURL(translation.url)
 
     return await interaction.reply({
       embeds: [embed],

@@ -1,13 +1,17 @@
-import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed, TextBasedChannel, DMChannel, PartialDMChannel, HexColorString } from 'discord.js'
+import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed, HexColorString, TextChannel, ThreadChannel, NewsChannel } from 'discord.js'
 import { Announcement } from '../schemas/Announcement'
 import Client from '../structures/Client'
 import iso from 'iso-639-1'
 import { TFunction } from 'i18next'
+import { TextBasedChannels } from '../utils/Constants'
 
-export default async function run (client: Client, interaction: CommandInteraction, t: TFunction) {
+export default async function run (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction) {
   const id = interaction.options.getString('name')
 
-  const channel: Exclude<Exclude<TextBasedChannel, DMChannel>, PartialDMChannel> = interaction.options.getChannel('channel', true)
+  const rawChannel = interaction.options.getChannel('channel', true)
+  const channel = rawChannel.isText() ? rawChannel : null
+  if (channel == null) return
+
   if (!channel.permissionsFor(interaction.user.id)?.has('SEND_MESSAGES')) {
     return await interaction.reply({ content: t('commands:publish.errorPerms'), ephemeral: true })
   }

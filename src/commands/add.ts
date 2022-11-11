@@ -15,7 +15,7 @@ import { URLRegex } from '../utils/Regex'
 extend([namesPlugin, cmykPlugin, hwbPlugin, labPlugin, lchPlugin, xyzPlugin])
 const validColorTypes = ['name', 'hex', 'rbg', 'hsl', 'hsv', 'hwb', 'xyz', 'lab', 'lch', 'cmyk']
 
-export default async function run (client: Client, interaction: CommandInteraction, t: TFunction) {
+export default async function run (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction) {
   const name = interaction.options.getString('name')
   const title = interaction.options.getString('title', false)
   let color = interaction.options.getString('color', false)
@@ -23,7 +23,6 @@ export default async function run (client: Client, interaction: CommandInteracti
   const url = interaction.options.getString('url', false)
 
   if (footer && footer.length > 2048) return await interaction.reply({ content: t('commands:add_translation.footerMaxChars'), ephemeral: true })
-  if (url && !URLRegex.test(url)) return await interaction.reply({ content: t('commands:add_translation.urlNotValid'), ephemeral: true })
   if (color && (!getFormat(color) || !validColorTypes.includes(getFormat(color) as string))) {
     return await interaction.reply({
       content: t('commands:add.notValidColor', { validColors: validColorTypes.join(', ') }),
