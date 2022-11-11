@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node . | pino-pretty",
-    "start:dev": "tsnd --quiet --exit-child src/index.ts | pino-pretty",
+    "start:dev": "ts-node src/index.ts | pino-pretty",
     "fix": "eslint . --fix"
   },
   "keywords": [],
@@ -45,7 +45,7 @@
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "pino-pretty": "^7.6.1",
-    "ts-node-dev": "^1.1.8",
+    "ts-node": "^10.9.1",
     "typescript": "*"
   }
 }

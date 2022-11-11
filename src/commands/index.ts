@@ -93,7 +93,7 @@ const AnnouncementsCommands = new SlashCommandBuilder()
           .setName('channel')
           .setDescription(t('meta:announcements.publish.options.channel'))
           .setRequired(true)
-          .addChannelTypes(TextBasedChannels)
+          .addChannelTypes(...TextBasedChannels)
       })
   })
   .addSubcommand((subcommand) => {
