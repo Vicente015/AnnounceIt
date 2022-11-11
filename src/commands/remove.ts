@@ -1,6 +1,6 @@
 import { Client, CommandInteraction } from 'discord.js'
-import { Announcement } from '../schemas/Announcement'
 import { TFunction } from 'i18next'
+import { Announcement } from '../schemas/Announcement'
 
 export default async function run (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction): Promise<void> {
   const id = interaction.options.getString('name')

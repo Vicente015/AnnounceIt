@@ -1,18 +1,18 @@
 import { CommandInteraction } from 'discord.js'
-import type Client from '../structures/Client'
-import { Config } from '../schemas/Config'
 import { TFunction } from 'i18next'
+import { Config } from '../schemas/Config'
+import type Client from '../structures/Client'
 
 export default async function run (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction): Promise<void> {
   const subCommand = interaction.options.getSubcommand(true)
 
   switch (subCommand) {
     case 'add': {
-      add(client, interaction, t)
+      await add(client, interaction, t)
       break
     }
     case 'remove': {
-      remove(client, interaction, t)
+      await remove(client, interaction, t)
       break
     }
   }
@@ -26,15 +26,15 @@ async function add (client: Client, interaction: CommandInteraction<'cached'>, t
 
   await Config.findOneAndUpdate(
     { guildId: interaction.guildId },
-    { guildId: interaction.guildId, $push: { managerRoles: role.id } },
-    { upsert: true, new: true, setDefaultsOnInsert: true }
+    { $push: { managerRoles: role.id }, guildId: interaction.guildId },
+    { new: true, setDefaultsOnInsert: true, upsert: true }
   )
-    .catch(async (err) => {
-      client.logger.error(err)
+    .catch(async (error) => {
+      client.logger.error(error)
       return await interaction.reply({ content: t('commands:managers.error'), ephemeral: true })
     })
 
-  interaction.reply(t('commands:managers.add.done'))
+  await interaction.reply(t('commands:managers.add.done'))
 }
 
 async function remove (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction): Promise<void> {
@@ -45,12 +45,12 @@ async function remove (client: Client, interaction: CommandInteraction<'cached'>
 
   await Config.findOneAndUpdate(
     { guildId: interaction.guildId },
-    { guildId: interaction.guildId, $pull: { managerRoles: role.id } }
+    { $pull: { managerRoles: role.id }, guildId: interaction.guildId }
   )
-    .catch(async (err) => {
-      client.logger.error(err)
+    .catch(async (error) => {
+      client.logger.error(error)
       return await interaction.reply({ content: t('commands:managers.error'), ephemeral: true })
     })
 
-  interaction.reply(t('commands:managers.remove.done'))
+  await interaction.reply(t('commands:managers.remove.done'))
 }

@@ -1,8 +1,8 @@
-import { AutocompleteInteraction, CommandInteraction } from 'discord.js'
+import { Interaction } from 'discord.js'
 import { getFixedT, TFunction } from 'i18next'
 import config from '../../config.json'
 
-const isValidLanguage = (guildLocale: string | null): boolean => !!(guildLocale !== null && config.languages.includes(guildLocale))
+const isValidLanguage = (guildLocale: string | null): boolean => !!(guildLocale && config.languages.includes(guildLocale))
 
 /**
  * Returns the t function with the guild locale
@@ -10,7 +10,7 @@ const isValidLanguage = (guildLocale: string | null): boolean => !!(guildLocale 
  * @param interaction The command interaction
  * @returns {TFunction} T Function
  */
-const getT = (interaction: CommandInteraction | AutocompleteInteraction): TFunction => {
+const getT = (interaction: Interaction): TFunction => {
   return getFixedT(
     isValidLanguage(interaction.guildLocale)
       ? interaction.guildLocale as string

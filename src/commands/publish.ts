@@ -1,26 +1,23 @@
-import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed, HexColorString, TextChannel, ThreadChannel, NewsChannel } from 'discord.js'
+import { CommandInteraction, HexColorString, MessageActionRow, MessageButton, MessageEmbed, TextChannel } from 'discord.js'
+import { TFunction } from 'i18next'
+import iso from 'iso-639-1'
 import { Announcement } from '../schemas/Announcement'
 import Client from '../structures/Client'
-import iso from 'iso-639-1'
-import { TFunction } from 'i18next'
-import { TextBasedChannels } from '../utils/Constants'
 
 export default async function run (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction) {
+  if (!client.isReady()) return
   const id = interaction.options.getString('name')
-
-  const rawChannel = interaction.options.getChannel('channel', true)
-  const channel = rawChannel.isText() ? rawChannel : null
-  if (channel == null) return
+  const channel = interaction.options.getChannel('channel', true) as TextChannel
 
   if (!channel.permissionsFor(interaction.user.id)?.has('SEND_MESSAGES')) {
     return await interaction.reply({ content: t('commands:publish.errorPerms'), ephemeral: true })
   }
-  if (!channel.permissionsFor(client.user!.id)?.has('SEND_MESSAGES')) {
+  if (!channel.permissionsFor(client.user.id)?.has('SEND_MESSAGES')) {
     return await interaction.reply({ content: t('commands:publish.cannotSend'), ephemeral: true })
   }
 
   const announcement = await Announcement.findById(id).exec().catch(() => {})
-  if (announcement == null) return await interaction.reply({ content: t('commands:publish.announcementNotFound'), ephemeral: true })
+  if (!announcement) return await interaction.reply({ content: t('commands:publish.announcementNotFound'), ephemeral: true })
   const haveTranslations = announcement?.translations.length > 0
 
   const embed = new MessageEmbed()
@@ -35,16 +32,16 @@ export default async function run (client: Client, interaction: CommandInteracti
     const buttons = new MessageActionRow()
       .addComponents(announcement.translations.map(translation => {
         return new MessageButton({
+          customId: translation._id?.toString(),
           label: iso.getNativeName(translation.lang),
-          customId: translation._id!.toString(),
           style: 'PRIMARY'
         })
       }))
-    await channel.send({ embeds: [embed], components: [buttons] })
+    await channel.send({ components: [buttons], embeds: [embed] })
   } else {
     await channel.send({ embeds: [embed] })
   }
 
   await Announcement.findByIdAndUpdate(id, { published: true }).exec()
-  interaction.reply({ content: t('commands:publish.done'), ephemeral: true })
+  await interaction.reply({ content: t('commands:publish.done'), ephemeral: true })
 }

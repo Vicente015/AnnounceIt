@@ -3,11 +3,12 @@ import { TFunction } from 'i18next'
 import Client from '../structures/Client'
 
 export default async function run (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction): Promise<void> {
+  if (!client.isReady()) return
   const embed = new MessageEmbed()
-    .setTitle(client.user!.username)
-    .setDescription(t('commands:help.description', { username: client.user!.username }))
+    .setTitle(client.user.username)
+    .setDescription(t('commands:help.description', { username: client.user.username }))
     .setColor('BLURPLE')
-    .setThumbnail(client.user!.displayAvatarURL({ format: 'png', size: 600 }))
+    .setThumbnail(client.user.displayAvatarURL({ format: 'png', size: 600 }))
 
   const buttons = new MessageActionRow()
     .addComponents(
@@ -18,5 +19,5 @@ export default async function run (client: Client, interaction: CommandInteracti
         .setStyle('LINK')
     )
 
-  return await interaction.reply({ embeds: [embed], components: [buttons] })
+  return await interaction.reply({ components: [buttons], embeds: [embed] })
 }

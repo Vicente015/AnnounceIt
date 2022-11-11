@@ -147,6 +147,6 @@ const AnnouncementsCommands = new SlashCommandBuilder()
   })
 
 export default {
-  Help: HelpCommand.toJSON(),
-  Announcements: AnnouncementsCommands.toJSON()
+  Announcements: AnnouncementsCommands.toJSON(),
+  Help: HelpCommand.toJSON()
 }
