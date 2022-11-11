@@ -9,11 +9,5 @@
     "removeComments": true,
     "preserveSymlinks": true,
     "resolveJsonModule": true
-  },
-  "ts-standard": {
-    "ignore": [
-      "dist",
-      "src/**/*.js"
-    ]
   }
 }
