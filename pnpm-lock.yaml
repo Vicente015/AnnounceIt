@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@cospired/i18n-iso-languages': ^3.1.1
+  '@cospired/i18n-iso-languages': ^4.0.0
   '@discordjs/builders': 0.12.0
   '@tsconfig/node16': ^1.0.3
   '@types/i18next-fs-backend': ^1.1.2
@@ -25,7 +25,7 @@ specifiers:
   typescript: ^4.8.4
 
 dependencies:
-  '@cospired/i18n-iso-languages': 3.1.1
+  '@cospired/i18n-iso-languages': 4.0.0
   '@discordjs/builders': 0.12.0
   chalk: 4.1.2
   colord: 2.9.3
@@ -78,9 +78,9 @@ packages:
     dependencies:
       regenerator-runtime: 0.13.10
 
-  /@cospired/i18n-iso-languages/3.1.1:
-    resolution: {integrity: sha512-8X3tP5oWBJjRo5nuaeqA5tXIDUvfBTO81coPLVPlyXAn1oe9fjDsvlCenblbD2WKIfVlk+RmU5+6yl5oVB1TKQ==}
-    engines: {node: '>=10'}
+  /@cospired/i18n-iso-languages/4.0.0:
+    resolution: {integrity: sha512-8dKE8TJIhb6/JpwpshTV96Q/fT8kAohnAD2KnOuKkVemhDcWDjurPmzj8NnA25YW4gcKfvJYq/iDbXyB0gZ2jg==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: false
 
   /@discordjs/builders/0.11.0:
