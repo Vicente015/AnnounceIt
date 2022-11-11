@@ -5,7 +5,7 @@
     "declaration": true,
     "pretty": true,
     "skipLibCheck": true,
-    "outDir": "dist/",
+    "outDir": "dist",
     "removeComments": true,
     "preserveSymlinks": true,
     "resolveJsonModule": true

@@ -120,7 +120,7 @@ client.on('interactionCreate', async (interaction: CommandInteraction | Autocomp
         .map(code =>
           ({
             name: languages.getName(code, interaction.locale.split('-')[0]) ?? iso.getNativeName(code),
-            code: code
+            code
           })
         )
 

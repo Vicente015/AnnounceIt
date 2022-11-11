@@ -7,7 +7,6 @@ import { TFunction } from 'i18next'
 export default async function run (client: Client, interaction: CommandInteraction, t: TFunction) {
   const id = interaction.options.getString('name')
 
-  // @ts-expect-error
   const channel: Exclude<Exclude<TextBasedChannel, DMChannel>, PartialDMChannel> = interaction.options.getChannel('channel', true)
   if (!channel.permissionsFor(interaction.user.id)?.has('SEND_MESSAGES')) {
     return await interaction.reply({ content: t('commands:publish.errorPerms'), ephemeral: true })
