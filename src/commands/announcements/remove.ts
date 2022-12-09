@@ -1,7 +1,7 @@
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import ow from 'ow'
 import { Announcement } from '../../schemas/Announcement'
-import { validateOptions } from '../../utils/validateOptions'
+import { validateChatInput } from '../../utils/validateOptions'
 
 const Schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
@@ -9,7 +9,7 @@ const Schema = ow.object.exactShape({
 })
 
 export async function remove (interaction: Subcommand.ChatInputInteraction) {
-  const options = await validateOptions(interaction, Schema)
+  const options = await validateChatInput(interaction, Schema)
   if (!options) return
   const { name: id, t } = options
 

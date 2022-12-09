@@ -59,6 +59,7 @@ export class UserCommand extends Subcommand {
                 .setName('name')
                 .setRequired(true)
             )
+            /*
             .addStringOption((option) =>
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('title', command.name, subcommand.name))
                 .setName('title')
@@ -75,6 +76,7 @@ export class UserCommand extends Subcommand {
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('url', command.name, subcommand.name))
                 .setName('url')
             )
+            */
         )
         .addSubcommand((subcommand) =>
           applyLocalizedBuilder(subcommand, ...getCommandKeys(command.name, 'add-translation'))
