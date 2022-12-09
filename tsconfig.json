@@ -9,5 +9,7 @@
     "removeComments": true,
     "preserveSymlinks": true,
     "resolveJsonModule": true
-  }
+  },
+  "exclude": ["old_commands"],
+  "include": ["src/*", "src/**/*", "src/languages/**/*.json"]
 }

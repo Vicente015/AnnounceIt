@@ -1,0 +1,64 @@
+{
+  "help": {
+    "name": "help",
+    "description": "Shows the bot's help"
+  },
+  "announcements": {
+    "name": "announcements",
+    "description": "Manages the announcements",
+    "add": {
+      "name": "add",
+      "description": "Adds an announcement",
+      "options": {
+        "name": "The name of the announcement",
+        "title": "The title of the announcement",
+        "color": "The color the embed will have",
+        "url": "The URL the title will have associated",
+        "footer": "The footer the embed will have"
+      }
+    },
+    "add-translation": {
+      "name": "add-translation",
+      "description": "Adds a translation to the announcement",
+      "options": {
+        "lang": "The language of the announcement"
+      }
+    },
+    "publish": {
+      "name": "publish",
+      "description": "Publishes an announcement",
+      "options": {
+        "channel": "The channel where to publish it"
+      }
+    },
+    "list": {
+      "name": "list",
+      "description": "Shows the list of announcements",
+      "options": {
+        "only_published": "If it should show only published announcements"
+      }
+    },
+    "remove": {
+      "name": "remove",
+      "description": "Deletes an announcement (does not delete the announcement message)"
+    },
+    "managers": {
+      "name": "managers",
+      "description": "Manages the bot managers",
+      "add": {
+        "name": "add",
+        "description": "Adds a role to the list of managers that can use the bot",
+        "options": {
+          "role": "The role to add"
+        }
+      },
+      "remove": {
+        "name": "remove",
+        "description": "Removes a role from the list of managers that can use the bot",
+        "options": {
+          "role": "The role to remove"
+        }
+      }
+    }
+  }
+}

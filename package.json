@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node . | pino-pretty",
-    "start:dev": "ts-node src/index.ts | pino-pretty",
+    "start:build": "pnpm run build && pnpm run start",
+    "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node .\"",
     "fix": "eslint . --fix"
   },
   "keywords": [],
@@ -19,36 +20,44 @@
     "tsc": ">=4.8.4"
   },
   "dependencies": {
-    "@cospired/i18n-iso-languages": "^4.0.0",
+    "@cospired/i18n-iso-languages": "~4.0.0",
     "@discordjs/builders": "~1.3.0",
+    "@sapphire/discord-utilities": "~2.12.0",
+    "@sapphire/framework": "~3.1.4",
+    "@sapphire/plugin-i18next": "~4.0.1",
+    "@sapphire/plugin-subcommands": "~3.2.3",
     "chalk": "~4.1.2",
     "colord": "~2.9.3",
     "country-code-emoji": "~2.3.0",
+    "discord-api-types": "~0.37.21",
     "discord.js": "~13.12.0",
     "dotenv": "~10.0.0",
     "i18next": "~21.10.0",
     "i18next-fs-backend": "~1.2.0",
     "iso-639-1": "^2.1.15",
-    "mongoose": "~6.7.2",
-    "pagination.djs": "~3.6.4",
-    "pino": "~7.11.0"
+    "mongoose": "~6.7.5",
+    "ow": "0.28.2",
+    "pagination.djs": "~3.6.5",
+    "pino": "~7.11.0",
+    "type-fest": "~3.3.0",
+    "zod": "~3.19.1"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
     "@tsconfig/node18": "^1.0.1",
     "@types/i18next-fs-backend": "^1.1.2",
-    "@types/node": "^18.11.9",
+    "@types/node": "^18.11.12",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": ">=5.0.0 <6.0.0",
     "eslint": "^8.0.1",
     "eslint-config-standard-with-typescript": "^23.0.0",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-n": "^15.0.0",
-    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-n": "^15.0.1",
+    "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-sort": "^2.4.0",
     "eslint-plugin-unicorn": "^44.0.2",
     "pino-pretty": "^7.6.1",
-    "ts-node": "^10.9.1",
+    "tsc-watch": "^6.0.0",
     "typescript": "*"
   },
   "eslintConfig": {
@@ -61,8 +70,10 @@
       "project": "./tsconfig.json"
     },
     "rules": {
+      "@typescript-eslint/no-non-null-assertion": "warn",
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/strict-boolean-expressions": "off",
+      "@typescript-eslint/restrict-template-expressions": "off",
       "unicorn/consistent-function-scoping": "off",
       "unicorn/no-await-expression-member": "off",
       "unicorn/prefer-top-level-await": "off",
@@ -71,13 +82,18 @@
     },
     "overrides": [
       {
-        "files": ["src/schemas/*"],
-        "rules": {"sort/object-properties": "off"}
+        "files": [
+          "src/schemas/*"
+        ],
+        "rules": {
+          "sort/object-properties": "off"
+        }
       }
     ],
     "ignorePatterns": [
       "dist",
-      "src/**/*.js"
+      "src/**/*.js",
+      "old_commands"
     ]
   }
 }

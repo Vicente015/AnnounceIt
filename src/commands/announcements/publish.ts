@@ -1,13 +1,24 @@
-import { CommandInteraction, HexColorString, MessageActionRow, MessageButton, MessageEmbed, TextChannel } from 'discord.js'
-import { TFunction } from 'i18next'
+import { Subcommand } from '@sapphire/plugin-subcommands'
+import { HexColorString, MessageActionRow, MessageButton, MessageEmbed, TextChannel } from 'discord.js'
 import iso from 'iso-639-1'
-import { Announcement } from '../schemas/Announcement'
-import Client from '../structures/Client'
+import ow from 'ow'
+import { Announcement } from '../../schemas/Announcement'
+import { validateOptions } from '../../utils/validateOptions'
 
-export default async function run (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction) {
+const Schema = ow.object.exactShape({
+  // eslint-disable-next-line sort/object-properties
+  name: ow.string,
+  channel: ow.object.instanceOf(TextChannel)
+})
+
+export async function publish (interaction: Subcommand.ChatInputInteraction) {
+  const client = interaction.client
   if (!client.isReady()) return
-  const id = interaction.options.getString('name')
-  const channel = interaction.options.getChannel('channel', true) as TextChannel
+  const options = await validateOptions(interaction, Schema)
+  if (!options) return
+  const { channel: _, name: id, t } = options
+  // todo: implement a better workaround
+  const channel = _ as TextChannel
 
   if (!channel.permissionsFor(interaction.user.id)?.has('SEND_MESSAGES')) {
     return await interaction.reply({ content: t('commands:publish.errorPerms'), ephemeral: true })
@@ -32,7 +43,8 @@ export default async function run (client: Client, interaction: CommandInteracti
     const buttons = new MessageActionRow()
       .addComponents(announcement.translations.map(translation => {
         return new MessageButton({
-          customId: translation._id?.toString(),
+          // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/no-non-null-assertion
+          customId: translation._id!.toString(),
           label: iso.getNativeName(translation.lang),
           style: 'PRIMARY'
         })

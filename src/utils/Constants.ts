@@ -1,11 +1,12 @@
-import { ChannelTypes } from 'discord.js/typings/enums'
+import { ApplicationCommandOptionAllowedChannelTypes } from '@discordjs/builders'
+import { ChannelType } from 'discord-api-types/v10'
 
-const TextBasedChannels = [
-  ChannelTypes.GUILD_TEXT,
-  ChannelTypes.GUILD_PUBLIC_THREAD,
-  ChannelTypes.GUILD_PRIVATE_THREAD,
-  ChannelTypes.GUILD_NEWS,
-  ChannelTypes.GUILD_NEWS_THREAD
+const TextBasedChannels: ApplicationCommandOptionAllowedChannelTypes[] = [
+  ChannelType.GuildText,
+  ChannelType.PublicThread,
+  ChannelType.PrivateThread,
+  ChannelType.GuildAnnouncement,
+  ChannelType.AnnouncementThread
 ]
 
 export { TextBasedChannels }

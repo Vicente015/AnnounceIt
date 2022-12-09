@@ -1,10 +1,13 @@
 {
   "help": {
+    "name": "ayuda",
     "description": "Muestra la ayuda del bot"
   },
   "announcements": {
+    "name": "anuncios",
     "description": "Gestiona los anuncios",
     "add": {
+      "name": "añadir",
       "description": "Añade un anuncio",
       "options": {
         "name": "El nombre del anuncio",
@@ -14,36 +17,43 @@
         "footer": "El footer que tendrá el embed"
       }
     },
-    "add_translation": {
+    "add-translation": {
+      "name": "añadir-traduccion",
       "description": "Añade una traducción al anuncio",
       "options": {
         "lang": "El idioma del anuncio"
       }
     },
     "publish": {
-      "description": "Publica un anucio",
+      "name": "publicar",
+      "description": "Publica un anuncio",
       "options": {
         "channel": "El canal donde publicarlo"
       }
     },
     "list": {
+      "name": "lista",
       "description": "Muestra la lista de anuncios",
       "options": {
         "only_published": "Si debe mostrar solo los anuncios publicados"
       }
     },
     "remove": {
+      "name": "eliminar",
       "description": "Borra un anuncio (no borra también el mensaje del anuncio)"
     },
     "managers": {
+      "name": "gestores",
       "description": "Gestiona los encargados del bot",
       "add":  {
+        "name": "añadir",
         "description": "Añade un rol a la lista de encargados que pueden usar el bot",
         "options": {
-          "role": "EL rol a añadir"
+          "role": "El rol a añadir"
         }
       },
       "remove": {
+        "name": "eliminar",
         "description": "Quita un rol de la lista de encargados que pueden usar el bot",
         "options": {
           "role": "El rol a quitar"
