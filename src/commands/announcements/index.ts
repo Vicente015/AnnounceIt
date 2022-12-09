@@ -92,6 +92,7 @@ export class UserCommand extends Subcommand {
                 .setRequired(true)
                 .setAutocomplete(true)
             )
+            /*
             .addStringOption((option) =>
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('title', command.name, 'add'))
                 .setName('title')
@@ -104,6 +105,7 @@ export class UserCommand extends Subcommand {
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('url', command.name, 'add'))
                 .setName('url')
             )
+            */
         )
         .addSubcommand((subcommand) =>
           applyLocalizedBuilder(subcommand, ...getCommandKeys(command.name, 'publish'))

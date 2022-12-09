@@ -1,18 +1,18 @@
 {
   "add-translation": {
+    "alreadyAdded": "❌ Este anuncio ya está traducido en {{language}}.",
     "notFound": "❌ No se ha encontrado el anuncio.",
     "notValidLanguage": "❌ Ese idioma no es válido.",
-    "sendAnnouncementDescription": "Envíe un mensaje con la descripción, tiene 14 minutos.",
-    "descriptionNotSended": "❌ Debe introducir una descripción.",
     "descriptionMaxLength": "❌ La descripción debe ser menor de 4000 caracteres.",
     "footerMaxLength": "❌ El footer debe ser menor de 2048 caracteres.",
     "titleMaxLength": "❌ El título debe ser menor de 256 caracteres.",
     "urlNotValid": "❌ La URL introducida no es válida.",
-    "done": "✅ Se ha añadido la traducción del anuncio."
+    "done": "✅ Se ha añadido la traducción al anuncio.",
+    "modalTitle": "Nueva traducción"
   },
   "add": {
     "notValidColor": "❌ Formato de color inválido, pruebe con alguno de los siguientes: {{validColors}}.\nPuede usar un selector de color online o usar alguno de los siguientes nombres válidos:\nhttps://i.imgur.com/mGKeXCT.png",
-    "done": "✅ Anuncio creado.",
+    "done": "✅ Anuncio creado correctamente.",
     "modalTitle": "Nuevo anuncio",
     "modal": {
       "title": {

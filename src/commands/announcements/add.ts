@@ -2,14 +2,23 @@ import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import { Modal } from 'discord.js'
+import ow from 'ow'
 import { MessageComponentTypes, TextInputStyles } from 'discord.js/typings/enums'
+import { validateChatInput } from '../../utils/validateOptions'
+
+const schema = ow.object.exactShape({
+  name: ow.string
+})
 
 export async function add (interaction: Subcommand.ChatInputInteraction) {
   const t: TFunction = await fetchT(interaction)
-  const name = interaction.options.getString('name', true)
+  const options = await validateChatInput(interaction, schema)
+  if (!options) return
+  const { name: id } = options
+
   const modal = new Modal()
     .setTitle(t('commands:add.modalTitle'))
-    .setCustomId(`addAnnouncement:${interaction.id}:${Date.now()}:${name}`)
+    .setCustomId(`addAnnouncement:${interaction.id}:${Date.now()}:${id}`)
 
   const components = [
     /*
