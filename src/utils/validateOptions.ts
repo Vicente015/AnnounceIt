@@ -1,6 +1,6 @@
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { CacheType, CommandInteractionOptionResolver } from 'discord.js'
+import { CacheType, CommandInteractionOptionResolver, ModalSubmitInteraction } from 'discord.js'
 import ow, { ArgumentError, ObjectPredicate } from 'ow'
 
 type Options = Omit<CommandInteractionOptionResolver<CacheType>, 'getMessage' | 'getFocused'>
@@ -19,13 +19,46 @@ const getValues = {
   USER: (optionName: string, options: Options) => options.getUser(optionName, false)
 }
 
-export async function validateOptions <T extends object> (interaction: Subcommand.ChatInputInteraction, schema: ObjectPredicate<T>) {
+/**
+ * Validates and returns the options of a command
+ * @param interaction
+ * @param schema
+ * @returns
+ */
+export async function validateChatInput <T extends object> (interaction: Subcommand.ChatInputInteraction, schema: ObjectPredicate<T>) {
   if (!interaction.options.data[0].options) return
   const options = interaction.options.data[0].options
     .map((option) => ({ [option.name]: getValues[option.type](option.name, interaction.options) }))
     // eslint-disable-next-line unicorn/no-array-reduce
     .reduce((previous, current) => ({ ...previous, ...current }))
   const t: TFunction = await fetchT(interaction)
+  try {
+    ow(options, schema)
+    return { ...options, t }
+  } catch (error: any) {
+    if (error instanceof ArgumentError) {
+      // ? Removes "error <in object X>" from error message
+      const errorMessage = error.message.split(' in object ')[0]
+      return await interaction.reply({ content: t(errorMessage, { defaultValue: '' }), ephemeral: true })
+    }
+  }
+}
+
+/**
+ * Validates and returns the options of a modal
+ * @param interaction
+ * @param schema
+ * @returns
+ */
+export async function validaModalInput <T extends object> (interaction: ModalSubmitInteraction, schema: ObjectPredicate<T>) {
+  if (!interaction.guild) return
+  const options = interaction.components
+    .flatMap((actionRow) => actionRow.components)
+    .filter((data) => !!data.value)
+    .map((data) => ({ [data.customId]: data.value }))
+    // eslint-disable-next-line unicorn/no-array-reduce
+    .reduce((previous, current) => ({ ...previous, ...current }))
+  const t: TFunction = await fetchT(interaction.guild)
   try {
     ow(options, schema)
     return { ...options, t }

@@ -2,7 +2,7 @@ import { Subcommand } from '@sapphire/plugin-subcommands'
 import ow from 'ow'
 import { Pagination } from 'pagination.djs'
 import { Announcement } from '../../schemas/Announcement'
-import { validateOptions } from '../../utils/validateOptions'
+import { validateChatInput } from '../../utils/validateOptions'
 
 const Schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
@@ -10,7 +10,7 @@ const Schema = ow.object.exactShape({
 })
 
 export async function list (interaction: Subcommand.ChatInputInteraction<'cached'>) {
-  const options = await validateOptions(interaction, Schema)
+  const options = await validateChatInput(interaction, Schema)
   if (!options) return
   const { only_published: showPublished, t } = options
 

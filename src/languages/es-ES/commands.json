@@ -4,7 +4,7 @@
     "notValidLanguage": "❌ Ese idioma no es válido.",
     "sendAnnouncementDescription": "Envíe un mensaje con la descripción, tiene 14 minutos.",
     "descriptionNotSended": "❌ Debe introducir una descripción.",
-    "descriptionMaxLength": "❌ La descripción debe ser menor de 4096 caracteres.",
+    "descriptionMaxLength": "❌ La descripción debe ser menor de 4000 caracteres.",
     "footerMaxLength": "❌ El footer debe ser menor de 2048 caracteres.",
     "titleMaxLength": "❌ El título debe ser menor de 256 caracteres.",
     "urlNotValid": "❌ La URL introducida no es válida.",
@@ -12,7 +12,30 @@
   },
   "add": {
     "notValidColor": "❌ Formato de color inválido, pruebe con alguno de los siguientes: {{validColors}}.\nPuede usar un selector de color online o usar alguno de los siguientes nombres válidos:\nhttps://i.imgur.com/mGKeXCT.png",
-    "done": "✅ Anuncio creado."
+    "done": "✅ Anuncio creado.",
+    "modalTitle": "Nuevo anuncio",
+    "modal": {
+      "title": {
+        "label": "Título",
+        "placeholder": "Escriba el título del anuncio"
+      },
+      "description": {
+        "label": "Descripción",
+        "placeholder": "Escriba una descripción"
+      },
+      "footer": {
+        "label": "Footer",
+        "placeholder": "Escriba un footer"
+      },
+      "url": {
+        "label": "URL",
+        "placeholder": "Introduzca una URL válida"
+      },
+      "color": {
+        "label": "Color",
+        "placeholder": "Indique el color, puede ser un nombre (red, blue), valor hexadecimal (#ffcc66) o rgb (rgb(16,16,16))"
+      }
+    }
   },
   "help": {
     "invite": "Invítame",

@@ -2,7 +2,7 @@ import { Subcommand } from '@sapphire/plugin-subcommands'
 import { Role } from 'discord.js'
 import ow from 'ow'
 import { Config } from '../../../schemas/Config'
-import { validateOptions } from '../../../utils/validateOptions'
+import { validateChatInput } from '../../../utils/validateOptions'
 
 const Schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
@@ -11,7 +11,7 @@ const Schema = ow.object.exactShape({
 
 export async function remove (interaction: Subcommand.ChatInputInteraction) {
   const client = interaction.client
-  const options = await validateOptions(interaction, Schema)
+  const options = await validateChatInput(interaction, Schema)
   if (!options) return
   const { role: _, t } = options
   const role = _ as Role
