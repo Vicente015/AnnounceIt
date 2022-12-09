@@ -1,11 +1,12 @@
 {
-  "add_translation": {
+  "add-translation": {
     "notFound": "❌ No se ha encontrado el anuncio.",
     "notValidLanguage": "❌ Ese idioma no es válido.",
     "sendAnnouncementDescription": "Envíe un mensaje con la descripción, tiene 14 minutos.",
     "descriptionNotSended": "❌ Debe introducir una descripción.",
-    "descriptionMaxChars": "❌ La descripción debe ser menor de 4096 caracteres.",
-    "footerMaxChars": "❌ La descripción debe ser menor de 2048 caracteres.",
+    "descriptionMaxLength": "❌ La descripción debe ser menor de 4096 caracteres.",
+    "footerMaxLength": "❌ El footer debe ser menor de 2048 caracteres.",
+    "titleMaxLength": "❌ El título debe ser menor de 256 caracteres.",
     "urlNotValid": "❌ La URL introducida no es válida.",
     "done": "✅ Se ha añadido la traducción del anuncio."
   },
@@ -15,7 +16,7 @@
   },
   "help": {
     "invite": "Invítame",
-    "description": "Hey 👋, soy **{{username}}**, un bot que te permite publicar anuncios en varios idiomas en tu servidor.\nPuedes ver mis comandos usando `/announcements`.\n\n__**Comandos principales**__\n• Usa `/announcements add` para añadir un anuncio.\n• Usa `/announcements add_translation` para añadir una traducción a un anuncio.\n• Usa `/announcements publish` para publicar el anuncio.\n• Usa `/announcements managers add` para añadir un rol encargado que pueda hacer uso del bot."
+    "description": "Hey 👋, soy **{{username}}**, un bot que te permite publicar anuncios en varios idiomas en tu servidor.\n\n__**Comandos principales**__\n• Usa {{add_command}} para añadir un anuncio.\n• Usa {{add_translation_command}} para añadir una traducción a un anuncio.\n• Usa {{publish_command}} para publicar el anuncio.\n• Usa {{add_managers_command}} para añadir un rol encargado que pueda hacer uso del bot."
   },
   "list": {
     "notAnnouncements": "❌ No tiene ningún anuncio, cree uno con  `/announcements add`.",

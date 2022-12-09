@@ -1,0 +1,47 @@
+{
+  "add-translation": {
+    "notFound": "❌ Announcement not found.",
+    "notValidLanguage": "❌ Invalid language..",
+    "sendAnnouncementDescription": "Send a message with the announcement description, you have 14 minutes.",
+    "descriptionNotSended": "❌ You must enter a description.",
+    "descriptionMaxLength": "❌ The description must be less than 4096 characters.",
+    "footerMaxLength": "❌ The footer must be less than 2048 characters.",
+    "titleMaxLength": "❌ The title must be less than 256 characters.",
+    "urlNotValid": "❌ The provided URL is not valid.",
+    "done": "✅ The announcement translation has been added."
+  },
+  "add": {
+    "notValidColor": "❌ Invalid color format, try one of the following {{validColors}}.\nYou can use an online color picker or use one of the following valid names:\nhttps://i.imgur.com/mGKeXCT.png",
+    "done": "✅ Announcement created."
+  },
+  "help": {
+    "invite": "Invite me",
+    "description": "Hi 👋, I'm **{{username}}**, a bot that allows you to post announcements in multiple languages on your server.\n\n__**Main commands**__\n• Use {{add_command}} to add an announcement.\n• Use {{add_translation_command}} to add a translation to an announcement.\n• Use {{publish_command}} to publish the announcement.\n• Use {{add_managers_command}} to add managers."
+  },
+  "list": {
+    "notAnnouncements": "❌ This server doesn't have announcements, create one with `/announcements add`.",
+    "listValue": "Title: {{title}}\nPublished: {{published}}{{color}}",
+    "color": "\nColor: {{color}}"
+  },
+  "managers": {
+    "error": "❌ An error occurred.",
+    "add": {
+      "already": "❌ The role is already a manager.",
+      "done": "✅ The role has been added to the manager list."
+    },
+    "remove": {
+      "not": "❌ That role is not a manager.",
+      "done": "✅ The role has been removed from the manager list."
+    }
+  },
+  "publish": {
+    "errorPerms": "❌ You don't have permissions to send messages in that channel.",
+    "cannotSend": "❌ I can't send messages in that channel.",
+    "announcementNotFound": "❌ Announcement not found.",
+    "done": "✅ Announcement published."
+  },
+  "remove": {
+    "error": "❌ An error occurred.",
+    "done": "✅ Announcement deleted."
+  }
+}

@@ -1,14 +1,22 @@
-import { Client, CommandInteraction } from 'discord.js'
-import { TFunction } from 'i18next'
+import { Subcommand } from '@sapphire/plugin-subcommands'
+import ow from 'ow'
 import { Pagination } from 'pagination.djs'
-import { Announcement } from '../schemas/Announcement'
+import { Announcement } from '../../schemas/Announcement'
+import { validateOptions } from '../../utils/validateOptions'
 
-export default async function run (client: Client, interaction: CommandInteraction<'cached'>, t: TFunction): Promise<void> {
-  const showPublished = interaction.options.getBoolean('only_published', false) ?? false
+const Schema = ow.object.exactShape({
+  // eslint-disable-next-line sort/object-properties
+  only_published: ow.optional.boolean
+})
+
+export async function list (interaction: Subcommand.ChatInputInteraction<'cached'>) {
+  const options = await validateOptions(interaction, Schema)
+  if (!options) return
+  const { only_published: showPublished, t } = options
 
   const announcements = await Announcement.find({
     guildId: interaction.guildId,
-    published: showPublished
+    published: !!showPublished
   }).exec()
   if (announcements.length === 0) return await interaction.reply({ content: t('commands:list.notAnnouncements'), ephemeral: true })
 
@@ -23,7 +31,7 @@ export default async function run (client: Client, interaction: CommandInteracti
         value: t('commands:list.listValue', {
           color: announcement.color ? t('commands:list.color', { color: announcement.color }) : '',
           published: announcement.published ? t('common:yes') : t('common:no'),
-          title: announcement.title
+          title: announcement.title ?? announcement.name
         })
       }))
     )

@@ -1,9 +1,9 @@
 {
   "files.exclude": {
-    ".env": true
+    ".env": false
   },
   "files.eol": "\n",
-  "i18n-ally.localesPaths": ["src/lang"],
+  "i18n-ally.localesPaths": ["src/languages"],
   "i18n-ally.sourceLanguage": "es-ES",
   "i18n-ally.displayLanguage": "es-ES",
   "i18n-ally.keystyle": "nested",
