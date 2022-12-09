@@ -1,47 +1,87 @@
-import { EmbedLimits } from '@sapphire/discord-utilities'
+import languages from '@cospired/i18n-iso-languages'
+import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
 import { Subcommand } from '@sapphire/plugin-subcommands'
+import { Modal } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
+import { MessageComponentTypes, TextInputStyles } from 'discord.js/typings/enums'
 import { Announcement } from '../../schemas/Announcement'
 import { validateChatInput } from '../../utils/validateOptions'
 
-const Schema = ow.object.exactShape({
+const schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
   name: ow.string,
-  lang: ow.string.oneOf(iso.getAllCodes()).message(() => 'commands:add-translation.notValidLanguage'),
-  title: ow.optional.string.maxLength(EmbedLimits.MaximumTitleLength).message(() => 'commands:add-translation.titleMaxLength'),
-  footer: ow.optional.string.maxLength(EmbedLimits.MaximumFooterLength).message(() => 'commands:add-translation.footerMaxLength'),
-  url: ow.optional.string.url.message(() => 'commands:add-translation.urlNotValid')
+  lang: ow.string.oneOf(iso.getAllCodes()).message(() => 'commands:add-translation.notValidLanguage')
 })
 
 export async function addTranslation (interaction: Subcommand.ChatInputInteraction) {
-  const options = await validateChatInput(interaction, Schema)
+  const options = await validateChatInput(interaction, schema)
   if (!options) return
-  const { footer, lang, name: id, t, title, url } = options
+  const { lang, name: id, t } = options
 
   const announcement = await Announcement.findById(id).exec().catch(() => {})
   if (!announcement) return await interaction.reply({ content: t('commands:add-translation.notFound'), ephemeral: true })
-  await interaction.deferReply()
+  if (announcement.translations.some((translation) => translation.lang === lang)) {
+    return await interaction.reply({
+      content: t('commands:add-translation.alreadyAdded', {
+        language: languages.getName(lang, interaction.locale.split('-')[0])
+      }),
+      ephemeral: true
+    })
+  }
 
-  const botMessage = await interaction.channel?.send(t('commands:add-translation.sendAnnouncementDescription'))
-  const messageCollector = await interaction.channel?.awaitMessages({
-    filter: (message) => message.author.id === interaction.user.id,
-    max: 1,
-    // 14 minutes
-    time: 840 * 1000
-  })
-  const description = messageCollector.first()?.content
-  if (botMessage?.deletable) await botMessage.delete()
-  if (!description) return await interaction.editReply(t('commands:add-translation.descriptionNotSended'))
-  if (description.length > EmbedLimits.MaximumDescriptionLength) return await interaction.editReply(t('commands:add-translation.descriptionMaxLength'))
+  const modal = new Modal()
+    .setTitle(t('commands:add-translation.modalTitle'))
+    .setCustomId(`addTranslation:${interaction.id}:${Date.now()}:${JSON.stringify([id, lang])}`)
 
-  announcement.translations.push({
-    description,
-    footer,
-    lang,
-    title,
-    url
-  })
-  await announcement.save()
-  await interaction.editReply(t('commands:add-translation.done'))
+  const components = [
+    {
+      customId: 'title',
+      maxLength: EmbedLimits.MaximumTitleLength,
+      required: false,
+      style: TextInputStyles.PARAGRAPH,
+      type: MessageComponentTypes.TEXT_INPUT
+    },
+    {
+      customId: 'description',
+      maxLength: TextInputLimits.MaximumValueCharacters,
+      required: true,
+      style: TextInputStyles.PARAGRAPH,
+      type: MessageComponentTypes.TEXT_INPUT
+    },
+    {
+      customId: 'footer',
+      maxLength: EmbedLimits.MaximumFooterLength,
+      required: false,
+      style: TextInputStyles.PARAGRAPH,
+      type: MessageComponentTypes.TEXT_INPUT
+    },
+    {
+      customId: 'url',
+      required: false,
+      style: TextInputStyles.SHORT,
+      type: MessageComponentTypes.TEXT_INPUT
+    }
+  ]
+    .map((component) => ({
+      ...component,
+      label: t(`commands:add.modal.${component.customId}.label`),
+      placeholder: t(`commands:add.modal.${component.customId}.placeholder`)
+    }))
+
+  // @ts-expect-error
+  modal.setComponents([
+    // ? Makes an actionRow for every textInput
+    components
+      .map((component) => ({
+        components: [component],
+        type: MessageComponentTypes.ACTION_ROW
+      }))
+  ])
+
+  try {
+    await interaction.showModal(modal)
+  } catch (error) {
+    console.debug(error)
+  }
 }

@@ -34,7 +34,7 @@ export class AutocompleteLanguages extends InteractionHandler {
       )
 
     const result = locales
-      .filter(locale => locale.name.toLowerCase().includes(optionValue.toString().toLowerCase()))
+      .filter(locale => locale.name.toLowerCase().includes(optionValue.toLowerCase()) || locale.code.includes(optionValue.toLowerCase()))
       .map((locale) => ({ name: locale.name, value: locale.code }))
     if (result.length > 25) result.length = 25
     return this.some(result)
