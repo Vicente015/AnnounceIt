@@ -3,19 +3,19 @@ import * as mongoose from 'mongoose'
 import { URLRegex } from '../utils/Regex'
 import { MaxNameLength } from './OwSchemas'
 
+// todo: Integrate ow schema into this??
 export interface AnnouncementType {
   _id: mongoose.ObjectId
   guildId: string
   name: string
   title?: string
   description: string
+  published: boolean
   color?: string
-  // ? Waiting for Discord Support
-  // image?: String
-  // thumbnail?: String
   footer?: string
   url?: string
-  published: boolean
+  image?: string
+  thumbnail?: string
   translations: [
     {
       _id?: mongoose.ObjectId
@@ -33,10 +33,12 @@ const AnnouncementSchema = new mongoose.Schema<AnnouncementType>({
   name: { type: String, required: true, maxLength: MaxNameLength },
   title: { type: String, required: false, maxlength: EmbedLimits.MaximumTitleLength },
   description: { type: String, required: false, maxlength: TextInputLimits.MaximumValueCharacters },
+  published: { type: Boolean, required: true, default: false },
   color: { type: String, required: false },
   footer: { type: String, required: false, maxLength: EmbedLimits.MaximumFooterLength },
   url: { type: String, required: false, match: URLRegex },
-  published: { type: Boolean, required: true, default: false },
+  image: { type: String, required: false },
+  thumbnail: { type: String, required: false },
   translations: [
     {
       lang: { type: String, required: true },

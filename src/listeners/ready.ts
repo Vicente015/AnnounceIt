@@ -15,6 +15,6 @@ export class ReadyListener extends Listener {
   public async run (client: Client) {
     await mongoose.connect(process.env.MONGO_URI ?? '')
 
-    client.logger.info(`Conectado a ${client.guilds.cache.size as number} servidores`)
+    client.logger.info(`Conectado a ${client.guilds.cache.size} servidores`)
   }
 }

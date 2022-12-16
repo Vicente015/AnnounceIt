@@ -1,34 +1,32 @@
 {
   "help": {
     "name": "ayuda",
-    "description": "Muestra la ayuda del bot"
+    "description": "Muestra información y ayuda sobre el bot"
   },
   "announcements": {
     "name": "anuncios",
     "description": "Gestiona los anuncios",
     "add": {
-      "name": "añadir",
-      "description": "Añade un anuncio",
+      "name": "crear",
+      "description": "Crea un anuncio",
       "options": {
-        "name": "El nombre del anuncio",
-        "title": "El título del anuncio",
-        "color": "El color que tendrá el embed",
-        "url": "La URL que tendrá asociada en el título",
-        "footer": "El footer que tendrá el embed"
+        "name": "Nombre del anuncio",
+        "image": "Imagen adjunta al anuncio",
+        "thumbnail": "Imagen en miniatura adjunta al anuncio"
       }
     },
     "add-translation": {
       "name": "añadir-traduccion",
-      "description": "Añade una traducción al anuncio",
+      "description": "Añade una traducción a un anuncio",
       "options": {
-        "lang": "El idioma del anuncio"
+        "lang": "Idioma del anuncio"
       }
     },
     "publish": {
       "name": "publicar",
       "description": "Publica un anuncio",
       "options": {
-        "channel": "El canal donde publicarlo"
+        "channel": "Canal donde será publicado"
       }
     },
     "list": {
@@ -40,23 +38,23 @@
     },
     "remove": {
       "name": "eliminar",
-      "description": "Borra un anuncio (no borra también el mensaje del anuncio)"
+      "description": "Borra un anuncio (no borra su mensaje)"
     },
     "managers": {
       "name": "gestores",
       "description": "Gestiona los encargados del bot",
       "add":  {
         "name": "añadir",
-        "description": "Añade un rol a la lista de encargados que pueden usar el bot",
+        "description": "Añade un encargado",
         "options": {
-          "role": "El rol a añadir"
+          "role": "Rol a añadir"
         }
       },
       "remove": {
         "name": "eliminar",
-        "description": "Quita un rol de la lista de encargados que pueden usar el bot",
+        "description": "Quita un encargado",
         "options": {
-          "role": "El rol a quitar"
+          "role": "Rol a quitar"
         }
       }
     }

@@ -1,16 +1,18 @@
 import { Subcommand } from '@sapphire/plugin-subcommands'
+import { RouteBases } from 'discord-api-types/v10'
 import { HexColorString, MessageActionRow, MessageButton, MessageEmbed, TextChannel } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
 import { Announcement } from '../../schemas/Announcement'
-import { nameSchema } from '../../schemas/OwSchemas'
 import { validateChatInput } from '../../utils/validateOptions'
 
 const Schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
-  name: nameSchema,
+  name: ow.string,
   channel: ow.object.instanceOf(TextChannel)
 })
+
+const transformToURL = (imageId: string) => `${RouteBases.cdn}/ephemeral-attachments/${imageId}`
 
 export async function publish (interaction: Subcommand.ChatInputInteraction) {
   const client = interaction.client
@@ -39,6 +41,8 @@ export async function publish (interaction: Subcommand.ChatInputInteraction) {
   if (announcement.description) embed.setDescription(announcement.description)
   if (announcement.footer) embed.setFooter({ text: announcement.footer })
   if (announcement.url && announcement.title) embed.setURL(announcement.url)
+  if (announcement.image) embed.setImage(transformToURL(announcement.image))
+  if (announcement.thumbnail) embed.setThumbnail(transformToURL(announcement.thumbnail))
 
   if (haveTranslations) {
     const buttons = new MessageActionRow()
