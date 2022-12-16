@@ -6,11 +6,12 @@ import iso from 'iso-639-1'
 import ow from 'ow'
 import { MessageComponentTypes, TextInputStyles } from 'discord.js/typings/enums'
 import { Announcement } from '../../schemas/Announcement'
+import { nameSchema } from '../../schemas/OwSchemas'
 import { validateChatInput } from '../../utils/validateOptions'
 
 const schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
-  name: ow.string,
+  name: nameSchema,
   lang: ow.string.oneOf(iso.getAllCodes()).message(() => 'commands:add-translation.notValidLanguage')
 })
 

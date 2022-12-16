@@ -1,6 +1,7 @@
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
 import * as mongoose from 'mongoose'
 import { URLRegex } from '../utils/Regex'
+import { MaxNameLength } from './OwSchemas'
 
 export interface AnnouncementType {
   _id: mongoose.ObjectId
@@ -29,7 +30,7 @@ export interface AnnouncementType {
 
 const AnnouncementSchema = new mongoose.Schema<AnnouncementType>({
   guildId: { type: String, required: true },
-  name: { type: String, required: true },
+  name: { type: String, required: true, maxLength: MaxNameLength },
   title: { type: String, required: false, maxlength: EmbedLimits.MaximumTitleLength },
   description: { type: String, required: false, maxlength: TextInputLimits.MaximumValueCharacters },
   color: { type: String, required: false },

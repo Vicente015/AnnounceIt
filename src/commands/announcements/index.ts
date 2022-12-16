@@ -1,4 +1,3 @@
-
 import { applyDescriptionLocalizedBuilder, applyLocalizedBuilder } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import { Permissions } from 'discord.js'
@@ -58,6 +57,7 @@ export class UserCommand extends Subcommand {
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('name', command.name, subcommand.name))
                 .setName('name')
                 .setRequired(true)
+                .setMaxLength(16)
             )
             /*
             .addStringOption((option) =>
@@ -84,6 +84,7 @@ export class UserCommand extends Subcommand {
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('name', command.name, 'add'))
                 .setName('name')
                 .setRequired(true)
+                .setMaxLength(16)
                 .setAutocomplete(true)
             )
             .addStringOption((option) =>
@@ -113,6 +114,7 @@ export class UserCommand extends Subcommand {
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('name', command.name, 'add'))
                 .setName('name')
                 .setRequired(true)
+                .setMaxLength(16)
                 .setAutocomplete(true)
             )
             .addChannelOption((option) =>
@@ -135,6 +137,7 @@ export class UserCommand extends Subcommand {
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('name', command.name, 'add'))
                 .setName('name')
                 .setRequired(true)
+                .setMaxLength(16)
                 .setAutocomplete(true)
             )
         )

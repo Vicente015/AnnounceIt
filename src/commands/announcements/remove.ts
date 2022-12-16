@@ -1,11 +1,12 @@
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import ow from 'ow'
 import { Announcement } from '../../schemas/Announcement'
+import { nameSchema } from '../../schemas/OwSchemas'
 import { validateChatInput } from '../../utils/validateOptions'
 
 const Schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
-  name: ow.string
+  name: nameSchema
 })
 
 export async function remove (interaction: Subcommand.ChatInputInteraction) {
