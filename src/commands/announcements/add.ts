@@ -1,14 +1,18 @@
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { Modal } from 'discord.js'
+import { MessageAttachment, Modal } from 'discord.js'
 import ow from 'ow'
 import { MessageComponentTypes, TextInputStyles } from 'discord.js/typings/enums'
 import { nameSchema } from '../../schemas/OwSchemas'
+import { Image, temporaryImgStorage } from '../../utils/Globals'
 import { validateChatInput } from '../../utils/validateOptions'
 
 const schema = ow.object.exactShape({
-  name: nameSchema
+  // eslint-disable-next-line sort/object-properties
+  name: nameSchema,
+  image: ow.optional.object.instanceOf(MessageAttachment).message(() => 'commands:add.notValidImage'),
+  thumbnail: ow.optional.object.instanceOf(MessageAttachment).message(() => 'commands:add.notValidImage')
 })
 
 export async function add (interaction: Subcommand.ChatInputInteraction) {
@@ -16,6 +20,21 @@ export async function add (interaction: Subcommand.ChatInputInteraction) {
   const options = await validateChatInput(interaction, schema)
   if (!options) return
   const { name: id } = options
+  const image = options.image as MessageAttachment
+  const thumbnail = options.thumbnail as MessageAttachment
+
+  if (image || thumbnail) {
+    const images: Image[] = []
+    if (image) {
+      const imageId = `${interaction.commandId}/${image.id}/${image.name}`
+      images.push({ id: imageId, type: 'IMAGE' })
+    }
+    if (thumbnail) {
+      const thumbnailId = `${interaction.commandId}/${thumbnail.id}/${thumbnail.name}`
+      images.push({ id: thumbnailId, type: 'THUMBNAIL' })
+    }
+    temporaryImgStorage.set(interaction.id, images)
+  }
 
   const modal = new Modal()
     .setTitle(t('commands:add.modalTitle'))
@@ -32,7 +51,7 @@ export async function add (interaction: Subcommand.ChatInputInteraction) {
         required: true,
         style: TextInputStyles.SHORT,
         type: MessageComponentTypes.TEXT_INPUT
-      },
+      }
     */
     {
       customId: 'title',

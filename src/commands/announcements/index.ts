@@ -59,24 +59,16 @@ export class UserCommand extends Subcommand {
                 .setRequired(true)
                 .setMaxLength(16)
             )
-            /*
-            .addStringOption((option) =>
-              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('title', command.name, subcommand.name))
-                .setName('title')
+            .addAttachmentOption((option) =>
+              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('image', command.name, subcommand.name))
+                .setName('image')
+                .setRequired(false)
             )
-            .addStringOption((option) =>
-              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('color', command.name, subcommand.name))
-                .setName('color')
+            .addAttachmentOption((option) =>
+              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('thumbnail', command.name, subcommand.name))
+                .setName('thumbnail')
+                .setRequired(false)
             )
-            .addStringOption((option) =>
-              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('footer', command.name, subcommand.name))
-                .setName('footer')
-            )
-            .addStringOption((option) =>
-              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('url', command.name, subcommand.name))
-                .setName('url')
-            )
-            */
         )
         .addSubcommand((subcommand) =>
           applyLocalizedBuilder(subcommand, ...getCommandKeys(command.name, 'add-translation'))
@@ -84,7 +76,6 @@ export class UserCommand extends Subcommand {
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('name', command.name, 'add'))
                 .setName('name')
                 .setRequired(true)
-                .setMaxLength(16)
                 .setAutocomplete(true)
             )
             .addStringOption((option) =>
@@ -93,20 +84,16 @@ export class UserCommand extends Subcommand {
                 .setRequired(true)
                 .setAutocomplete(true)
             )
-            /*
-            .addStringOption((option) =>
-              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('title', command.name, 'add'))
-                .setName('title')
+            .addAttachmentOption((option) =>
+              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('image', command.name, 'add'))
+                .setName('image')
+                .setRequired(false)
             )
-            .addStringOption((option) =>
-              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('footer', command.name, 'add'))
-                .setName('footer')
+            .addAttachmentOption((option) =>
+              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('thumbnail', command.name, 'add'))
+                .setName('thumbnail')
+                .setRequired(false)
             )
-            .addStringOption((option) =>
-              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('url', command.name, 'add'))
-                .setName('url')
-            )
-            */
         )
         .addSubcommand((subcommand) =>
           applyLocalizedBuilder(subcommand, ...getCommandKeys(command.name, 'publish'))
@@ -114,7 +101,6 @@ export class UserCommand extends Subcommand {
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('name', command.name, 'add'))
                 .setName('name')
                 .setRequired(true)
-                .setMaxLength(16)
                 .setAutocomplete(true)
             )
             .addChannelOption((option) =>
@@ -137,7 +123,6 @@ export class UserCommand extends Subcommand {
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('name', command.name, 'add'))
                 .setName('name')
                 .setRequired(true)
-                .setMaxLength(16)
                 .setAutocomplete(true)
             )
         )

@@ -11,10 +11,8 @@
       "description": "Adds an announcement",
       "options": {
         "name": "The name of the announcement",
-        "title": "The title of the announcement",
-        "color": "The color the embed will have",
-        "url": "The URL the title will have associated",
-        "footer": "The footer the embed will have"
+        "image": "Imagen adjunta al anuncio",
+        "thumbnail": "Imagen en miniatura adjunta al anuncio"
       }
     },
     "add-translation": {

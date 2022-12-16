@@ -12,6 +12,7 @@
   },
   "add": {
     "notValidColor": "❌ Formato de color inválido, pruebe con alguno de los siguientes: {{validColors}}.\nPuede usar un selector de color online o usar alguno de los siguientes nombres válidos:\nhttps://i.imgur.com/mGKeXCT.png",
+    "notValidImage": "❌ La imagen proporcionada no es válida.",
     "done": "✅ Anuncio creado correctamente.",
     "modalTitle": "Nuevo anuncio",
     "modal": {

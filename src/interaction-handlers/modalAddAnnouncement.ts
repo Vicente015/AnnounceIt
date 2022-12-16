@@ -5,6 +5,7 @@ import namesPlugin from 'colord/plugins/names'
 import type { ModalSubmitInteraction } from 'discord.js'
 import ow from 'ow'
 import { Announcement } from '../schemas/Announcement'
+import { temporaryImgStorage } from '../utils/Globals'
 import { validaModalInput } from '../utils/validateOptions'
 
 extend([namesPlugin])
@@ -12,7 +13,7 @@ const validColorTypes = new Set(['name', 'hex', 'rbg', 'hsl', 'hsv'])
 const isValidColorFormat = (color: string) => !!getFormat(color) && validColorTypes.has(getFormat(color) ?? '')
 
 const Schema = ow.object.exactShape({
-  // name: ow.string.minLength(3).maxLength(15),
+  // name: ow.string.minLength(3).maxLength(16),
   // eslint-disable-next-line sort/object-properties
   description: ow.string.nonEmpty.maxLength(TextInputLimits.MaximumValueCharacters).message(() => 'commands:add-translation.descriptionMaxLength'),
   title: ow.optional.string.nonEmpty.maxLength(EmbedLimits.MaximumTitleLength).message(() => 'commands:add-translation.titleMaxLength'),
@@ -42,7 +43,13 @@ export class ModalHandler extends InteractionHandler {
     if (!options) return
     let { color, description, footer, t, title, url } = options
     const name = interaction.customId.split(':').at(-1) as string
+    const pastInteractionId = interaction.customId.split(':').at(-3) as string
     color &&= colord(color).toHex()
+
+    const images = temporaryImgStorage.get(pastInteractionId)
+    const newImages = images?.map((image) => ({ [image.type.toLowerCase()]: image.id }))
+      // eslint-disable-next-line unicorn/no-array-reduce
+      .reduce((previous, current) => ({ ...previous, ...current }))
 
     const announcement = new Announcement({
       color,
@@ -50,10 +57,12 @@ export class ModalHandler extends InteractionHandler {
       footer,
       guildId: interaction.guildId,
       name,
+      ...newImages,
       title,
       url
     })
     await announcement.save()
+    temporaryImgStorage.delete(pastInteractionId)
     return await interaction.reply({ content: t('commands:add.done') })
   }
 }
