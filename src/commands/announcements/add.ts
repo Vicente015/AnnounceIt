@@ -4,10 +4,11 @@ import { Subcommand } from '@sapphire/plugin-subcommands'
 import { Modal } from 'discord.js'
 import ow from 'ow'
 import { MessageComponentTypes, TextInputStyles } from 'discord.js/typings/enums'
+import { nameSchema } from '../../schemas/OwSchemas'
 import { validateChatInput } from '../../utils/validateOptions'
 
 const schema = ow.object.exactShape({
-  name: ow.string
+  name: nameSchema
 })
 
 export async function add (interaction: Subcommand.ChatInputInteraction) {
