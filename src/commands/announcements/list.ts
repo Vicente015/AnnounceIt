@@ -1,3 +1,4 @@
+import { fetchT } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import ow from 'ow'
 import { Pagination } from 'pagination.djs'
@@ -10,14 +11,16 @@ const Schema = ow.object.exactShape({
 })
 
 export async function list (interaction: Subcommand.ChatInputInteraction<'cached'>) {
-  const options = await validateChatInput(interaction, Schema)
-  if (!options) return
-  const { only_published: showPublished, t } = options
+  let options = await validateChatInput(interaction, Schema)
+  // @ts-expect-error
+  if (!options) options = { only_published: undefined }
+  const t = await fetchT(interaction)
+  // @ts-expect-error
+  const showPublished = options.only_published
 
-  const announcements = await Announcement.find({
-    guildId: interaction.guildId,
-    published: !!showPublished
-  }).exec()
+  const filter = showPublished ? { guildId: interaction.guildId, published: true } : { guildId: interaction.guildId }
+  // eslint-disable-next-line unicorn/no-array-callback-reference
+  const announcements = await Announcement.find(filter).exec()
   if (announcements.length === 0) return await interaction.reply({ content: t('commands:list.notAnnouncements'), ephemeral: true })
 
   const pagination = new Pagination(interaction, {
@@ -30,7 +33,7 @@ export async function list (interaction: Subcommand.ChatInputInteraction<'cached
         name: `#${announcement.name}`,
         value: t('commands:list.listValue', {
           color: announcement.color ? t('commands:list.color', { color: announcement.color }) : '',
-          published: announcement.published ? t('common:yes') : t('common:no'),
+          published: announcement.published ? '<:checkon:845742325886877726>' : '<:checkoff:845742325975613480>',
           title: announcement.title ?? announcement.name
         })
       }))
