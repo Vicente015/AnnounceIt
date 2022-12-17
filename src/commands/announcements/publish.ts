@@ -1,8 +1,13 @@
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
+/* eslint-disable @typescript-eslint/no-base-to-string */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { InteractionLimits } from '@sapphire/discord-utilities'
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import { RouteBases } from 'discord-api-types/v10'
-import { HexColorString, MessageActionRow, MessageButton, MessageEmbed, TextChannel } from 'discord.js'
+import { HexColorString, MessageActionRowComponentOptions, MessageEmbed, MessageSelectMenuOptions, TextChannel } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
+import { MessageButtonStyles, MessageComponentTypes } from 'discord.js/typings/enums'
 import { Announcement } from '../../schemas/Announcement'
 import { validateChatInput } from '../../utils/validateOptions'
 
@@ -46,16 +51,29 @@ export async function publish (interaction: Subcommand.ChatInputInteraction) {
   if (announcement.thumbnail) embed.setThumbnail(transformToURL(announcement.thumbnail))
 
   if (haveTranslations) {
-    const buttons = new MessageActionRow()
-      .addComponents(announcement.translations.map(translation => {
-        return new MessageButton({
-          // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/no-non-null-assertion
-          customId: translation._id!.toString(),
-          label: iso.getNativeName(translation.lang),
-          style: 'PRIMARY'
-        })
-      }))
-    await channel.send({ components: [buttons], embeds: [embed] })
+    const exceedsButtonLimit = announcement.translations.length > InteractionLimits.MaximumButtonsPerActionRow
+
+    const components = {
+      components: exceedsButtonLimit
+        ? [{
+            customId: `selectLang:${announcement.id}`,
+            options: announcement.translations
+              .map((translation) => ({ label: iso.getNativeName(translation.lang), value: translation._id!.toString() })),
+            placeholder: t('common:selectLang'),
+            type: MessageComponentTypes.SELECT_MENU
+          } as MessageSelectMenuOptions] as MessageActionRowComponentOptions[]
+        : announcement.translations.map((translation) => (
+          {
+            customId: translation._id!.toString(),
+            label: iso.getNativeName(translation.lang),
+            style: MessageButtonStyles.SECONDARY,
+            type: MessageComponentTypes.BUTTON
+          }
+        )) as MessageActionRowComponentOptions[],
+      type: MessageComponentTypes.ACTION_ROW
+    }
+
+    await channel.send({ components: [components], embeds: [embed] })
   } else {
     await channel.send({ embeds: [embed] })
   }

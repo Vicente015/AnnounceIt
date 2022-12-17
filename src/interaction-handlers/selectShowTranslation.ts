@@ -1,6 +1,6 @@
 import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
 import { fetchT } from '@sapphire/plugin-i18next'
-import { ButtonInteraction, HexColorString, MessageEmbed } from 'discord.js'
+import { ButtonInteraction, HexColorString, MessageEmbed, SelectMenuInteraction } from 'discord.js'
 import { transformToURL } from '../commands/announcements/publish'
 import { Announcement } from '../schemas/Announcement'
 
@@ -8,7 +8,7 @@ export class ButtonHandler extends InteractionHandler {
   public constructor (context: PieceContext, options: InteractionHandler.Options) {
     super(context, {
       ...options,
-      interactionHandlerType: InteractionHandlerTypes.Button
+      interactionHandlerType: InteractionHandlerTypes.SelectMenu
     })
   }
 
@@ -16,13 +16,14 @@ export class ButtonHandler extends InteractionHandler {
     return await interaction.reply(result)
   }
 
-  public override async parse (interaction: ButtonInteraction) {
+  public override async parse (interaction: SelectMenuInteraction) {
+    if (!interaction.customId.startsWith('selectLang:')) return
+    const announcementId = interaction.customId.split(':')[1]
     const t = await fetchT(interaction)
-    const translationId = interaction.customId
-
-    const announcement = await Announcement.findOne({ 'translations._id': translationId }).exec()
+    const announcement = await Announcement.findById(announcementId).exec()
     if (!announcement) return this.some({ content: t('common:announcementNotFound'), ephemeral: true })
 
+    const translationId = interaction.values[0]
     const translation = announcement
       .translations.find(translation => translation._id?.toString() === translationId)
     if (!translation) return this.some({ content: t('common:translationNotFound'), ephemeral: true })
