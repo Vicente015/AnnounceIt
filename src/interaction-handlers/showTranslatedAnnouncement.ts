@@ -1,6 +1,7 @@
 import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
 import { fetchT } from '@sapphire/plugin-i18next'
 import { ButtonInteraction, HexColorString, MessageEmbed } from 'discord.js'
+import { transformToURL } from '../commands/announcements/publish'
 import { Announcement } from '../schemas/Announcement'
 
 export class ButtonHandler extends InteractionHandler {
@@ -31,7 +32,12 @@ export class ButtonHandler extends InteractionHandler {
     if (translation.title) embed.setTitle(translation.title)
     if (translation.description) embed.setDescription(translation.description)
     if (translation.footer) embed.setFooter({ text: translation.footer })
+    if (announcement.url && translation.title) embed.setURL(announcement.url)
     if (translation.url && translation.title) embed.setURL(translation.url)
+    if (announcement.image) embed.setImage(transformToURL(announcement.image))
+    if (announcement.thumbnail) embed.setThumbnail(transformToURL(announcement.thumbnail))
+    if (translation.image) embed.setImage(transformToURL(translation.image))
+    if (translation.thumbnail) embed.setThumbnail(transformToURL(translation.thumbnail))
 
     return this.some({
       embeds: [embed],

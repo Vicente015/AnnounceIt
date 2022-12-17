@@ -106,6 +106,6 @@ export async function add (interaction: Subcommand.ChatInputInteraction) {
   try {
     await interaction.showModal(modal)
   } catch (error) {
-    console.debug(error)
+    console.error(error)
   }
 }

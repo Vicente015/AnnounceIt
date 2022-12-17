@@ -12,7 +12,8 @@ const Schema = ow.object.exactShape({
   channel: ow.object.instanceOf(TextChannel)
 })
 
-const transformToURL = (imageId: string) => `${RouteBases.cdn}/ephemeral-attachments/${imageId}`
+// todo: los attachments estos desaparecen, convertir en no efímeros
+export const transformToURL = (imageId: string) => `${RouteBases.cdn}/ephemeral-attachments/${imageId}`
 
 export async function publish (interaction: Subcommand.ChatInputInteraction) {
   const client = interaction.client
