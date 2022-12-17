@@ -1,4 +1,5 @@
 {
   "announcementNotFound": "❌ Announcement not found.",
-  "translationNotFound": "❌ Error, translation not found."
+  "translationNotFound": "❌ Error, translation not found.",
+  "selectLang": "Select a language to translate"
 }

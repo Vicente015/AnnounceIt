@@ -1,4 +1,5 @@
 {
   "announcementNotFound": "❌ No se ha encontrado el anuncio.",
-  "translationNotFound": "❌ Error, no se ha encontrado la traducción."
+  "translationNotFound": "❌ Error, no se ha encontrado la traducción.",
+  "selectLang": "Seleccione un idioma para traducirlo"
 }
