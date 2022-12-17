@@ -57,9 +57,9 @@ export class ModalHandler extends InteractionHandler {
       footer,
       guildId: interaction.guildId,
       name,
-      ...newImages,
       title,
-      url
+      url,
+      ...newImages
     })
     await announcement.save()
     temporaryImgStorage.delete(pastInteractionId)

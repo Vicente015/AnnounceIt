@@ -3,6 +3,7 @@ import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapp
 import type { ModalSubmitInteraction } from 'discord.js'
 import ow from 'ow'
 import { Announcement } from '../schemas/Announcement'
+import { temporaryImgStorage } from '../utils/Globals'
 import { validaModalInput } from '../utils/validateOptions'
 
 const Schema = ow.object.exactShape({
@@ -34,12 +35,19 @@ export class ModalHandler extends InteractionHandler {
     const announcement = await Announcement.findById(id).exec().catch(() => {})
     if (!announcement) return
 
+    const pastInteractionId = interaction.customId.split(':').at(-3) as string
+    const images = temporaryImgStorage.get(pastInteractionId)
+    const newImages = images?.map((image) => ({ [image.type.toLowerCase()]: image.id }))
+      // eslint-disable-next-line unicorn/no-array-reduce
+      .reduce((previous, current) => ({ ...previous, ...current }))
+
     announcement.translations.push({
       description,
       footer,
       lang,
       title,
-      url
+      url,
+      ...newImages
     })
     await announcement.save()
     await interaction.reply(t('commands:add-translation.done'))

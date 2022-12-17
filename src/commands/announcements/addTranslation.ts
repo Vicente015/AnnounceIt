@@ -1,17 +1,20 @@
 import languages from '@cospired/i18n-iso-languages'
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { Modal } from 'discord.js'
+import { MessageAttachment, Modal } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
 import { MessageComponentTypes, TextInputStyles } from 'discord.js/typings/enums'
 import { Announcement } from '../../schemas/Announcement'
+import { Image, temporaryImgStorage } from '../../utils/Globals'
 import { validateChatInput } from '../../utils/validateOptions'
 
 const schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
   name: ow.string,
-  lang: ow.string.oneOf(iso.getAllCodes()).message(() => 'commands:add-translation.notValidLanguage')
+  lang: ow.string.oneOf(iso.getAllCodes()).message(() => 'commands:add-translation.notValidLanguage'),
+  image: ow.optional.object.instanceOf(MessageAttachment).message(() => 'commands:add.notValidImage'),
+  thumbnail: ow.optional.object.instanceOf(MessageAttachment).message(() => 'commands:add.notValidImage')
 })
 
 export async function addTranslation (interaction: Subcommand.ChatInputInteraction) {
@@ -28,6 +31,22 @@ export async function addTranslation (interaction: Subcommand.ChatInputInteracti
       }),
       ephemeral: true
     })
+  }
+
+  const image = options.image as MessageAttachment
+  const thumbnail = options.thumbnail as MessageAttachment
+
+  if (image || thumbnail) {
+    const images: Image[] = []
+    if (image) {
+      const imageId = `${interaction.commandId}/${image.id}/${image.name}`
+      images.push({ id: imageId, type: 'IMAGE' })
+    }
+    if (thumbnail) {
+      const thumbnailId = `${interaction.commandId}/${thumbnail.id}/${thumbnail.name}`
+      images.push({ id: thumbnailId, type: 'THUMBNAIL' })
+    }
+    temporaryImgStorage.set(interaction.id, images)
   }
 
   const modal = new Modal()
@@ -82,6 +101,6 @@ export async function addTranslation (interaction: Subcommand.ChatInputInteracti
   try {
     await interaction.showModal(modal)
   } catch (error) {
-    console.debug(error)
+    console.error(error)
   }
 }
