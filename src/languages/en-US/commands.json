@@ -17,23 +17,12 @@
   },
   "help": {
     "invite": "Invite me",
-    "description": "Hi 👋, I'm **{{username}}**, a bot that allows you to post announcements in multiple languages on your server.\n\n__**Main commands**__\n• Use {{add_command}} to add an announcement.\n• Use {{add_translation_command}} to add a translation to an announcement.\n• Use {{publish_command}} to publish the announcement.\n• Use {{add_managers_command}} to add managers."
+    "description": "Hi 👋, I'm **{{username}}**, a bot that allows you to post announcements in multiple languages on your server.\n\n__**Main commands**__\n• Use {{add_command}} to add an announcement.\n• Use {{add_translation_command}} to add a translation to an announcement.\n• Use {{publish_command}} to publish the announcement."
   },
   "list": {
     "notAnnouncements": "❌ This server doesn't have announcements, create one with `/announcements add`.",
     "listValue": "Title: {{title}}\nPublished: {{published}}{{color}}",
     "color": "\nColor: {{color}}"
-  },
-  "managers": {
-    "error": "❌ An error occurred.",
-    "add": {
-      "already": "❌ The role is already a manager.",
-      "done": "✅ The role has been added to the manager list."
-    },
-    "remove": {
-      "not": "❌ That role is not a manager.",
-      "done": "✅ The role has been removed from the manager list."
-    }
   },
   "publish": {
     "errorPerms": "❌ You don't have permissions to send messages in that channel.",

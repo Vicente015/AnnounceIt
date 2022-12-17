@@ -1,62 +1,44 @@
 {
   "help": {
     "name": "help",
-    "description": "Shows the bot's help"
+    "description": "Shows information and help about the bot"
   },
   "announcements": {
     "name": "announcements",
     "description": "Manages the announcements",
     "add": {
       "name": "add",
-      "description": "Adds an announcement",
+      "description": "Create an announcement",
       "options": {
-        "name": "The name of the announcement",
-        "image": "Imagen adjunta al anuncio",
-        "thumbnail": "Imagen en miniatura adjunta al anuncio"
+        "name": "Name of the announcement",
+        "image": "Image attached to the announcement",
+        "thumbnail": "Thumbnail attached to the announcement"
       }
     },
     "add-translation": {
       "name": "add-translation",
-      "description": "Adds a translation to the announcement",
+      "description": "Add a translation to an announcement",
       "options": {
-        "lang": "The language of the announcement"
+        "lang": "Language of the announcement"
       }
     },
     "publish": {
       "name": "publish",
       "description": "Publishes an announcement",
       "options": {
-        "channel": "The channel where to publish it"
+        "channel": "Channel where it will be published"
       }
     },
     "list": {
       "name": "list",
       "description": "Shows the list of announcements",
       "options": {
-        "only_published": "If it should show only published announcements"
+        "only_published": "If it should only show published announcements"
       }
     },
     "remove": {
       "name": "remove",
-      "description": "Deletes an announcement (does not delete the announcement message)"
-    },
-    "managers": {
-      "name": "managers",
-      "description": "Manages the bot managers",
-      "add": {
-        "name": "add",
-        "description": "Adds a role to the list of managers that can use the bot",
-        "options": {
-          "role": "The role to add"
-        }
-      },
-      "remove": {
-        "name": "remove",
-        "description": "Removes a role from the list of managers that can use the bot",
-        "options": {
-          "role": "The role to remove"
-        }
-      }
+      "description": "Deletes an announcement (doesn't delete its message)"
     }
   }
 }

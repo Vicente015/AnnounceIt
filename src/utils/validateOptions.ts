@@ -26,7 +26,7 @@ const getValues = {
  * @returns
  */
 export async function validateChatInput <T extends object> (interaction: Subcommand.ChatInputInteraction, schema: ObjectPredicate<T>) {
-  if (!interaction.options.data[0].options) return
+  if (!interaction.options.data[0].options || interaction.options.data[0].options.length === 0) return
   const options = interaction.options.data[0].options
     .map((option) => ({ [option.name]: getValues[option.type](option.name, interaction.options) }))
     // eslint-disable-next-line unicorn/no-array-reduce

@@ -1,7 +1,4 @@
 {
-  "yes": "Sí",
-  "no": "No",
-  "noPerms": "❌ No tienes permisos para ejecutar este comando.",
   "announcementNotFound": "❌ No se ha encontrado el anuncio.",
   "translationNotFound": "❌ Error, no se ha encontrado la traducción."
 }

@@ -15,6 +15,7 @@ export class HelpCommand extends Command {
   public override registerApplicationCommands (registry: Command.Registry) {
     registry.registerChatInputCommand((builder) =>
       applyLocalizedBuilder(builder, ...getCommandKeys('help'))
+        .setDMPermission(true)
     )
   }
 
@@ -28,7 +29,6 @@ export class HelpCommand extends Command {
       .setTitle(client.user.username)
       .setDescription(t('commands:help.description', {
         add_command: chatInputApplicationCommandMention('announcements add', announcementsCommandId),
-        add_managers_command: chatInputApplicationCommandMention('announcements managers add', announcementsCommandId),
         add_translation_command: chatInputApplicationCommandMention('announcements add_translation', announcementsCommandId),
         publish_command: chatInputApplicationCommandMention('announcements publish', announcementsCommandId),
         username: client.user.username

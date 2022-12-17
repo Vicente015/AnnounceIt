@@ -39,24 +39,6 @@
     "remove": {
       "name": "eliminar",
       "description": "Borra un anuncio (no borra su mensaje)"
-    },
-    "managers": {
-      "name": "gestores",
-      "description": "Gestiona los encargados del bot",
-      "add":  {
-        "name": "añadir",
-        "description": "Añade un encargado",
-        "options": {
-          "role": "Rol a añadir"
-        }
-      },
-      "remove": {
-        "name": "eliminar",
-        "description": "Quita un encargado",
-        "options": {
-          "role": "Rol a quitar"
-        }
-      }
     }
   }
 }

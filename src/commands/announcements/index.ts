@@ -6,8 +6,6 @@ import { getCommandKeys, getOptionDescriptionKey } from '../../utils/getLocalize
 import { add } from './add'
 import { addTranslation } from './addTranslation'
 import { list } from './list'
-import { add as managersAdd } from './managers/add'
-import { remove as managersRemove } from './managers/remove'
 import { publish } from './publish'
 import { remove } from './remove'
 
@@ -19,8 +17,6 @@ export class UserCommand extends Subcommand {
   public publish = publish
   public list = list
   public remove = remove
-  public managersAdd = managersAdd
-  public managersRemove = managersRemove
 
   public constructor (context: Subcommand.Context, options: Subcommand.Options) {
     super(context, {
@@ -32,15 +28,7 @@ export class UserCommand extends Subcommand {
         { chatInputRun: 'addTranslation', name: 'add-translation' },
         { chatInputRun: 'publish', name: 'publish' },
         { chatInputRun: 'list', name: 'list' },
-        { chatInputRun: 'remove', name: 'remove' },
-        {
-          entries: [
-            { chatInputRun: 'managersAdd', name: 'add' },
-            { chatInputRun: 'managersRemove', name: 'remove' }
-          ],
-          name: 'managers',
-          type: 'group'
-        }
+        { chatInputRun: 'remove', name: 'remove' }
       ]
     })
   }
@@ -124,25 +112,6 @@ export class UserCommand extends Subcommand {
                 .setName('name')
                 .setRequired(true)
                 .setAutocomplete(true)
-            )
-        )
-        .addSubcommandGroup((subcommandGroup) =>
-          applyLocalizedBuilder(subcommandGroup, ...getCommandKeys(command.name, 'managers'))
-            .addSubcommand((subcommand) =>
-              applyLocalizedBuilder(subcommand, ...getCommandKeys(command.name, subcommandGroup.name, 'add'))
-                .addRoleOption((option) =>
-                  applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('role', command.name, subcommandGroup.name, subcommand.name))
-                    .setName('role')
-                    .setRequired(true)
-                )
-            )
-            .addSubcommand((subcommand) =>
-              applyLocalizedBuilder(subcommand, ...getCommandKeys(command.name, subcommandGroup.name, 'remove'))
-                .addRoleOption((option) =>
-                  applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('role', command.name, subcommandGroup.name, subcommand.name))
-                    .setName('role')
-                    .setRequired(true)
-                )
             )
         )
     )
