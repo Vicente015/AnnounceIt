@@ -29,7 +29,6 @@ export async function validateChatInput <T extends object> (interaction: Subcomm
   if (!interaction.options.data[0].options || interaction.options.data[0].options.length === 0) return
   const options = interaction.options.data[0].options
     .map((option) => ({ [option.name]: getValues[option.type](option.name, interaction.options) }))
-    // eslint-disable-next-line unicorn/no-array-reduce
     .reduce((previous, current) => ({ ...previous, ...current }))
   const t: TFunction = await fetchT(interaction)
   try {
@@ -56,7 +55,6 @@ export async function validaModalInput <T extends object> (interaction: ModalSub
     .flatMap((actionRow) => actionRow.components)
     .filter((data) => !!data.value)
     .map((data) => ({ [data.customId]: data.value }))
-    // eslint-disable-next-line unicorn/no-array-reduce
     .reduce((previous, current) => ({ ...previous, ...current }))
   const t: TFunction = await fetchT(interaction.guild)
   try {

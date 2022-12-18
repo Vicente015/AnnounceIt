@@ -38,7 +38,6 @@ export class ModalHandler extends InteractionHandler {
     const pastInteractionId = interaction.customId.split(':').at(-3) as string
     const images = temporaryImgStorage.get(pastInteractionId)
     const newImages = images?.map((image) => ({ [image.type.toLowerCase()]: image.id }))
-      // eslint-disable-next-line unicorn/no-array-reduce
       .reduce((previous, current) => ({ ...previous, ...current }))
 
     announcement.translations.push({
