@@ -6,7 +6,6 @@ import { Announcement } from '../../schemas/Announcement'
 import { validateChatInput } from '../../utils/validateOptions'
 
 const Schema = ow.object.exactShape({
-  // eslint-disable-next-line sort/object-properties
   only_published: ow.optional.boolean
 })
 
