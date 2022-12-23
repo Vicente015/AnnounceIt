@@ -6,6 +6,7 @@ import type { ModalSubmitInteraction } from 'discord.js'
 import ow from 'ow'
 import { Announcement } from '../schemas/Announcement'
 import { temporaryImgStorage } from '../utils/Globals'
+import { reply } from '../utils/reply'
 import { validaModalInput } from '../utils/validateOptions'
 
 extend([namesPlugin])
@@ -62,6 +63,10 @@ export class ModalHandler extends InteractionHandler {
     })
     await announcement.save()
     temporaryImgStorage.delete(pastInteractionId)
-    return await interaction.reply({ content: t('commands:add.done') })
+
+    return await reply(interaction, {
+      content: t('commands:add.done'),
+      type: 'positive'
+    })
   }
 }

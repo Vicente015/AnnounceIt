@@ -9,6 +9,7 @@ import iso from 'iso-639-1'
 import ow from 'ow'
 import { MessageButtonStyles, MessageComponentTypes } from 'discord.js/typings/enums'
 import { Announcement } from '../../schemas/Announcement'
+import { reply } from '../../utils/reply'
 import { validateChatInput } from '../../utils/validateOptions'
 
 const Schema = ow.object.exactShape({
@@ -30,14 +31,14 @@ export async function publish (interaction: Subcommand.ChatInputInteraction) {
   const channel = _ as TextChannel
 
   if (!channel.permissionsFor(interaction.user.id)?.has('SEND_MESSAGES')) {
-    return await interaction.reply({ content: t('commands:publish.errorPerms'), ephemeral: true })
+    return await reply(interaction, { content: t('commands:publish.errorPerms'), type: 'negative' })
   }
   if (!channel.permissionsFor(client.user.id)?.has('SEND_MESSAGES')) {
-    return await interaction.reply({ content: t('commands:publish.cannotSend'), ephemeral: true })
+    return await reply(interaction, { content: t('commands:publish.cannotSend'), type: 'negative' })
   }
 
   const announcement = await Announcement.findById(id).exec().catch(() => {})
-  if (!announcement) return await interaction.reply({ content: t('commands:publish.announcementNotFound'), ephemeral: true })
+  if (!announcement) return await reply(interaction, { content: t('commands:publish.announcementNotFound'), type: 'negative' })
   const haveTranslations = announcement?.translations.length > 0
 
   const embed = new MessageEmbed()
@@ -79,5 +80,5 @@ export async function publish (interaction: Subcommand.ChatInputInteraction) {
   }
 
   await Announcement.findByIdAndUpdate(id, { published: true }).exec()
-  await interaction.reply({ content: t('commands:publish.done'), ephemeral: true })
+  return await reply(interaction, { content: t('commands:publish.done'), ephemeral: true, type: 'positive' })
 }

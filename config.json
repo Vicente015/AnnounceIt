@@ -5,5 +5,10 @@
   "dev": {
     "mode": false,
     "guild": "909070968360685598"
+  },
+  "colors": {
+    "positive": "#4ADE80",
+    "negative": "#F87171",
+    "neutral": "#5765f2"
   }
 }

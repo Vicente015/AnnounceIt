@@ -2,6 +2,7 @@ import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import { CacheType, CommandInteractionOptionResolver, ModalSubmitInteraction } from 'discord.js'
 import ow, { ArgumentError, ObjectPredicate } from 'ow'
+import { reply } from './reply'
 
 type Options = Omit<CommandInteractionOptionResolver<CacheType>, 'getMessage' | 'getFocused'>
 
@@ -38,7 +39,7 @@ export async function validateChatInput <T extends object> (interaction: Subcomm
     if (error instanceof ArgumentError) {
       // ? Removes "error <in object X>" from error message
       const errorMessage = error.message.split(' in object ')[0]
-      return await interaction.reply({ content: t(errorMessage, { defaultValue: '' }), ephemeral: true })
+      return await reply(interaction, { content: t(errorMessage, { defaultValue: '' }), type: 'negative' })
     }
   }
 }
@@ -64,7 +65,7 @@ export async function validaModalInput <T extends object> (interaction: ModalSub
     if (error instanceof ArgumentError) {
       // ? Removes "error <in object X>" from error message
       const errorMessage = error.message.split(' in object ')[0]
-      return await interaction.reply({ content: t(errorMessage, { defaultValue: '' }), ephemeral: true })
+      return await reply(interaction, { content: t(errorMessage, { defaultValue: '' }), type: 'negative' })
     }
   }
 }

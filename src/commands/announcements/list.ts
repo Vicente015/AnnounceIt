@@ -3,6 +3,7 @@ import { Subcommand } from '@sapphire/plugin-subcommands'
 import ow from 'ow'
 import { Pagination } from 'pagination.djs'
 import { Announcement } from '../../schemas/Announcement'
+import { reply } from '../../utils/reply'
 import { validateChatInput } from '../../utils/validateOptions'
 
 const Schema = ow.object.exactShape({
@@ -20,10 +21,10 @@ export async function list (interaction: Subcommand.ChatInputInteraction<'cached
   const filter = showPublished ? { guildId: interaction.guildId, published: true } : { guildId: interaction.guildId }
   // eslint-disable-next-line unicorn/no-array-callback-reference
   const announcements = await Announcement.find(filter).exec()
-  if (announcements.length === 0) return await interaction.reply({ content: t('commands:list.notAnnouncements'), ephemeral: true })
+  if (announcements.length === 0) return await reply(interaction, { content: t('commands:list.notAnnouncements'), type: 'negative' })
 
   const pagination = new Pagination(interaction, {
-    idle: 15 * 1000,
+    idle: 15_000,
     limit: 4,
     loop: true
   })
