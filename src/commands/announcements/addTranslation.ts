@@ -7,6 +7,7 @@ import ow from 'ow'
 import { MessageComponentTypes, TextInputStyles } from 'discord.js/typings/enums'
 import { Announcement } from '../../schemas/Announcement'
 import { Image, temporaryImgStorage } from '../../utils/Globals'
+import { reply } from '../../utils/reply'
 import { validateChatInput } from '../../utils/validateOptions'
 
 const schema = ow.object.exactShape({
@@ -23,13 +24,13 @@ export async function addTranslation (interaction: Subcommand.ChatInputInteracti
   const { lang, name: id, t } = options
 
   const announcement = await Announcement.findById(id).exec().catch(() => {})
-  if (!announcement) return await interaction.reply({ content: t('commands:add-translation.notFound'), ephemeral: true })
+  if (!announcement) return await reply(interaction, { content: t('commands:add-translation.notFound'), type: 'negative' })
   if (announcement.translations.some((translation) => translation.lang === lang)) {
-    return await interaction.reply({
+    return await reply(interaction, {
       content: t('commands:add-translation.alreadyAdded', {
         language: languages.getName(lang, interaction.locale.split('-')[0])
       }),
-      ephemeral: true
+      type: 'negative'
     })
   }
 

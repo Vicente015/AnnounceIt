@@ -1,6 +1,7 @@
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import ow from 'ow'
 import { Announcement } from '../../schemas/Announcement'
+import { reply } from '../../utils/reply'
 import { validateChatInput } from '../../utils/validateOptions'
 
 const Schema = ow.object.exactShape({
@@ -15,7 +16,7 @@ export async function remove (interaction: Subcommand.ChatInputInteraction) {
   try {
     await Announcement.findByIdAndDelete(id).exec()
   } catch {
-    return await interaction.reply({ content: t('commands:remove.error'), ephemeral: true })
+    return await reply(interaction, { content: t('commands:remove.error'), type: 'negative' })
   }
-  return await interaction.reply({ content: t('commands:remove.done'), ephemeral: true })
+  return await reply(interaction, { content: t('commands:remove.done'), ephemeral: true, type: 'positive' })
 }

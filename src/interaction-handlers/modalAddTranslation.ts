@@ -4,6 +4,7 @@ import type { ModalSubmitInteraction } from 'discord.js'
 import ow from 'ow'
 import { Announcement } from '../schemas/Announcement'
 import { temporaryImgStorage } from '../utils/Globals'
+import { reply } from '../utils/reply'
 import { validaModalInput } from '../utils/validateOptions'
 
 const Schema = ow.object.exactShape({
@@ -49,6 +50,10 @@ export class ModalHandler extends InteractionHandler {
       ...newImages
     })
     await announcement.save()
-    await interaction.reply(t('commands:add-translation.done'))
+
+    return await reply(interaction, {
+      content: t('commands:add-translation.done'),
+      type: 'positive'
+    })
   }
 }
