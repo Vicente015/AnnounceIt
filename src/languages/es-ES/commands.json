@@ -36,6 +36,17 @@
         "label": "Color",
         "placeholder": "Indique el color, puede ser un nombre (red, blue), valor hexadecimal (#ffcc66) o rgb (rgb(16,16,16))"
       }
+    },
+    "modalFieldTitle": "Nueva sección",
+    "modalField": {
+      "name": {
+        "label": "Nombre de la sección",
+        "placeholder": "Escriba el nombre de la sección"
+      },
+      "value": {
+        "label": "Valor",
+        "placeholder": "Escriba el valor de la sección"
+      }
     }
   },
   "help": {

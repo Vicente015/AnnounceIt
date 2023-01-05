@@ -2,8 +2,9 @@ import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
 import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
 import { colord, extend, getFormat } from 'colord'
 import namesPlugin from 'colord/plugins/names'
-import type { ModalSubmitInteraction } from 'discord.js'
+import { MessageButton, ModalSubmitInteraction } from 'discord.js'
 import ow from 'ow'
+import { MessageButtonStyles } from 'discord.js/typings/enums'
 import { Announcement } from '../schemas/Announcement'
 import { temporaryImgStorage } from '../utils/Globals'
 import { reply } from '../utils/reply'
@@ -64,7 +65,14 @@ export class ModalHandler extends InteractionHandler {
     await announcement.save()
     temporaryImgStorage.delete(pastInteractionId)
 
+    const AddFieldButton = new MessageButton()
+      .setCustomId(`addField:${announcement.id}`)
+      .setEmoji('<:iconadd:882674844813103205>')
+      .setLabel('Add field')
+      .setStyle(MessageButtonStyles.SECONDARY)
+
     return await reply(interaction, {
+      components: [{ components: [AddFieldButton], type: 'ACTION_ROW' }],
       content: t('commands:add.done'),
       type: 'positive'
     })
