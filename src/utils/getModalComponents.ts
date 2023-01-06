@@ -57,8 +57,9 @@ const components = [
  * @param interaction The chat input interaction to fetch T
  * @returns Array of modal components
  */
-export default async function getModalComponents (interaction: CommandInteraction) {
+export default async function getModalComponents (interaction: CommandInteraction, removeColor?: boolean) {
   const t: TFunction = await fetchT(interaction)
+  if (removeColor === true) components.pop()
 
   return components.map((component) => ({
     ...component,
