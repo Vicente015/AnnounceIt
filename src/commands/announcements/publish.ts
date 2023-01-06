@@ -15,7 +15,7 @@ import { validateChatInput } from '../../utils/validateOptions'
 const schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
   name: ow.string,
-  channel: ow.object.instanceOf(TextChannel)
+  channel: ow.object
 })
 
 // todo: los attachments estos desaparecen, convertir en no efímeros

@@ -41,7 +41,7 @@ export class HelpCommand extends Command {
         new MessageButton()
           .setLabel(t('commands:help.invite'))
           .setEmoji('<:add:847563585165066290>')
-          .setURL('https://discord.com/api/oauth2/authorize?client_id=725373172391739402&permissions=274878221312&scope=bot%20applications.commands')
+          .setURL('https://discord.com/api/oauth2/authorize?client_id=725373172391739402&permissions=274878221312&scope=bot')
           .setStyle('LINK')
       )
 
