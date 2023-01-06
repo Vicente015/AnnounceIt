@@ -12,7 +12,7 @@ import { Announcement } from '../../schemas/Announcement'
 import { reply } from '../../utils/reply'
 import { validateChatInput } from '../../utils/validateOptions'
 
-const Schema = ow.object.exactShape({
+const schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
   name: ow.string,
   channel: ow.object.instanceOf(TextChannel)
@@ -24,7 +24,7 @@ export const transformToURL = (imageId: string) => `${RouteBases.cdn}/ephemeral-
 export async function publish (interaction: Subcommand.ChatInputInteraction) {
   const client = interaction.client
   if (!client.isReady()) return
-  const options = await validateChatInput(interaction, Schema)
+  const options = await validateChatInput(interaction, schema)
   if (!options) return
   const { channel: _, name: id, t } = options
   // todo: implement a better workaround
