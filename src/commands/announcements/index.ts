@@ -5,6 +5,7 @@ import { TextBasedChannels } from '../../utils/Constants'
 import { getCommandKeys, getOptionDescriptionKey } from '../../utils/getLocalizedKeys'
 import { add } from './add'
 import { addTranslation } from './addTranslation'
+import { edit } from './edit'
 import { list } from './list'
 import { publish } from './publish'
 import { remove } from './remove'
@@ -17,6 +18,7 @@ export class UserCommand extends Subcommand {
   public publish = publish
   public list = list
   public remove = remove
+  public edit = edit
 
   public constructor (context: Subcommand.Context, options: Subcommand.Options) {
     super(context, {
@@ -28,7 +30,8 @@ export class UserCommand extends Subcommand {
         { chatInputRun: 'addTranslation', name: 'add-translation' },
         { chatInputRun: 'publish', name: 'publish' },
         { chatInputRun: 'list', name: 'list' },
-        { chatInputRun: 'remove', name: 'remove' }
+        { chatInputRun: 'remove', name: 'remove' },
+        { chatInputRun: 'edit', name: 'edit' }
       ]
     })
   }
@@ -111,6 +114,21 @@ export class UserCommand extends Subcommand {
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('name', command.name, 'add'))
                 .setName('name')
                 .setRequired(true)
+                .setAutocomplete(true)
+            )
+        )
+        .addSubcommand((subcommand) =>
+          applyLocalizedBuilder(subcommand, ...getCommandKeys(command.name, 'edit'))
+            .addStringOption((option) =>
+              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('name', command.name, 'add'))
+                .setName('name')
+                .setRequired(true)
+                .setAutocomplete(true)
+            )
+            .addStringOption((option) =>
+              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('lang', command.name, 'add-translation'))
+                .setName('lang')
+                .setRequired(false)
                 .setAutocomplete(true)
             )
         )

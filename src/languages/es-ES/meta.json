@@ -39,6 +39,10 @@
     "remove": {
       "name": "eliminar",
       "description": "Borra un anuncio (no borra su mensaje)"
+    },
+    "edit": {
+      "name": "editar",
+      "description": "Edita un anuncio"
     }
   }
 }
