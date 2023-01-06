@@ -4,12 +4,12 @@ import { Announcement } from '../../schemas/Announcement'
 import { reply } from '../../utils/reply'
 import { validateChatInput } from '../../utils/validateOptions'
 
-const Schema = ow.object.exactShape({
+const schema = ow.object.exactShape({
   name: ow.string
 })
 
 export async function remove (interaction: Subcommand.ChatInputInteraction) {
-  const options = await validateChatInput(interaction, Schema)
+  const options = await validateChatInput(interaction, schema)
   if (!options) return
   const { name: id, t } = options
 
