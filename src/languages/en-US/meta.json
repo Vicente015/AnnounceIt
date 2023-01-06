@@ -8,18 +8,18 @@
     "description": "Manages the announcements",
     "add": {
       "name": "add",
-      "description": "Create an announcement",
+      "description": "Creates an announcement",
       "options": {
-        "name": "Name of the announcement",
+        "name": "Announcement name",
         "image": "Image attached to the announcement",
         "thumbnail": "Thumbnail attached to the announcement"
       }
     },
     "add-translation": {
       "name": "add-translation",
-      "description": "Add a translation to an announcement",
+      "description": "Adds a translation to an announcement",
       "options": {
-        "lang": "Language of the announcement"
+        "lang": "Announcement language"
       }
     },
     "publish": {
