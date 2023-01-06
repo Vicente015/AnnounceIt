@@ -6,12 +6,12 @@ import { Announcement } from '../../schemas/Announcement'
 import { reply } from '../../utils/reply'
 import { validateChatInput } from '../../utils/validateOptions'
 
-const Schema = ow.object.exactShape({
+const schema = ow.object.exactShape({
   only_published: ow.optional.boolean
 })
 
 export async function list (interaction: Subcommand.ChatInputInteraction<'cached'>) {
-  let options = await validateChatInput(interaction, Schema)
+  let options = await validateChatInput(interaction, schema)
   // @ts-expect-error
   if (!options) options = { only_published: undefined }
   const t = await fetchT(interaction)
