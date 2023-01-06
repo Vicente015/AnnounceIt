@@ -14,7 +14,7 @@
     "notValidColor": "❌ Formato de color inválido, pruebe con alguno de los siguientes: {{validColors}}.\nPuede usar un selector de color online o usar alguno de los siguientes nombres válidos:\nhttps://i.imgur.com/mGKeXCT.png",
     "notValidImage": "❌ La imagen proporcionada no es válida.",
     "done": "✅ Anuncio creado correctamente.",
-    "modalTitle": "Nuevo anuncio",
+    "modalTitle": "Crear anuncio",
     "modal": {
       "title": {
         "label": "Título",
@@ -56,5 +56,11 @@
   "remove": {
     "error": "❌ Se ha producido un error al borrar el comando.",
     "done": "✅ Se ha eliminado correctamente el anuncio."
+  },
+  "edit": {
+    "modalTitle": "Editar anuncio",
+    "defaultError": "❌ Se ha producido un error al editar el anuncio, intente de nuevo.",
+    "done_announcement": "✅ Se ha editado el anuncio correctamente.",
+    "done_translation": "✅ Se ha editado la traducción correctamente."
   }
 }

@@ -39,6 +39,10 @@
     "remove": {
       "name": "remove",
       "description": "Deletes an announcement (doesn't delete its message)"
+    },
+    "edit": {
+      "name": "edit",
+      "description": "Edits an announcement"
     }
   }
 }
