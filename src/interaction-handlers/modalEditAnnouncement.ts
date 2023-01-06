@@ -48,11 +48,14 @@ export class ModalHandler extends InteractionHandler {
       // ? update translation object
       announcement.translations[translationIndex] = {
         ...translation,
+        _id: translation._id,
         description,
         footer,
+        lang: translation.lang,
         title,
         url
       }
+      console.debug(announcement.translations[translationIndex], translation, translationIndex)
       await announcement.save()
 
       return await reply(interaction, {
