@@ -55,7 +55,6 @@ export class ModalHandler extends InteractionHandler {
         title,
         url
       }
-      console.debug(announcement.translations[translationIndex], translation, translationIndex)
       await announcement.save()
 
       return await reply(interaction, {
