@@ -1,7 +1,7 @@
 import languages from '@cospired/i18n-iso-languages'
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { MessageAttachment, Modal } from 'discord.js'
+import { Modal } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
 import { MessageComponentTypes, TextInputStyles } from 'discord.js/typings/enums'
@@ -9,19 +9,26 @@ import { Announcement } from '../../schemas/Announcement'
 import { Image, temporaryImgStorage } from '../../utils/Globals'
 import { reply } from '../../utils/reply'
 import { validateChatInput } from '../../utils/validateOptions'
+import { imageFormats } from './add'
 
 const schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
   name: ow.string,
   lang: ow.string.oneOf(iso.getAllCodes()).message(() => 'commands:add-translation.notValidLanguage'),
-  image: ow.optional.object.instanceOf(MessageAttachment).message(() => 'commands:add.notValidImage'),
-  thumbnail: ow.optional.object.instanceOf(MessageAttachment).message(() => 'commands:add.notValidImage')
+  image: ow.optional.string.url.validate((string) => ({
+    message: () => 'commands:add.notValidImage',
+    validator: imageFormats.some((extension) => string.endsWith(extension))
+  })).message(() => 'commands:add.notValidImage'),
+  thumbnail: ow.optional.string.url.validate((string) => ({
+    message: () => 'commands:add.notValidImage',
+    validator: imageFormats.some((extension) => string.endsWith(extension))
+  })).message(() => 'commands:add.notValidImage')
 })
 
 export async function addTranslation (interaction: Subcommand.ChatInputInteraction) {
   const options = await validateChatInput(interaction, schema)
   if (!options) return
-  const { lang, name: id, t } = options
+  const { image, lang, name: id, t, thumbnail } = options
 
   const announcement = await Announcement.findById(id).exec().catch(() => {})
   if (!announcement) return await reply(interaction, { content: t('commands:add-translation.notFound'), type: 'negative' })
@@ -34,18 +41,13 @@ export async function addTranslation (interaction: Subcommand.ChatInputInteracti
     })
   }
 
-  const image = options.image as MessageAttachment
-  const thumbnail = options.thumbnail as MessageAttachment
-
-  if (image || thumbnail) {
+  if (image ?? thumbnail) {
     const images: Image[] = []
     if (image) {
-      const imageId = `${interaction.commandId}/${image.id}/${image.name}`
-      images.push({ id: imageId, type: 'IMAGE' })
+      images.push({ type: 'IMAGE', url: image })
     }
     if (thumbnail) {
-      const thumbnailId = `${interaction.commandId}/${thumbnail.id}/${thumbnail.name}`
-      images.push({ id: thumbnailId, type: 'THUMBNAIL' })
+      images.push({ type: 'THUMBNAIL', url: thumbnail })
     }
     temporaryImgStorage.set(interaction.id, images)
   }

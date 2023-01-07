@@ -11,8 +11,8 @@
       "description": "Creates an announcement",
       "options": {
         "name": "Announcement name",
-        "image": "Image attached to the announcement",
-        "thumbnail": "Thumbnail attached to the announcement"
+        "image": "Link of the image attached to the announcement",
+        "thumbnail": "Link of the thumbnail attached to the announcement"
       }
     },
     "add-translation": {

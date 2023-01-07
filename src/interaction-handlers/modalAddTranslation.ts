@@ -38,7 +38,7 @@ export class ModalHandler extends InteractionHandler {
 
     const pastInteractionId = interaction.customId.split(':').at(-3) as string
     const images = temporaryImgStorage.get(pastInteractionId)
-    const newImages = images?.map((image) => ({ [image.type.toLowerCase()]: image.id }))
+    const newImages = images?.map((image) => ({ [image.type.toLowerCase()]: image.url }))
       .reduce((previous, current) => ({ ...previous, ...current }))
 
     announcement.translations.push({

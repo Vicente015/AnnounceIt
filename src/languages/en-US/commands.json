@@ -12,7 +12,7 @@
   },
   "add": {
     "notValidColor": "❌ Invalid color format, try one of the following {{validColors}}.\nYou can use an online color picker or use one of the following valid names:\nhttps://i.imgur.com/mGKeXCT.png",
-    "notValidImage": "❌ Invalid image.",
+    "notValidImage": "❌ Invalid image url, make sure it ends with a image extension (.png, .jpg, etc)..",
     "done": "✅ Announcement created."
   },
   "help": {
