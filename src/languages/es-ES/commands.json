@@ -12,7 +12,7 @@
   },
   "add": {
     "notValidColor": "❌ Formato de color inválido, pruebe con alguno de los siguientes: {{validColors}}.\nPuede usar un selector de color online o usar alguno de los siguientes nombres válidos:\nhttps://i.imgur.com/mGKeXCT.png",
-    "notValidImage": "❌ La imagen proporcionada no es válida.",
+    "notValidImage": "❌ El enlace proporcionado no es válido, asegúrese de que acabe con una extensión de imagen (.png, .jpg, etc).",
     "done": "✅ Anuncio creado correctamente.",
     "modalTitle": "Crear anuncio",
     "modal": {

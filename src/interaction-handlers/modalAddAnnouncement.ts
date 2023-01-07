@@ -47,7 +47,7 @@ export class ModalHandler extends InteractionHandler {
     color &&= colord(color).toHex()
 
     const images = temporaryImgStorage.get(pastInteractionId)
-    const newImages = images?.map((image) => ({ [image.type.toLowerCase()]: image.id }))
+    const newImages = images?.map((image) => ({ [image.type.toLowerCase()]: image.url }))
       .reduce((previous, current) => ({ ...previous, ...current }))
 
     const announcement = new Announcement({

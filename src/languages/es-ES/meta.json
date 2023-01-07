@@ -11,8 +11,8 @@
       "description": "Crea un anuncio",
       "options": {
         "name": "Nombre del anuncio",
-        "image": "Imagen adjunta al anuncio",
-        "thumbnail": "Imagen en miniatura adjunta al anuncio"
+        "image": "Enlace de la imagen adjunta al anuncio",
+        "thumbnail": "Enlace de la imagen en miniatura adjunta al anuncio"
       }
     },
     "add-translation": {
