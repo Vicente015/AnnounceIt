@@ -1,7 +1,8 @@
 import { chatInputApplicationCommandMention } from '@discordjs/builders'
 import { Command } from '@sapphire/framework'
 import { applyLocalizedBuilder, fetchT } from '@sapphire/plugin-i18next'
-import { MessageActionRow, MessageButton, MessageEmbed } from 'discord.js'
+import { ColorResolvable, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js'
+import config from '../../config.json'
 import { getCommandId } from '../utils/getCommandId'
 import { getCommandKeys } from '../utils/getLocalizedKeys'
 
@@ -33,7 +34,7 @@ export class HelpCommand extends Command {
         publish_command: chatInputApplicationCommandMention('announcements publish', announcementsCommandId),
         username: client.user.username
       }))
-      .setColor('BLURPLE')
+      .setColor(config.colors.neutral as ColorResolvable)
       .setThumbnail(client.user.displayAvatarURL({ format: 'png', size: 600 }))
 
     const buttons = new MessageActionRow()
