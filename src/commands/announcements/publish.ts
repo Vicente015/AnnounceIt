@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { InteractionLimits } from '@sapphire/discord-utilities'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { HexColorString, MessageActionRowComponentOptions, MessageEmbed, MessageSelectMenuOptions, TextChannel } from 'discord.js'
+import { GuildTextBasedChannel, HexColorString, MessageActionRowComponentOptions, MessageEmbed, MessageSelectMenuOptions } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
 import { MessageButtonStyles, MessageComponentTypes } from 'discord.js/typings/enums'
@@ -20,9 +20,8 @@ export async function publish (interaction: Subcommand.ChatInputInteraction) {
   if (!client.isReady()) return
   const options = await validateChatInput(interaction, schema)
   if (!options) return
-  const { channel: _, name: id, t } = options
-  // todo: implement a better workaround
-  const channel = _ as TextChannel
+  const { name: id, t } = options
+  const channel = options.channel as GuildTextBasedChannel
 
   if (!channel.permissionsFor(interaction.user.id)?.has('SEND_MESSAGES')) {
     return await reply(interaction, { content: t('commands:publish.errorPerms'), type: 'negative' })
