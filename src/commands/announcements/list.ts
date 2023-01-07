@@ -1,7 +1,9 @@
 import { fetchT } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
+import { ColorResolvable } from 'discord.js'
 import ow from 'ow'
 import { Pagination } from 'pagination.djs'
+import config from '../../../config.json'
 import { Announcement } from '../../schemas/Announcement'
 import { reply } from '../../utils/reply'
 import { validateChatInput } from '../../utils/validateOptions'
@@ -38,7 +40,7 @@ export async function list (interaction: Subcommand.ChatInputInteraction<'cached
         })
       }))
     )
-    .setColor('BLURPLE')
+    .setColor(config.colors.neutral as ColorResolvable)
 
   await pagination.render()
 }
