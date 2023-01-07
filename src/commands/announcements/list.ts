@@ -13,16 +13,13 @@ const schema = ow.object.exactShape({
 })
 
 export async function list (interaction: Subcommand.ChatInputInteraction<'cached'>) {
-  let options = await validateChatInput(interaction, schema)
-  // @ts-expect-error
-  if (!options) options = { only_published: undefined }
+  const validatedOptions = await validateChatInput(interaction, schema)
+  const options = validatedOptions ?? { only_published: undefined }
   const t = await fetchT(interaction)
-  // @ts-expect-error
-  const showPublished = options.only_published
+  const showPublished = !!options.only_published
 
-  const filter = showPublished ? { guildId: interaction.guildId, published: true } : { guildId: interaction.guildId }
-  // eslint-disable-next-line unicorn/no-array-callback-reference
-  const announcements = await Announcement.find(filter).exec()
+  const filter = () => showPublished ? { guildId: interaction.guildId, published: true } : { guildId: interaction.guildId }
+  const announcements = await Announcement.find(() => filter()).exec()
   if (announcements.length === 0) return await reply(interaction, { content: t('commands:list.notAnnouncements'), type: 'negative' })
 
   const pagination = new Pagination(interaction, {

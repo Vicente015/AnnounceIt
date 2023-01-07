@@ -21,10 +21,10 @@ export async function edit (interaction: Subcommand.ChatInputInteraction) {
   if (!options) return
   const { lang, name: id } = options
 
-  let announcement = await Announcement.findById(id).exec().catch(() => {})
+  const announcement = await Announcement.findById(id).exec().catch(() => {})
   if (!announcement) return await reply(interaction, { content: t('commands:publish.announcementNotFound'), type: 'negative' })
-  // @ts-expect-error
-  if (lang) announcement = announcement.translations.find((translation) => translation.lang === lang)
+  const translation = lang ? announcement.translations.find((translation) => translation.lang === lang) : undefined
+  const target = translation ?? announcement
 
   const modal = new Modal()
     .setTitle(t('commands:edit.modalTitle'))
@@ -35,7 +35,7 @@ export async function edit (interaction: Subcommand.ChatInputInteraction) {
   components = components.map((component) => ({
     ...component,
     // @ts-expect-error
-    value: announcement[component.customId]
+    value: target[component.customId]
   }))
 
   // @ts-expect-error

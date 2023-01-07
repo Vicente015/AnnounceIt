@@ -8,6 +8,7 @@
     "start": "node . | pino-pretty",
     "start:build": "pnpm run build && pnpm run start",
     "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node .\"",
+    "lint": "eslint .",
     "fix": "eslint . --fix"
   },
   "keywords": [],
@@ -66,6 +67,7 @@
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/strict-boolean-expressions": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
+      "@typescript-eslint/no-base-to-string": "off",
       "unicorn/consistent-function-scoping": "off",
       "unicorn/no-await-expression-member": "off",
       "unicorn/prefer-top-level-await": "off",
