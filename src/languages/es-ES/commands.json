@@ -40,15 +40,15 @@
   },
   "help": {
     "invite": "Invítame",
-    "description": "Hey 👋, soy **{{username}}**, un bot que te permite publicar anuncios en varios idiomas en tu servidor.\n\n__**Comandos principales**__\n• Usa {{add_command}} para añadir un anuncio.\n• Usa {{add_translation_command}} para añadir una traducción a un anuncio.\n• Usa {{publish_command}} para publicar el anuncio."
+    "description": "Hey 👋, soy **{{username}}**, un bot que le permite publicar anuncios en varios idiomas en su servidor.\n\n__**Comandos principales**__\n• Use {{add_command}} para añadir un anuncio.\n• Use {{add_translation_command}} para añadir una traducción a un anuncio.\n• Use {{publish_command}} para publicar el anuncio."
   },
   "list": {
-    "notAnnouncements": "❌ No tiene ningún anuncio, cree uno con  `/announcements add`.",
+    "notAnnouncements": "❌ No tiene ningún anuncio, cree uno con `/announcements add`.",
     "listValue": "Título: {{title}}\nPublicado: {{published}}{{color}}",
     "color": "\nColor: {{color}}"
   },
   "publish": {
-    "errorPerms": "❌ No tienes permiso para enviar mensajes en ese canal.",
+    "errorPerms": "❌ No tiene permiso para enviar mensajes en ese canal.",
     "cannotSend": "❌ No puedo enviar mensajes en ese canal.",
     "announcementNotFound": "❌ No se ha encontrado el anuncio.",
     "done": "✅ El anuncio fue publicado."
@@ -59,7 +59,7 @@
   },
   "edit": {
     "modalTitle": "Editar anuncio",
-    "defaultError": "❌ Se ha producido un error al editar el anuncio, intente de nuevo.",
+    "defaultError": "❌ Se ha producido un error al editar el anuncio, inténtelo de nuevo.",
     "done_announcement": "✅ Se ha editado el anuncio correctamente.",
     "done_translation": "✅ Se ha editado la traducción correctamente."
   }

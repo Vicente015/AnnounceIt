@@ -1,8 +1,8 @@
 {
   "add-translation": {
     "notFound": "❌ Announcement not found.",
-    "notValidLanguage": "❌ Invalid language..",
-    "sendAnnouncementDescription": "Send a message with the announcement description, you have 14 minutes.",
+    "notValidLanguage": "❌ Invalid language.",
+    "sendAnnouncementDescription": "Send a message with the announcement description, you have 14 minutes to do so.",
     "descriptionNotSended": "❌ You must enter a description.",
     "descriptionMaxLength": "❌ The description must be less than 4096 characters.",
     "footerMaxLength": "❌ The footer must be less than 2048 characters.",
@@ -35,6 +35,9 @@
     "done": "✅ Announcement deleted."
   },
   "edit": {
-    "modalTitle": "Edit announcement"
+    "modalTitle": "Edit announcement",
+    "defaultError": "❌ An error has occurred while trying to edit the announcement, please try again.",
+    "done_announcement": "✅ Announcement edited.",
+    "done_translation": "✅ Translation edited."
   }
 }
