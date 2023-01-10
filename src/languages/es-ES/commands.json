@@ -43,7 +43,7 @@
     "description": "Hey 👋, soy **{{username}}**, un bot que le permite publicar anuncios en varios idiomas en su servidor.\n\n__**Comandos principales**__\n• Use {{add_command}} para añadir un anuncio.\n• Use {{add_translation_command}} para añadir una traducción a un anuncio.\n• Use {{publish_command}} para publicar el anuncio."
   },
   "list": {
-    "notAnnouncements": "❌ No tiene ningún anuncio, cree uno con  `/announcements add`.",
+    "notAnnouncements": "❌ No tiene ningún anuncio, cree uno con `/announcements add`.",
     "listValue": "Título: {{title}}\nPublicado: {{published}}{{color}}",
     "color": "\nColor: {{color}}"
   },
