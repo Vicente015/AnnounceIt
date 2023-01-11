@@ -5,7 +5,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node . | pino-pretty",
+    "start": "node .",
     "start:build": "pnpm run build && pnpm run start",
     "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node .\"",
     "lint": "eslint .",

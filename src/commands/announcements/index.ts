@@ -75,12 +75,12 @@ export class UserCommand extends Subcommand {
                 .setRequired(true)
                 .setAutocomplete(true)
             )
-            .addAttachmentOption((option) =>
+            .addStringOption((option) =>
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('image', command.name, 'add'))
                 .setName('image')
                 .setRequired(false)
             )
-            .addAttachmentOption((option) =>
+            .addStringOption((option) =>
               applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('thumbnail', command.name, 'add'))
                 .setName('thumbnail')
                 .setRequired(false)
