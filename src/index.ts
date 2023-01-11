@@ -41,4 +41,4 @@ const client = new SapphireClient({
 
 client.login(process.env.TOKEN)
   .then(() => {})
-  .catch((error) => { console.error(error) })
+  .catch((error) => { client.logger.error(error) })

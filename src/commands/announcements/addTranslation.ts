@@ -104,6 +104,6 @@ export async function addTranslation (interaction: Subcommand.ChatInputInteracti
   try {
     await interaction.showModal(modal)
   } catch (error) {
-    console.error(error)
+    interaction.client.logger.error(error)
   }
 }

@@ -51,6 +51,6 @@ export async function edit (interaction: Subcommand.ChatInputInteraction) {
   try {
     await interaction.showModal(modal)
   } catch (error) {
-    console.error(error)
+    interaction.client.logger.error(error)
   }
 }
