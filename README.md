@@ -7,7 +7,7 @@
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://s.vicente015.dev/d">🏡 Support server</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="#-contribute">🤝 Contribute</a>
+<a href="#contribute">🤝 Contribute</a>
 
 ![GitHub stars](https://img.shields.io/github/stars/vicente015/AnnounceIt)
 ![GitHub issues](https://img.shields.io/github/issues/vicente015/AnnounceIt)
@@ -27,7 +27,7 @@
 - Customize with embed images, thumbnail, title and footer.
 - Customize the embed color.
 
-## Contributing
+## Contribute
 
 Contributions are always welcome! 😊
 
