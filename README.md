@@ -15,7 +15,7 @@
 
 </div>
 
-**[AnnounceIt](/)** is a Discord bot designed to facilitate communication in servers with a variety of languages. It allows posting messages with support for multiple languages and provides a button to switch between languages, ensuring that all users can understand important announcements.
+**AnnounceIt** is a Discord bot designed to facilitate communication in servers with a variety of languages. It allows posting messages with support for multiple languages and provides a button to switch between languages, ensuring that all users can understand important announcements.
 
 <div align="center">
 <img src=".github/showcase_announceit1.gif" style="border-radius: 15px;" alt="showcase gif">
