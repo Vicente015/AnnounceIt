@@ -26,7 +26,7 @@
 ## Características
 
 - Crear un anuncio usando los formularios nativos de Discord.
-- Personalizar con imágenes, miniaturas, título y pie de página en el embed.
+- Personalizar con imágenes, miniaturas, título y pie de página el embed.
 - Personalizar el color del embed.
 
 ## Contribuir
