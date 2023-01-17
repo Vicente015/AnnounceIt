@@ -1,3 +1,4 @@
+import './environment'
 import '@sapphire/plugin-i18next/register'
 import 'dotenv/config'
 import { LogLevel, SapphireClient } from '@sapphire/framework'
