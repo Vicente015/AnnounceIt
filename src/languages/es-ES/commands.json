@@ -7,14 +7,14 @@
     "footerMaxLength": "❌ El footer debe ser menor de 2048 caracteres.",
     "titleMaxLength": "❌ El título debe ser menor de 256 caracteres.",
     "urlNotValid": "❌ La URL introducida no es válida.",
-    "done": "✅ Se ha añadido la traducción al anuncio.",
+    "done": "✅ Traducción del anuncio añadida correctamente.",
     "modalTitle": "Nueva traducción"
   },
   "add": {
     "notValidColor": "❌ Formato de color inválido, pruebe con alguno de los siguientes: {{validColors}}.\nPuede usar un selector de color online o usar alguno de los siguientes nombres válidos:\nhttps://i.imgur.com/mGKeXCT.png",
     "notValidImage": "❌ El enlace proporcionado no es válido, asegúrese de que acabe con una extensión de imagen (.png, .jpg, etc).",
     "done": "✅ Anuncio creado correctamente.",
-    "modalTitle": "Crear anuncio",
+    "modalTitle": "Nuevo anuncio",
     "modal": {
       "title": {
         "label": "Título",
@@ -51,16 +51,16 @@
     "errorPerms": "❌ No tiene permiso para enviar mensajes en ese canal.",
     "cannotSend": "❌ No puedo enviar mensajes en ese canal.",
     "announcementNotFound": "❌ No se ha encontrado el anuncio.",
-    "done": "✅ El anuncio fue publicado."
+    "done": "✅ Anuncio publicado correctamente."
   },
   "remove": {
     "error": "❌ Se ha producido un error al borrar el comando.",
-    "done": "✅ Se ha eliminado correctamente el anuncio."
+    "done": "✅ Anuncio eliminado correctamente."
   },
   "edit": {
     "modalTitle": "Editar anuncio",
     "defaultError": "❌ Se ha producido un error al editar el anuncio, inténtelo de nuevo.",
-    "done_announcement": "✅ Se ha editado el anuncio correctamente.",
-    "done_translation": "✅ Se ha editado la traducción correctamente."
+    "done_announcement": "✅ Anuncio editado correctamente.",
+    "done_translation": "✅ Traducción editada correctamente."
   }
 }
