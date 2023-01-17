@@ -3,7 +3,7 @@
     "alreadyAdded": "❌ This announcement is already translated in {{language}}.",
     "notFound": "❌ Announcement not found.",
     "notValidLanguage": "❌ Invalid language.",
-    "descriptionMaxLength": "❌ The description must be less than 400 characters.",
+    "descriptionMaxLength": "❌ The description must be less than 4000 characters.",
     "footerMaxLength": "❌ The footer must be less than 2048 characters.",
     "titleMaxLength": "❌ The title must be less than 256 characters.",
     "urlNotValid": "❌ The provided URL is not valid.",
