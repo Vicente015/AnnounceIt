@@ -8,6 +8,8 @@
 <a href="https://s.vicente015.dev/d">🏡 Support server</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="#contribute">🤝 Contribute</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="./README.es-ES.md">🇪🇸 Spanish / Español</a>
 
 ![GitHub stars](https://img.shields.io/github/stars/vicente015/AnnounceIt)
 ![GitHub issues](https://img.shields.io/github/issues/vicente015/AnnounceIt)
