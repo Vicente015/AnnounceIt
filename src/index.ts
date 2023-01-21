@@ -12,7 +12,7 @@ const client = new SapphireClient({
   allowedMentions: { parse: ['users', 'roles'], repliedUser: false },
   i18n: {
     fetchLanguage: (context: InternationalizationContext) => {
-      return (context.interactionGuildLocale ?? context.interactionLocale) ?? 'es-ES'
+      return context.interactionGuildLocale ?? context.interactionLocale ?? context.guild?.preferredLocale ?? 'es-ES'
     },
     i18next: { returnEmptyString: true, returnNull: false }
   },
