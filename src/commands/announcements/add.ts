@@ -1,8 +1,7 @@
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { Modal } from 'discord.js'
+import { ActionRowBuilder, ComponentType, ModalBuilder } from 'discord.js'
 import ow from 'ow'
-import { MessageComponentTypes } from 'discord.js/typings/enums'
 import { nameSchema } from '../../schemas/OwSchemas'
 import getModalComponents from '../../utils/getModalComponents'
 import { Image, temporaryImgStorage } from '../../utils/Globals'
@@ -22,7 +21,7 @@ const schema = ow.object.exactShape({
   })).message(() => 'commands:add.notValidImage')
 })
 
-export async function add (interaction: Subcommand.ChatInputInteraction) {
+export async function add (interaction: Subcommand.ChatInputCommandInteraction) {
   const t: TFunction = await fetchT(interaction)
   const options = await validateChatInput(interaction, schema)
   if (!options) return
@@ -39,21 +38,20 @@ export async function add (interaction: Subcommand.ChatInputInteraction) {
     temporaryImgStorage.set(interaction.id, images)
   }
 
-  const modal = new Modal()
+  const modal = new ModalBuilder()
     .setTitle(t('commands:add.modalTitle'))
     .setCustomId(`addAnnouncement:${interaction.id}:${Date.now()}:${id}`)
 
   const components = await getModalComponents(interaction)
 
-  // @ts-expect-error
-  modal.setComponents([
+  modal.setComponents(
     // ? Makes an actionRow for every textInput
     components
-      .map((component) => ({
+      .map((component) => new ActionRowBuilder({
         components: [component],
-        type: MessageComponentTypes.ACTION_ROW
+        type: ComponentType.ActionRow
       }))
-  ])
+  )
 
   try {
     await interaction.showModal(modal)

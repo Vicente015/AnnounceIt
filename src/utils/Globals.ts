@@ -1,4 +1,4 @@
-import { Collection } from '@discordjs/collection'
+import { Collection } from 'discord.js'
 
 export interface Image {
   type: 'IMAGE' | 'THUMBNAIL'

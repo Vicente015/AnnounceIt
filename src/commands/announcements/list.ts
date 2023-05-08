@@ -12,7 +12,7 @@ const schema = ow.object.exactShape({
   only_published: ow.optional.boolean
 })
 
-export async function list (interaction: Subcommand.ChatInputInteraction<'cached'>) {
+export async function list (interaction: Subcommand.ChatInputCommandInteraction<'cached'>) {
   const validatedOptions = await validateChatInput(interaction, schema)
   const options = validatedOptions ?? { only_published: undefined }
   const t = await fetchT(interaction)

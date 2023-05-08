@@ -1,10 +1,9 @@
 import languages from '@cospired/i18n-iso-languages'
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { Modal } from 'discord.js'
+import { ActionRowBuilder, ComponentType, ModalBuilder, TextInputStyle } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
-import { MessageComponentTypes, TextInputStyles } from 'discord.js/typings/enums'
 import { Announcement } from '../../schemas/Announcement'
 import { Image, temporaryImgStorage } from '../../utils/Globals'
 import { reply } from '../../utils/reply'
@@ -25,7 +24,7 @@ const schema = ow.object.exactShape({
   })).message(() => 'commands:add.notValidImage')
 })
 
-export async function addTranslation (interaction: Subcommand.ChatInputInteraction) {
+export async function addTranslation (interaction: Subcommand.ChatInputCommandInteraction) {
   const options = await validateChatInput(interaction, schema)
   if (!options) return
   const { image, lang, name: id, t, thumbnail } = options
@@ -52,7 +51,7 @@ export async function addTranslation (interaction: Subcommand.ChatInputInteracti
     temporaryImgStorage.set(interaction.id, images)
   }
 
-  const modal = new Modal()
+  const modal = new ModalBuilder()
     .setTitle(t('commands:add-translation.modalTitle'))
     .setCustomId(`addTranslation:${interaction.id}:${Date.now()}:${JSON.stringify([id, lang])}`)
 
@@ -61,28 +60,28 @@ export async function addTranslation (interaction: Subcommand.ChatInputInteracti
       customId: 'title',
       maxLength: EmbedLimits.MaximumTitleLength,
       required: false,
-      style: TextInputStyles.PARAGRAPH,
-      type: MessageComponentTypes.TEXT_INPUT
+      style: TextInputStyle.Paragraph,
+      type: ComponentType.TextInput
     },
     {
       customId: 'description',
       maxLength: TextInputLimits.MaximumValueCharacters,
       required: true,
-      style: TextInputStyles.PARAGRAPH,
-      type: MessageComponentTypes.TEXT_INPUT
+      style: TextInputStyle.Paragraph,
+      type: ComponentType.TextInput
     },
     {
       customId: 'footer',
       maxLength: EmbedLimits.MaximumFooterLength,
       required: false,
-      style: TextInputStyles.PARAGRAPH,
-      type: MessageComponentTypes.TEXT_INPUT
+      style: TextInputStyle.Paragraph,
+      type: ComponentType.TextInput
     },
     {
       customId: 'url',
       required: false,
-      style: TextInputStyles.SHORT,
-      type: MessageComponentTypes.TEXT_INPUT
+      style: TextInputStyle.Short,
+      type: ComponentType.TextInput
     }
   ]
     .map((component) => ({
@@ -91,15 +90,15 @@ export async function addTranslation (interaction: Subcommand.ChatInputInteracti
       placeholder: t(`commands:add.modal.${component.customId}.placeholder`)
     }))
 
-  // @ts-expect-error
-  modal.setComponents([
+  modal.setComponents(
     // ? Makes an actionRow for every textInput
+    // todo: very repeated piece of code, refactor
     components
-      .map((component) => ({
+      .map((component) => new ActionRowBuilder({
         components: [component],
-        type: MessageComponentTypes.ACTION_ROW
+        type: ComponentType.ActionRow
       }))
-  ])
+  )
 
   try {
     await interaction.showModal(modal)

@@ -8,7 +8,7 @@ const schema = ow.object.exactShape({
   name: ow.string
 })
 
-export async function remove (interaction: Subcommand.ChatInputInteraction) {
+export async function remove (interaction: Subcommand.ChatInputCommandInteraction) {
   const options = await validateChatInput(interaction, schema)
   if (!options) return
   const { name: id, t } = options

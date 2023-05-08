@@ -1,6 +1,7 @@
+import { SlashCommandBuilder } from '@discordjs/builders'
 import { applyDescriptionLocalizedBuilder, applyLocalizedBuilder } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { Permissions } from 'discord.js'
+import { PermissionsBitField } from 'discord.js'
 import { TextBasedChannels } from '../../utils/Constants'
 import { getCommandKeys, getOptionDescriptionKey } from '../../utils/getLocalizedKeys'
 import { add } from './add'
@@ -10,7 +11,7 @@ import { list } from './list'
 import { publish } from './publish'
 import { remove } from './remove'
 
-const requiredPermissions = new Permissions([Permissions.FLAGS.MANAGE_GUILD, Permissions.FLAGS.MANAGE_CHANNELS]).bitfield
+const requiredPermissions = new PermissionsBitField([PermissionsBitField.Flags.ManageGuild, PermissionsBitField.Flags.ManageChannels]).bitfield
 
 export class UserCommand extends Subcommand {
   public addTranslation = addTranslation
@@ -38,7 +39,7 @@ export class UserCommand extends Subcommand {
 
   registerApplicationCommands (registry: Subcommand.Registry) {
     // todo: el register acepta objetos, transformar builders => objetos
-    registry.registerChatInputCommand((command) =>
+    registry.registerChatInputCommand((command: SlashCommandBuilder) =>
       applyLocalizedBuilder(command, ...getCommandKeys('announcements'))
         .setDMPermission(false)
         .setDefaultMemberPermissions(requiredPermissions)

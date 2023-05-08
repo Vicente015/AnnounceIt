@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { InteractionLimits } from '@sapphire/discord-utilities'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { GuildTextBasedChannel, HexColorString, MessageActionRowComponentOptions, MessageEmbed, MessageSelectMenuOptions } from 'discord.js'
+import { ButtonStyle, ComponentType, EmbedBuilder, GuildTextBasedChannel, HexColorString, PermissionsBitField } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
-import { MessageButtonStyles, MessageComponentTypes } from 'discord.js/typings/enums'
 import { Announcement } from '../../schemas/Announcement'
 import { reply } from '../../utils/reply'
 import { validateChatInput } from '../../utils/validateOptions'
@@ -15,7 +14,7 @@ const schema = ow.object.exactShape({
   channel: ow.object
 })
 
-export async function publish (interaction: Subcommand.ChatInputInteraction) {
+export async function publish (interaction: Subcommand.ChatInputCommandInteraction) {
   const client = interaction.client
   if (!client.isReady()) return
   const options = await validateChatInput(interaction, schema)
@@ -23,10 +22,10 @@ export async function publish (interaction: Subcommand.ChatInputInteraction) {
   const { name: id, t } = options
   const channel = options.channel as GuildTextBasedChannel
 
-  if (!channel.permissionsFor(interaction.user.id)?.has('SEND_MESSAGES')) {
+  if (!channel.permissionsFor(interaction.user.id)?.has(PermissionsBitField.Flags.SendMessages)) {
     return await reply(interaction, { content: t('commands:publish.errorPerms'), type: 'negative' })
   }
-  if (!channel.permissionsFor(client.user.id)?.has('SEND_MESSAGES')) {
+  if (!channel.permissionsFor(client.user.id)?.has(PermissionsBitField.Flags.SendMessages)) {
     return await reply(interaction, { content: t('commands:publish.cannotSend'), type: 'negative' })
   }
 
@@ -34,7 +33,7 @@ export async function publish (interaction: Subcommand.ChatInputInteraction) {
   if (!announcement) return await reply(interaction, { content: t('commands:publish.announcementNotFound'), type: 'negative' })
   const haveTranslations = announcement?.translations.length > 0
 
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setColor(announcement.color as HexColorString ?? 'BLURPLE')
 
   if (announcement.title) embed.setTitle(announcement.title)
@@ -54,17 +53,17 @@ export async function publish (interaction: Subcommand.ChatInputInteraction) {
             options: announcement.translations
               .map((translation) => ({ label: iso.getNativeName(translation.lang), value: translation._id?.toString() })),
             placeholder: t('common:selectLang'),
-            type: MessageComponentTypes.SELECT_MENU
-          } as MessageSelectMenuOptions] as MessageActionRowComponentOptions[]
+            type: ComponentType.SelectMenu
+          }]
         : announcement.translations.map((translation) => (
           {
             customId: translation._id?.toString(),
             label: iso.getNativeName(translation.lang),
-            style: MessageButtonStyles.SECONDARY,
-            type: MessageComponentTypes.BUTTON
+            style: ButtonStyle.Secondary,
+            type: ComponentType.Button
           }
-        )) as MessageActionRowComponentOptions[],
-      type: MessageComponentTypes.ACTION_ROW
+        )),
+      type: ComponentType.ActionRow
     }
 
     await channel.send({ components: [components], embeds: [embed] })

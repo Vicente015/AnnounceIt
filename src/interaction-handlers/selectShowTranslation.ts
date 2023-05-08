@@ -1,6 +1,6 @@
 import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
 import { fetchT } from '@sapphire/plugin-i18next'
-import { ButtonInteraction, HexColorString, MessageEmbed, SelectMenuInteraction } from 'discord.js'
+import { ButtonInteraction, EmbedBuilder, HexColorString, SelectMenuInteraction } from 'discord.js'
 import { Announcement } from '../schemas/Announcement'
 
 export class ButtonHandler extends InteractionHandler {
@@ -27,7 +27,7 @@ export class ButtonHandler extends InteractionHandler {
       .translations.find(translation => translation._id?.toString() === translationId)
     if (!translation) return this.some({ content: t('common:translationNotFound'), ephemeral: true })
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(announcement.color as HexColorString ?? 'BLURPLE')
     if (translation.title) embed.setTitle(translation.title)
     if (translation.description) embed.setDescription(translation.description)

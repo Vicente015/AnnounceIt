@@ -3,9 +3,7 @@ import '@sapphire/plugin-i18next/register'
 import 'dotenv/config'
 import { LogLevel, SapphireClient } from '@sapphire/framework'
 import { InternationalizationContext } from '@sapphire/plugin-i18next'
-import { PresenceUpdateStatus } from 'discord-api-types/v10'
-import { Intents, Options } from 'discord.js'
-import { ActivityTypes } from 'discord.js/typings/enums'
+import { ActivityType, GatewayIntentBits, Options, PresenceUpdateStatus } from 'discord.js'
 import config from '../config.json'
 
 const client = new SapphireClient({
@@ -16,10 +14,10 @@ const client = new SapphireClient({
     },
     i18next: { returnEmptyString: true, returnNull: false }
   },
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
   logger: { level: config.debug ? LogLevel.Debug : LogLevel.Info },
   makeCache: Options.cacheWithLimits({
-    ...Options.defaultMakeCacheSettings,
+    ...Options.DefaultMakeCacheSettings,
     GuildBanManager: 0,
     GuildEmojiManager: 0,
     GuildInviteManager: 0,
@@ -35,7 +33,7 @@ const client = new SapphireClient({
     VoiceStateManager: 0
   }),
   presence: {
-    activities: [{ name: 'Publishing announcements', type: ActivityTypes.PLAYING }],
+    activities: [{ name: 'Publishing announcements', type: ActivityType.Playing }],
     status: PresenceUpdateStatus.Online
   }
 })
