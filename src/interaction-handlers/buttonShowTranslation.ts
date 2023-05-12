@@ -27,7 +27,7 @@ export class ButtonHandler extends InteractionHandler {
     if (!translation) return this.some({ content: t('common:translationNotFound'), ephemeral: true })
 
     const embed = new EmbedBuilder()
-      .setColor(announcement.color as HexColorString ?? 'BLURPLE')
+      .setColor(announcement.color as HexColorString ?? 'Blurple')
 
     if (translation.title) embed.setTitle(translation.title)
     if (translation.description) embed.setDescription(translation.description)

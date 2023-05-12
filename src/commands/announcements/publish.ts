@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { InteractionLimits } from '@sapphire/discord-utilities'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { ButtonStyle, ComponentType, EmbedBuilder, GuildTextBasedChannel, HexColorString, PermissionsBitField } from 'discord.js'
+import { ButtonStyle, ComponentType, EmbedBuilder, GuildTextBasedChannel, PermissionsBitField } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
 import { Announcement } from '../../schemas/Announcement'
+import convertHexStringToInt from '../../utils/convertHexStringToInt'
 import { reply } from '../../utils/reply'
 import { validateChatInput } from '../../utils/validateOptions'
 
@@ -34,7 +35,7 @@ export async function publish (interaction: Subcommand.ChatInputCommandInteracti
   const haveTranslations = announcement?.translations.length > 0
 
   const embed = new EmbedBuilder()
-    .setColor(announcement.color as HexColorString ?? 'BLURPLE')
+    .setColor(convertHexStringToInt(announcement.color) ?? 'Blurple')
 
   if (announcement.title) embed.setTitle(announcement.title)
   if (announcement.description) embed.setDescription(announcement.description)

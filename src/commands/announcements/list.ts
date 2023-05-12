@@ -1,6 +1,6 @@
 import { fetchT } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { ColorResolvable } from 'discord.js'
+import { HexColorString } from 'discord.js'
 import ow from 'ow'
 import { Pagination } from 'pagination.djs'
 import config from '../../../config.json'
@@ -37,7 +37,7 @@ export async function list (interaction: Subcommand.ChatInputCommandInteraction<
         })
       }))
     )
-    .setColor(config.colors.neutral as ColorResolvable)
+    .setColor(config.colors.neutral as HexColorString)
     .paginateFields()
 
   await pagination.render()
