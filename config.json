@@ -1,6 +1,6 @@
 {
   "debug": false,
-  "languages": ["es-ES"],
+  "languages": ["es-ES","en-US","fr-FR"],
   "defaultLanguage": "es-ES",
   "dev": {
     "mode": false,
