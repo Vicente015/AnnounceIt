@@ -3,11 +3,12 @@
   "version": "2.0.0",
   "description": "",
   "main": "dist/src/index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "node .",
     "start:build": "pnpm run build && pnpm run start",
-    "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node .\"",
+    "dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node .\"",
     "lint": "eslint .",
     "fix": "eslint . --fix"
   },
@@ -16,29 +17,26 @@
   "license": "MIT",
   "engines": {
     "node": ">=18",
-    "pnpm": ">=7",
-    "typescript": ">=4.8.4",
-    "tsc": ">=4.8.4"
+    "pnpm": ">=8",
+    "typescript": ">=5.2",
+    "tsc": ">=5.2"
   },
   "dependencies": {
     "@cospired/i18n-iso-languages": "~4.1.0",
-    "@discordjs/builders": "^1.6.3",
-    "@discordjs/collection": "~1.5.1",
-    "@discordjs/formatters": "^0.3.1",
-    "@discordjs/rest": "^1.7.1",
-    "@sapphire/discord-utilities": "~3.0.3",
-    "@sapphire/framework": "~4.4.3",
-    "@sapphire/plugin-i18next": "~5.0.3",
-    "@sapphire/plugin-subcommands": "~4.0.1",
+    "@discordjs/collection": "~1.5.3",
+    "@sapphire/discord-utilities": "~3.2.3",
+    "@sapphire/framework": "~5.1.0",
+    "@sapphire/plugin-i18next": "~7.1.2",
+    "@sapphire/plugin-subcommands": "~6.0.3",
     "colord": "~2.9.3",
-    "discord-api-types": "^0.37.42",
-    "discord.js": "~14.11.0",
+    "discord-api-types": "^0.37.79",
+    "discord.js": "~14.14.1",
     "dotenv": "~10.0.0",
     "iso-639-1": "^2.1.15",
-    "mongoose": "~6.11.1",
-    "ow": "0.28.2",
-    "pagination.djs": "~4.0.9",
-    "zod": "~3.21.4"
+    "mongoose": "~6.11.6",
+    "ow": "1.1.1",
+    "pagination.djs": "~4.0.14",
+    "zod": "~3.22.4"
   },
   "devDependencies": {
     "@tsconfig/node18": "^1.0.3",
@@ -52,8 +50,8 @@
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-sort": "^2.4.0",
     "eslint-plugin-unicorn": "^44.0.2",
-    "tsc-watch": "^6.0.4",
-    "typescript": "*"
+    "tsc-watch": "^6.0.5",
+    "typescript": "^5.4.5"
   },
   "eslintConfig": {
     "extends": [
