@@ -23,11 +23,14 @@
   },
   "dependencies": {
     "@cospired/i18n-iso-languages": "~4.1.0",
+    "@discordjs/builders": "^1.7.0",
     "@discordjs/collection": "~1.5.3",
+    "@discordjs/formatters": "^0.3.3",
     "@sapphire/discord-utilities": "~3.2.3",
     "@sapphire/framework": "~5.1.0",
     "@sapphire/plugin-i18next": "~7.1.2",
     "@sapphire/plugin-subcommands": "~6.0.3",
+    "@sapphire/utilities": "^3.15.3",
     "colord": "~2.9.3",
     "discord-api-types": "^0.37.79",
     "discord.js": "~14.14.1",
@@ -39,55 +42,20 @@
     "zod": "~3.22.4"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.0.2",
+    "@eslint/js": "^9.0.0",
     "@tsconfig/node18": "^1.0.3",
-    "@types/node": "^18.11.19",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": ">=5.0.0 <6.0.0",
-    "eslint": "^8.0.1",
-    "eslint-config-standard-with-typescript": "^23.0.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-n": "^15.0.1",
-    "eslint-plugin-promise": "^6.0.1",
-    "eslint-plugin-sort": "^2.4.0",
-    "eslint-plugin-unicorn": "^44.0.2",
+    "@types/node": "^18.19.31",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "eslint": "^8.57.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-sort": "^3.0.2",
+    "eslint-plugin-unicorn": "^52.0.0",
     "tsc-watch": "^6.0.5",
-    "typescript": "^5.4.5"
-  },
-  "eslintConfig": {
-    "extends": [
-      "standard-with-typescript",
-      "plugin:sort/recommended",
-      "plugin:unicorn/recommended"
-    ],
-    "parserOptions": {
-      "project": "./tsconfig.json"
-    },
-    "rules": {
-      "@typescript-eslint/no-non-null-assertion": "warn",
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/strict-boolean-expressions": "off",
-      "@typescript-eslint/restrict-template-expressions": "off",
-      "@typescript-eslint/no-base-to-string": "off",
-      "unicorn/consistent-function-scoping": "off",
-      "unicorn/no-await-expression-member": "off",
-      "unicorn/prefer-top-level-await": "off",
-      "unicorn/no-array-reduce": "off",
-      "unicorn/filename-case": "off",
-      "unicorn/prefer-module": "off"
-    },
-    "overrides": [
-      {
-        "files": [
-          "src/schemas/*"
-        ],
-        "rules": {
-          "sort/object-properties": "off"
-        }
-      }
-    ],
-    "ignorePatterns": [
-      "dist",
-      "src/**/*.js"
-    ]
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.6.0"
   }
 }

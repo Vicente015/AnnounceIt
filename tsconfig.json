@@ -10,8 +10,10 @@
     "outDir": "dist",
     "removeComments": true,
     "preserveSymlinks": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "typeRoots": ["./node_modules/@types"],
   },
-  "exclude": ["old_commands"],
-  "include": ["src/*", "src/**/*", "src/languages/**/*.json"]
+  "exclude": ["old_commands", "node_modules"],
+  "include": ["./eslint.config.js", "src/*", "src/**/*", "src/languages/**/*.json"]
 }
