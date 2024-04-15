@@ -1,0 +1,66 @@
+{
+  "add-translation": {
+    "alreadyAdded": "❌ Cette annonce est déjà traduite en {{language}}.",
+    "notFound": "❌ Annonce introuvable.",
+    "notValidLanguage": "❌ Langage invalide.",
+    "descriptionMaxLength": "❌ La description doit étre inférieure à 4000 caractéres.",
+    "footerMaxLength": "❌ Le pied doit étre inférieur à 2048 caractéres.",
+    "titleMaxLength": "❌ Le titre doit étre inférieur à 256 caractéres.",
+    "urlNotValid": "❌ L'URL est invalide.",
+    "done": "✅ La traduction de l'annonce a été ajoutée avec succés!",
+    "modalTitle": "Nouvelle traduction"
+  },
+  "add": {
+    "notValidColor": "❌ Format de couleur invalide, Essaye les couleures suggérées {{validColors}}.\nVous pouvez utiliser un selectionneur de couleur en ligne ou choisir un de la liste suivante:\nhttps://i.imgur.com/mGKeXCT.png",
+    "notValidImage": "❌ URL d'image invalide. Assurez-vous qu'il se termine par une extension d'image (.png, .jpg, etc...)",
+    "done": "✅ Annonce créée avec succés.",
+    "modalTitle": "Nouvelle annonce",
+    "modal": {
+      "title": {
+        "label": "Titre",
+        "placeholder": "Ecrire le titre de l'annonce"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Ecrire une description"
+      },
+      "footer": {
+        "label": "Footer",
+        "placeholder": "Ecrire un pied d'embed"
+      },
+      "url": {
+        "label": "URL",
+        "placeholder": "Ajouter une URL"
+      },
+      "color": {
+        "label": "Color",
+        "placeholder": "Indiquer la couleur, peut étre un nom anglophone (red, blue), valeure hexadécimale (#ffcc66) ou rgb (rgb(16,16,16))"
+      }
+    }
+  },
+  "help": {
+    "invite": "Invite moi",
+    "description": "Hey 👋, Je suis **{{username}}**, un bot qui te permet de poster des annonces en plusieurs langages dans ton serveur.\n\n__**Commandes principales**__\n• Utilise {{add_command}} pour ajouter une annonce.\n• Utilise {{add_translation_command}} pour ajouter une traduction à ton annonce.\n• Utilise {{publish_command}} pour publier ton annonce."
+  },
+  "list": {
+    "notAnnouncements": "❌ Ce serveur n'as aucune annonce, crée-en une avec `/announcements add`.",
+    "listValue": "Titre: {{title}}\nPubliée: {{published}}{{color}}",
+    "color": "\nCouleur: {{color}}"
+  },
+  "publish": {
+    "errorPerms": "❌ Vous n'avez pas la permission d'envoyer de messages dans ce salon.",
+    "cannotSend": "❌ Je ne peux envoyer de messages dans ce salon.",
+    "announcementNotFound": "❌ Announcement introuvable.",
+    "done": "✅ Announcement pubiée."
+  },
+  "remove": {
+    "error": "❌ Une erreure est survenue.",
+    "done": "✅ Annonce supprimée."
+  },
+  "edit": {
+    "modalTitle": "Modifier l'annonce",
+    "defaultError": "❌ Une erreur est survenue pendant que la modification de l'annonce. Veuillez rééssayer.",
+    "done_announcement": "✅ Annonce modifiée.",
+    "done_translation": "✅ Traduction modifiée."
+  }
+}

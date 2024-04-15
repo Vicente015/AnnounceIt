@@ -1,7 +1,6 @@
 {
-  "debug": true,
-  "languages": ["es-ES"],
-  "defaultLanguage": "es-ES",
+  "debug": false,
+  "defaultLanguage": "en-US",
   "dev": {
     "mode": false,
     "guild": "909070968360685598"
