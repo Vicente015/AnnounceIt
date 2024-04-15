@@ -3,10 +3,10 @@ import { Subcommand } from '@sapphire/plugin-subcommands'
 import { ActionRowBuilder, ComponentType, ModalBuilder } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
-import { Announcement } from '../../schemas/Announcement'
-import getModalComponents from '../../utils/getModalComponents'
-import { reply } from '../../utils/reply'
-import { validateChatInput } from '../../utils/validateOptions'
+import { Announcement } from '../../schemas/Announcement.js'
+import getModalComponents from '../../utils/getModalComponents.js'
+import { reply } from '../../utils/reply.js'
+import { validateChatInput } from '../../utils/validateOptions.js'
 
 const schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
@@ -20,7 +20,7 @@ export async function edit (interaction: Subcommand.ChatInputCommandInteraction)
   if (!options) return
   const { lang, name: id } = options
 
-  const announcement = await Announcement.findById(id).exec().catch(() => {})
+  const announcement = await Announcement.findById(id).exec().catch(() => { return })
   if (!announcement) return await reply(interaction, { content: t('commands:publish.announcementNotFound'), type: 'negative' })
   const translation = lang ? announcement.translations.find((translation) => translation.lang === lang) : undefined
   const target = translation ?? announcement
@@ -34,15 +34,15 @@ export async function edit (interaction: Subcommand.ChatInputCommandInteraction)
   // ? Add values from announcement to modal components
   components = components.map((component) => ({
     ...component,
-    // @ts-expect-error
-    value: target[component.customId]
+    // véase: https://www.totaltypescript.com/concepts/type-string-cannot-be-used-to-index-type
+    value: target[component.customId as keyof typeof target]
   }))
 
   modal.setComponents(
     // ? Makes an actionRow for every textInput
     components
       .map((component) => new ActionRowBuilder({
-        components: [component],
+        components: [{ ...component, type: ComponentType.TextInput }],
         type: ComponentType.ActionRow
       }))
   )

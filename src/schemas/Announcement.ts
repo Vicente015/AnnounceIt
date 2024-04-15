@@ -1,7 +1,7 @@
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
 import * as mongoose from 'mongoose'
-import { URLRegex } from '../utils/Regex'
-import { MaxNameLength } from './OwSchemas'
+import { URLRegex } from '../utils/Regex.js'
+import { MaxNameLength } from './OwSchemas.js'
 
 // todo: Integrate ow schema into this??
 export interface AnnouncementType {
@@ -54,4 +54,4 @@ const AnnouncementSchema = new mongoose.Schema<AnnouncementType>({
   ]
 })
 
-export const Announcement: mongoose.Model<AnnouncementType> = mongoose.models.Announcement || mongoose.model<AnnouncementType>('Announcement', AnnouncementSchema)
+export const Announcement: mongoose.Model<AnnouncementType> = mongoose.models?.Announcement || mongoose.model<AnnouncementType>('Announcement', AnnouncementSchema)

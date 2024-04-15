@@ -9,7 +9,7 @@ export class GuildCreateListener extends Listener {
     })
   }
 
-  public async run (guild: Guild) {
+  public run (guild: Guild) {
     guild.client.logger.info(`Nuevo servidor ${guild.name} ${guild.id}`)
   }
 }

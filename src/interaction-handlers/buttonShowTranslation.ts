@@ -1,10 +1,11 @@
-import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
+import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework'
 import { fetchT } from '@sapphire/plugin-i18next'
 import { ButtonInteraction, EmbedBuilder, HexColorString } from 'discord.js'
-import { Announcement } from '../schemas/Announcement'
+import { isObjectIdOrHexString } from 'mongoose'
+import { Announcement } from '../schemas/Announcement.js'
 
 export class ButtonHandler extends InteractionHandler {
-  public constructor (context: PieceContext, options: InteractionHandler.Options) {
+  public constructor (context: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
     super(context, {
       ...options,
       interactionHandlerType: InteractionHandlerTypes.Button
@@ -19,6 +20,7 @@ export class ButtonHandler extends InteractionHandler {
     const translationId = interaction.customId
     const t = await fetchT(interaction)
 
+    if (!isObjectIdOrHexString(translationId)) return this.none()
     const announcement = await Announcement.findOne({ 'translations._id': translationId }).exec()
     if (!announcement) return this.some({ content: t('common:announcementNotFound'), ephemeral: true })
 

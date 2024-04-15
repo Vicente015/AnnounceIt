@@ -5,4 +5,4 @@ export interface Image {
   url: string
 }
 
-export const temporaryImgStorage: Collection<string, Image[]> = new Collection()
+export const temporaryImgStorage = new Collection<string, Image[]>()

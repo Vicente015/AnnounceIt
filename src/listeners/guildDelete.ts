@@ -9,7 +9,7 @@ export class GuildDeleteListener extends Listener {
     })
   }
 
-  public async run (guild: Guild) {
+  public run (guild: Guild) {
     guild.client.logger.info(`Expulsado de servidor ${guild.name} ${guild.id}`)
   }
 }

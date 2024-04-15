@@ -1,14 +1,15 @@
 import languages from '@cospired/i18n-iso-languages'
+import { TextInputBuilder } from '@discordjs/builders'
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import { ActionRowBuilder, ComponentType, ModalBuilder, TextInputStyle } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
-import { Announcement } from '../../schemas/Announcement'
-import { Image, temporaryImgStorage } from '../../utils/Globals'
-import { reply } from '../../utils/reply'
-import { validateChatInput } from '../../utils/validateOptions'
-import { imageFormats } from './add'
+import { Announcement } from '../../schemas/Announcement.js'
+import { Image, temporaryImgStorage } from '../../utils/Globals.js'
+import { reply } from '../../utils/reply.js'
+import { validateChatInput } from '../../utils/validateOptions.js'
+import { imageFormats } from './_add.js'
 
 const schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
@@ -29,7 +30,7 @@ export async function addTranslation (interaction: Subcommand.ChatInputCommandIn
   if (!options) return
   const { image, lang, name: id, t, thumbnail } = options
 
-  const announcement = await Announcement.findById(id).exec().catch(() => {})
+  const announcement = await Announcement.findById(id).exec().catch(() => { return })
   if (!announcement) return await reply(interaction, { content: t('commands:add-translation.notFound'), type: 'negative' })
   if (announcement.translations.some((translation) => translation.lang === lang)) {
     return await reply(interaction, {
@@ -94,8 +95,8 @@ export async function addTranslation (interaction: Subcommand.ChatInputCommandIn
     // ? Makes an actionRow for every textInput
     // todo: very repeated piece of code, refactor
     components
-      .map((component) => new ActionRowBuilder({
-        components: [component],
+      .map((component) => new ActionRowBuilder<TextInputBuilder>({
+        components: [{ ...component, type: ComponentType.TextInput }],
         type: ComponentType.ActionRow
       }))
   )

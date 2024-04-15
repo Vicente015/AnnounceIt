@@ -1,26 +1,39 @@
-import { FlatCompat } from '@eslint/eslintrc'
-import pluginJs from '@eslint/js'
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+
+// @ts-check
+
+import eslint from '@eslint/js'
 import eslintPluginSort from 'eslint-plugin-sort'
 import eslintPluginUnicorn from 'eslint-plugin-unicorn'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import tseslint from 'typescript-eslint'
 
-// mimic CommonJS variables -- not needed if using CommonJS
-const fileName = fileURLToPath(import.meta.url)
-const directoryName = path.dirname(fileName)
-const compat = new FlatCompat({ baseDirectory: directoryName, recommendedConfig: pluginJs.configs.recommended })
-
-export default [
-  ...compat.extends('standard-with-typescript'),
+export default tseslint.config(
+  eslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
   eslintPluginSort.configs['flat/recommended'],
   eslintPluginUnicorn.configs['flat/recommended'],
   {
+    languageOptions: {
+      parserOptions: {
+        project: './tsconfig.json',
+        tsconfigRootDir: import.meta.dirname
+      }
+    }
+  },
+  {
+    name: 'disableRules',
     rules: {
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-base-to-string': 'off',
       '@typescript-eslint/no-non-null-assertion': 'warn',
       '@typescript-eslint/restrict-template-expressions': 'off',
+      '@typescript-eslint/space-before-blocks': 'error',
+      "@typescript-eslint/space-before-function-paren": "error",
       '@typescript-eslint/strict-boolean-expressions': 'off',
+      "space-before-function-paren": "off",
       'unicorn/consistent-function-scoping': 'off',
       'unicorn/filename-case': 'off',
       'unicorn/no-array-reduce': 'off',
@@ -33,18 +46,9 @@ export default [
     files: [
       'src/schemas/*'
     ],
+    name: 'disableSortOnSchemas',
     rules: {
       'sort/object-properties': 'off'
     }
-  },
-  {
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.json']
-      }
-    }
-  },
-  {
-    ignores: ['dist', 'src/**/*.js']
   }
-]
+)

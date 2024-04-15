@@ -44,6 +44,9 @@ dependencies:
   dotenv:
     specifier: ~10.0.0
     version: 10.0.0
+  i18next:
+    specifier: ^23.11.2
+    version: 23.11.2
   iso-639-1:
     specifier: ^2.1.15
     version: 2.1.15
@@ -97,6 +100,9 @@ devDependencies:
   eslint-plugin-unicorn:
     specifier: ^52.0.0
     version: 52.0.0(eslint@8.57.0)
+  ts-reset:
+    specifier: ^0.0.1
+    version: 0.0.1
   tsc-watch:
     specifier: ^6.0.5
     version: 6.2.0(typescript@5.4.5)
@@ -961,7 +967,7 @@ packages:
       '@sapphire/utilities': 3.15.3
       '@skyra/i18next-backend': 2.0.5
       chokidar: 3.6.0
-      i18next: 23.11.1
+      i18next: 23.11.2
     dev: false
 
   /@sapphire/plugin-subcommands@6.0.3:
@@ -3039,8 +3045,8 @@ packages:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
     dev: true
 
-  /i18next@23.11.1:
-    resolution: {integrity: sha512-mXw4A24BiPZKRsbb9ewgSvjYd6fxFCNwJyfK6nYfSTIAX2GkCWcb598m3DFkDZmqADatvuASrKo6qwORz3VwTQ==}
+  /i18next@23.11.2:
+    resolution: {integrity: sha512-qMBm7+qT8jdpmmDw/kQD16VpmkL9BdL+XNAK5MNbNFaf1iQQq35ZbPrSlqmnNPOSUY4m342+c0t0evinF5l7sA==}
     dependencies:
       '@babel/runtime': 7.24.4
     dev: false
@@ -4073,6 +4079,10 @@ packages:
   /ts-mixer@6.0.3:
     resolution: {integrity: sha512-k43M7uCG1AkTyxgnmI5MPwKoUvS/bRvLvUb7+Pgpdlmok8AoqmUaZxUUw8zKM5B1lqZrt41GjYgnvAi0fppqgQ==}
     dev: false
+
+  /ts-reset@0.0.1:
+    resolution: {integrity: sha512-MAN3eAzO2T0hWXN4iHaH6YBFU9ZX9fMXkCPYPbgy+tHU4NLFOUbuBUgefl2122CuJ2WDP8DjrRg3NTS0LYd1WQ==}
+    dev: true
 
   /tsc-watch@6.2.0(typescript@5.4.5):
     resolution: {integrity: sha512-2LBhf9kjKXnz7KQ/puLHlozMzzUNHAdYBNMkg3eksQJ9GBAgMg8czznM83T5PmsoUvDnXzfIeQn2lNcIYDr8LA==}

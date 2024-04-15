@@ -4,10 +4,10 @@ import { Subcommand } from '@sapphire/plugin-subcommands'
 import { ButtonStyle, ComponentType, EmbedBuilder, GuildTextBasedChannel, PermissionsBitField } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
-import { Announcement } from '../../schemas/Announcement'
-import convertHexStringToInt from '../../utils/convertHexStringToInt'
-import { reply } from '../../utils/reply'
-import { validateChatInput } from '../../utils/validateOptions'
+import { Announcement } from '../../schemas/Announcement.js'
+import convertHexStringToInt from '../../utils/convertHexStringToInt.js'
+import { reply } from '../../utils/reply.js'
+import { validateChatInput } from '../../utils/validateOptions.js'
 
 const schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
@@ -30,7 +30,7 @@ export async function publish (interaction: Subcommand.ChatInputCommandInteracti
     return await reply(interaction, { content: t('commands:publish.cannotSend'), type: 'negative' })
   }
 
-  const announcement = await Announcement.findById(id).exec().catch(() => {})
+  const announcement = await Announcement.findById(id).exec().catch(() => { return })
   if (!announcement) return await reply(interaction, { content: t('commands:publish.announcementNotFound'), type: 'negative' })
   const haveTranslations = announcement?.translations.length > 0
 
@@ -54,7 +54,7 @@ export async function publish (interaction: Subcommand.ChatInputCommandInteracti
             options: announcement.translations
               .map((translation) => ({ label: iso.getNativeName(translation.lang), value: translation._id?.toString() })),
             placeholder: t('common:selectLang'),
-            type: ComponentType.SelectMenu
+            type: ComponentType.StringSelect
           }]
         : announcement.translations.map((translation) => (
           {

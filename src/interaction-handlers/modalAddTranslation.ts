@@ -1,11 +1,11 @@
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
-import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
+import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework'
 import type { ModalSubmitInteraction } from 'discord.js'
 import ow from 'ow'
-import { Announcement } from '../schemas/Announcement'
-import { temporaryImgStorage } from '../utils/Globals'
-import { reply } from '../utils/reply'
-import { validaModalInput } from '../utils/validateOptions'
+import { Announcement } from '../schemas/Announcement.js'
+import { temporaryImgStorage } from '../utils/Globals.js'
+import { reply } from '../utils/reply.js'
+import { validaModalInput } from '../utils/validateOptions.js'
 
 const Schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
@@ -16,7 +16,7 @@ const Schema = ow.object.exactShape({
 })
 
 export class ModalHandler extends InteractionHandler {
-  public constructor (context: PieceContext, options: InteractionHandler.Options) {
+  public constructor (context: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
     super(context, {
       ...options,
       interactionHandlerType: InteractionHandlerTypes.ModalSubmit
@@ -32,11 +32,11 @@ export class ModalHandler extends InteractionHandler {
     const options = await validaModalInput(interaction, Schema)
     if (!options) return
     const { description, footer, t, title, url } = options
-    const [id, lang] = JSON.parse(interaction.customId.split(':').at(-1) as string) as string[]
-    const announcement = await Announcement.findById(id).exec().catch(() => {})
+    const [id, lang] = JSON.parse(interaction.customId.split(':').at(-1)!) as string[]
+    const announcement = await Announcement.findById(id).exec().catch(() => { return })
     if (!announcement) return
 
-    const pastInteractionId = interaction.customId.split(':').at(-3) as string
+    const pastInteractionId = interaction.customId.split(':').at(-3)!
     const images = temporaryImgStorage.get(pastInteractionId)
     const newImages = images?.map((image) => ({ [image.type.toLowerCase()]: image.url }))
       .reduce((previous, current) => ({ ...previous, ...current }))

@@ -1,11 +1,11 @@
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
-import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
+import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework'
 import type { ModalSubmitInteraction } from 'discord.js'
 import ow from 'ow'
-import { Announcement } from '../schemas/Announcement'
-import isValidColorFormat from '../utils/colorValidation'
-import { reply } from '../utils/reply'
-import { validaModalInput } from '../utils/validateOptions'
+import { Announcement } from '../schemas/Announcement.js'
+import isValidColorFormat from '../utils/colorValidation.js'
+import { reply } from '../utils/reply.js'
+import { validaModalInput } from '../utils/validateOptions.js'
 
 const Schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
@@ -20,7 +20,7 @@ const Schema = ow.object.exactShape({
 })
 
 export class ModalHandler extends InteractionHandler {
-  public constructor (context: PieceContext, options: InteractionHandler.Options) {
+  public constructor (context: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
     super(context, {
       ...options,
       interactionHandlerType: InteractionHandlerTypes.ModalSubmit
@@ -36,7 +36,7 @@ export class ModalHandler extends InteractionHandler {
     const options = await validaModalInput(interaction, Schema)
     if (!options) return
     const { color, description, footer, t, title, url } = options
-    const [id, lang] = JSON.parse(interaction.customId.split(':').at(-1) as string) as string[]
+    const [id, lang] = JSON.parse(interaction.customId.split(':').at(-1)!) as string[]
 
     if (lang) {
       // todo: there is probably a better way to do this, I hate mongoose :((
@@ -65,7 +65,7 @@ export class ModalHandler extends InteractionHandler {
       const result = await Announcement.findOneAndUpdate(
         { _id: id },
         { color, description, footer, title, url }
-      ).exec().catch(() => {})
+      ).exec().catch(() => { return })
 
       if (!result) return await reply(interaction, { content: t('commands.edit.defaultError'), type: 'negative' })
       return await reply(interaction, {

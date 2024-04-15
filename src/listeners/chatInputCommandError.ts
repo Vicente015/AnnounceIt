@@ -8,7 +8,7 @@ export class GuildDeleteListener extends Listener {
     })
   }
 
-  public async run ({ duration, interaction }: ChatInputCommandErrorPayload) {
+  public run ({ duration, interaction }: ChatInputCommandErrorPayload) {
     interaction.client.logger.error('Error al ejecutar comando', interaction.commandName, duration)
   }
 }

@@ -8,7 +8,7 @@ export class GuildDeleteListener extends Listener {
     })
   }
 
-  public async run ({ interaction }: ChatInputCommandSuccessPayload) {
+  public run ({ interaction }: ChatInputCommandSuccessPayload) {
     interaction.client.logger.info(`Comando ejecutado /${interaction.commandName}`)
   }
 }

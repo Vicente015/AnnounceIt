@@ -1,17 +1,17 @@
 import languages from '@cospired/i18n-iso-languages'
 import { AutoCompleteLimits } from '@sapphire/discord-utilities'
-import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
+import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework'
 import type { AutocompleteInteraction } from 'discord.js'
 import iso, { LanguageCode } from 'iso-639-1'
-import { Announcement } from '../schemas/Announcement'
+import { Announcement } from '../schemas/Announcement.js'
 
-type AutocompleteOutput = Array<{
+type AutocompleteOutput = {
   name: string
   value: LanguageCode
-}>
+}[]
 
 export class AutocompleteLanguages extends InteractionHandler {
-  public constructor (context: PieceContext, options: InteractionHandler.Options) {
+  public constructor (context: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
     super(context, {
       ...options,
       interactionHandlerType: InteractionHandlerTypes.Autocomplete
@@ -30,7 +30,7 @@ export class AutocompleteLanguages extends InteractionHandler {
     switch (subcommandName) {
       case 'edit': {
         const announcementId = interaction.options.getString('name', true)
-        const announcement = await Announcement.findById(announcementId).exec().catch(() => {})
+        const announcement = await Announcement.findById(announcementId).exec().catch(() => { return })
         if (!announcement) return
 
         const result = announcement.translations

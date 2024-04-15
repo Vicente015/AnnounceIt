@@ -2,24 +2,22 @@ import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import { ApplicationCommandOptionType, CacheType, CommandInteractionOptionResolver, ModalSubmitInteraction } from 'discord.js'
 import ow, { ArgumentError, ObjectPredicate } from 'ow'
-import { reply } from './reply'
+import { reply } from './reply.js'
 
-type OptionFunctions = {
-  [key in ApplicationCommandOptionType]: (optionName: string, options: Omit<CommandInteractionOptionResolver<CacheType>, 'getMessage' | 'getFocused'>) => any
-}
+type Options = Omit<CommandInteractionOptionResolver<CacheType>, 'getMessage' | 'getFocused'>
 
-const getValues: OptionFunctions = {
-  [ApplicationCommandOptionType.Attachment]: (optionName, options) => options.getAttachment(optionName, false),
-  [ApplicationCommandOptionType.Boolean]: (optionName, options) => options.getBoolean(optionName, false),
-  [ApplicationCommandOptionType.Channel]: (optionName, options) => options.getChannel(optionName, false),
-  [ApplicationCommandOptionType.Integer]: (optionName, options) => options.getInteger(optionName, false),
-  [ApplicationCommandOptionType.Mentionable]: (optionName, options) => options.getMentionable(optionName, false),
-  [ApplicationCommandOptionType.Number]: (optionName, options) => options.getNumber(optionName, false),
-  [ApplicationCommandOptionType.Role]: (optionName, options) => options.getRole(optionName, false),
-  [ApplicationCommandOptionType.String]: (optionName, options) => options.getString(optionName, false),
-  [ApplicationCommandOptionType.Subcommand]: (optionName, options) => options.getSubcommand(false),
-  [ApplicationCommandOptionType.SubcommandGroup]: (optionName, options) => options.getSubcommandGroup(false),
-  [ApplicationCommandOptionType.User]: (optionName, options) => options.getUser(optionName, false)
+const getValues = {
+  [ApplicationCommandOptionType.Attachment]: (optionName: string, options: Options) => options.getAttachment(optionName, false),
+  [ApplicationCommandOptionType.Boolean]: (optionName: string, options: Options) => options.getBoolean(optionName, false),
+  [ApplicationCommandOptionType.Channel]: (optionName: string, options: Options) => options.getChannel(optionName, false),
+  [ApplicationCommandOptionType.Integer]: (optionName: string, options: Options) => options.getInteger(optionName, false),
+  [ApplicationCommandOptionType.Mentionable]: (optionName: string, options: Options) => options.getMentionable(optionName, false),
+  [ApplicationCommandOptionType.Number]: (optionName: string, options: Options) => options.getNumber(optionName, false),
+  [ApplicationCommandOptionType.Role]: (optionName: string, options: Options) => options.getRole(optionName, false),
+  [ApplicationCommandOptionType.String]: (optionName: string, options: Options) => options.getString(optionName, false),
+  [ApplicationCommandOptionType.Subcommand]: (optionName: string, options: Options) => options.getSubcommand(false),
+  [ApplicationCommandOptionType.SubcommandGroup]: (optionName: string, options: Options) => options.getSubcommandGroup(false),
+  [ApplicationCommandOptionType.User]: (optionName: string, options: Options) => options.getUser(optionName, false)
 }
 
 /**
@@ -37,7 +35,7 @@ export async function validateChatInput <T extends object> (interaction: Subcomm
   try {
     ow(options, schema)
     return { ...options, t }
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof ArgumentError) {
       // ? Removes "error <in object X>" from error message
       const errorMessage = error.message.split(' in object ')[0]
@@ -63,7 +61,7 @@ export async function validaModalInput <T extends object> (interaction: ModalSub
   try {
     ow(options, schema)
     return { ...options, t }
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof ArgumentError) {
       // ? Removes "error <in object X>" from error message
       const errorMessage = error.message.split(' in object ')[0]

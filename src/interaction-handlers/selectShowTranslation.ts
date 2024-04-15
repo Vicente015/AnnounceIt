@@ -1,10 +1,10 @@
-import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
+import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework'
 import { fetchT } from '@sapphire/plugin-i18next'
 import { ButtonInteraction, EmbedBuilder, HexColorString, SelectMenuInteraction } from 'discord.js'
-import { Announcement } from '../schemas/Announcement'
+import { Announcement } from '../schemas/Announcement.js'
 
 export class ButtonHandler extends InteractionHandler {
-  public constructor (context: PieceContext, options: InteractionHandler.Options) {
+  public constructor (context: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
     super(context, {
       ...options,
       interactionHandlerType: InteractionHandlerTypes.SelectMenu

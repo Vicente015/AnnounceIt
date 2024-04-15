@@ -1,11 +1,12 @@
+import { TextInputBuilder } from '@discordjs/builders'
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import { ActionRowBuilder, ComponentType, ModalBuilder } from 'discord.js'
 import ow from 'ow'
-import { nameSchema } from '../../schemas/OwSchemas'
-import getModalComponents from '../../utils/getModalComponents'
-import { Image, temporaryImgStorage } from '../../utils/Globals'
-import { validateChatInput } from '../../utils/validateOptions'
+import { nameSchema } from '../../schemas/OwSchemas.js'
+import getModalComponents from '../../utils/getModalComponents.js'
+import { Image, temporaryImgStorage } from '../../utils/Globals.js'
+import { validateChatInput } from '../../utils/validateOptions.js'
 
 export const imageFormats = ['.png', '.jpg', '.jpeg', '.gif', '.webp']
 const schema = ow.object.exactShape({
@@ -47,8 +48,8 @@ export async function add (interaction: Subcommand.ChatInputCommandInteraction) 
   modal.setComponents(
     // ? Makes an actionRow for every textInput
     components
-      .map((component) => new ActionRowBuilder({
-        components: [component],
+      .map((component) => new ActionRowBuilder<TextInputBuilder>({
+        components: [{ ...component, type: ComponentType.TextInput }],
         type: ComponentType.ActionRow
       }))
   )

@@ -3,10 +3,10 @@ import { Subcommand } from '@sapphire/plugin-subcommands'
 import { HexColorString } from 'discord.js'
 import ow from 'ow'
 import { Pagination } from 'pagination.djs'
-import config from '../../../config.json'
-import { Announcement } from '../../schemas/Announcement'
-import { reply } from '../../utils/reply'
-import { validateChatInput } from '../../utils/validateOptions'
+import config from '../../../config.json' assert { type: 'json' }
+import { Announcement } from '../../schemas/Announcement.js'
+import { reply } from '../../utils/reply.js'
+import { validateChatInput } from '../../utils/validateOptions.js'
 
 const schema = ow.object.exactShape({
   only_published: ow.optional.boolean

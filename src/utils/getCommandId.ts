@@ -7,5 +7,8 @@ import { SapphireClient } from '@sapphire/framework'
  * @returns The command id
  */
 export function getCommandId (client: SapphireClient, commandName: string) {
-  return [...client.stores.get('commands').get(commandName).applicationCommandRegistry.chatInputCommands][1] as string
+  if (client.isReady()) throw new Error('Command not available')
+  const commandStored = client.stores.get('commands').get(commandName)
+  if (!commandStored) throw new Error('Command not available')
+  return [...commandStored.applicationCommandRegistry.chatInputCommands][1]
 }

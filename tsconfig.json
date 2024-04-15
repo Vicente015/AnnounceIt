@@ -9,11 +9,8 @@
     "skipLibCheck": true,
     "outDir": "dist",
     "removeComments": true,
-    "preserveSymlinks": true,
     "resolveJsonModule": true,
-    "allowJs": true,
-    "typeRoots": ["./node_modules/@types"],
   },
-  "exclude": ["old_commands", "node_modules"],
-  "include": ["./eslint.config.js", "src/*", "src/**/*", "src/languages/**/*.json"]
+  "include": ["src"],
+  "exclude": ["old_commands", "node_modules", "dist", "dist/"],
 }

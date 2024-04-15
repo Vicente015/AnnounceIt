@@ -12,6 +12,6 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
     // eslint-disable-next-line unicorn/prevent-abbreviations
-    interface ProcessEnv extends z.infer<typeof environmentVariables> { }
+    type ProcessEnv = z.infer<typeof environmentVariables>
   }
 }

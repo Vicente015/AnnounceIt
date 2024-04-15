@@ -2,14 +2,14 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import { applyDescriptionLocalizedBuilder, applyLocalizedBuilder } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import { PermissionsBitField } from 'discord.js'
-import { TextBasedChannels } from '../../utils/Constants'
-import { getCommandKeys, getOptionDescriptionKey } from '../../utils/getLocalizedKeys'
-import { add } from './add'
-import { addTranslation } from './addTranslation'
-import { edit } from './edit'
-import { list } from './list'
-import { publish } from './publish'
-import { remove } from './remove'
+import { TextBasedChannels } from '../../utils/Constants.js'
+import { getCommandKeys, getOptionDescriptionKey } from '../../utils/getLocalizedKeys.js'
+import { add } from './_add.js'
+import { addTranslation } from './_addTranslation.js'
+import { edit } from './_edit.js'
+import { list } from './_list.js'
+import { publish } from './_publish.js'
+import { remove } from './_remove.js'
 
 const requiredPermissions = new PermissionsBitField([PermissionsBitField.Flags.ManageGuild, PermissionsBitField.Flags.ManageChannels]).bitfield
 
@@ -21,7 +21,7 @@ export class UserCommand extends Subcommand {
   public remove = remove
   public edit = edit
 
-  public constructor (context: Subcommand.Context, options: Subcommand.Options) {
+  public constructor (context: Subcommand.LoaderContext, options: Subcommand.Options) {
     super(context, {
       ...options,
       requiredUserPermissions: requiredPermissions,

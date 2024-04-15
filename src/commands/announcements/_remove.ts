@@ -1,8 +1,8 @@
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import ow from 'ow'
-import { Announcement } from '../../schemas/Announcement'
-import { reply } from '../../utils/reply'
-import { validateChatInput } from '../../utils/validateOptions'
+import { Announcement } from '../../schemas/Announcement.js'
+import { reply } from '../../utils/reply.js'
+import { validateChatInput } from '../../utils/validateOptions.js'
 
 const schema = ow.object.exactShape({
   name: ow.string

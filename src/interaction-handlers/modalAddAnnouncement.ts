@@ -1,15 +1,16 @@
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
-import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
+import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework'
 import { colord, extend } from 'colord'
 import namesPlugin from 'colord/plugins/names'
 import type { ModalSubmitInteraction } from 'discord.js'
 import ow from 'ow'
-import { Announcement } from '../schemas/Announcement'
-import isValidColorFormat from '../utils/colorValidation'
-import { temporaryImgStorage } from '../utils/Globals'
-import { reply } from '../utils/reply'
-import { validaModalInput } from '../utils/validateOptions'
+import { Announcement } from '../schemas/Announcement.js'
+import isValidColorFormat from '../utils/colorValidation.js'
+import { temporaryImgStorage } from '../utils/Globals.js'
+import { reply } from '../utils/reply.js'
+import { validaModalInput } from '../utils/validateOptions.js'
 
+// @ts-expect-error needs research
 extend([namesPlugin])
 
 const Schema = ow.object.exactShape({
@@ -26,7 +27,7 @@ const Schema = ow.object.exactShape({
 })
 
 export class ModalHandler extends InteractionHandler {
-  public constructor (context: PieceContext, options: InteractionHandler.Options) {
+  public constructor (context: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
     super(context, {
       ...options,
       interactionHandlerType: InteractionHandlerTypes.ModalSubmit
@@ -41,9 +42,10 @@ export class ModalHandler extends InteractionHandler {
   public async run (interaction: ModalSubmitInteraction) {
     const options = await validaModalInput(interaction, Schema)
     if (!options) return
-    let { color, description, footer, t, title, url } = options
-    const name = interaction.customId.split(':').at(-1) as string
-    const pastInteractionId = interaction.customId.split(':').at(-3) as string
+    const { description, footer, t, title, url } = options
+    let { color } = options
+    const name = interaction.customId.split(':').at(-1)
+    const pastInteractionId = interaction.customId.split(':').at(-3)
     color &&= colord(color).toHex()
 
     const images = temporaryImgStorage.get(pastInteractionId)

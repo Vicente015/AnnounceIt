@@ -2,12 +2,12 @@
 import { Command } from '@sapphire/framework'
 import { applyLocalizedBuilder, fetchT } from '@sapphire/plugin-i18next'
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, chatInputApplicationCommandMention, EmbedBuilder, HexColorString, ImageFormat } from 'discord.js'
-import config from '../../config.json'
-import { getCommandId } from '../utils/getCommandId'
-import { getCommandKeys } from '../utils/getLocalizedKeys'
+import config from '../../config.json' assert { type: 'json' }
+import { getCommandId } from '../utils/getCommandId.js'
+import { getCommandKeys } from '../utils/getLocalizedKeys.js'
 
 export class HelpCommand extends Command {
-  public constructor (context: Command.Context, options: Command.Options) {
+  public constructor (context: Command.LoaderContext, options: Command.Options) {
     super(context, {
       ...options
     })
