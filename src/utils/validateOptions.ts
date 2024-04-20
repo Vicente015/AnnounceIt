@@ -1,3 +1,4 @@
+import 'discord-api-types/v10'
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import { ApplicationCommandOptionType, CacheType, CommandInteractionOptionResolver, ModalSubmitInteraction } from 'discord.js'

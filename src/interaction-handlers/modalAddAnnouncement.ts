@@ -45,7 +45,7 @@ export class ModalHandler extends InteractionHandler {
     const { description, footer, t, title, url } = options
     let { color } = options
     const name = interaction.customId.split(':').at(-1)
-    const pastInteractionId = interaction.customId.split(':').at(-3)
+    const pastInteractionId = interaction.customId.split(':').at(-3)!
     color &&= colord(color).toHex()
 
     const images = temporaryImgStorage.get(pastInteractionId)

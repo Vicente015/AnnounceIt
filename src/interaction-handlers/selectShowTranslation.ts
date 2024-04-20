@@ -16,7 +16,7 @@ export class ButtonHandler extends InteractionHandler {
   }
 
   public override async parse (interaction: SelectMenuInteraction) {
-    if (!interaction.customId.startsWith('selectLang:')) return
+    if (!interaction.customId.startsWith('selectLang:')) return this.none()
     const announcementId = interaction.customId.split(':')[1]
     const t = await fetchT(interaction)
     const announcement = await Announcement.findById(announcementId).exec()

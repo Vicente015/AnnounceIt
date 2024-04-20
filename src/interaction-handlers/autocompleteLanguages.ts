@@ -31,7 +31,7 @@ export class AutocompleteLanguages extends InteractionHandler {
       case 'edit': {
         const announcementId = interaction.options.getString('name', true)
         const announcement = await Announcement.findById(announcementId).exec().catch(() => { return })
-        if (!announcement) return
+        if (!announcement) return this.none()
 
         const result = announcement.translations
           .map(({ lang: code }) => ({

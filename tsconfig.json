@@ -1,16 +1,21 @@
 {
-  "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
-    "strict": true,
+    "esModuleInterop": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "declaration": true,
-    "pretty": true,
-    "skipLibCheck": true,
     "outDir": "dist",
+    "pretty": true,
     "removeComments": true,
     "resolveJsonModule": true,
+    "sourceMap": true,
+    "strict": true
   },
-  "include": ["src"],
-  "exclude": ["old_commands", "node_modules", "dist", "dist/"],
+  "exclude": [
+    "node_modules/",
+    "dist/"
+  ],
+  "include": [
+    "src",
+    "eslint.config.js"
+  ]
 }
