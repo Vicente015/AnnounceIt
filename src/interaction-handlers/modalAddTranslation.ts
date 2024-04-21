@@ -33,7 +33,7 @@ export class ModalHandler extends InteractionHandler {
     if (!options) return
     const { description, footer, t, title, url } = options
     const [id, lang] = JSON.parse(interaction.customId.split(':').at(-1)!) as string[]
-    const announcement = await Announcement.findById(id).exec().catch(() => { return })
+    const announcement = await Announcement.findById(id).exec().catch(() => {})
     if (!announcement) return
 
     const pastInteractionId = interaction.customId.split(':').at(-3)!

@@ -27,7 +27,7 @@ const getValues = {
  * @param schema
  * @returns
  */
-export async function validateChatInput <T extends object> (interaction: Subcommand.ChatInputCommandInteraction, schema: ObjectPredicate<T>) {
+export async function validateChatInput<T extends object> (interaction: Subcommand.ChatInputCommandInteraction, schema: ObjectPredicate<T>) {
   if (!interaction.options.data[0].options || interaction.options.data[0].options.length === 0) return
   const options = interaction.options.data[0].options
     .map((option) => ({ [option.name]: getValues[option.type](option.name, interaction.options) }))
@@ -36,7 +36,8 @@ export async function validateChatInput <T extends object> (interaction: Subcomm
   try {
     ow(options, schema)
     return { ...options, t }
-  } catch (error) {
+  }
+  catch (error) {
     if (error instanceof ArgumentError) {
       // ? Removes "error <in object X>" from error message
       const errorMessage = error.message.split(' in object ')[0]
@@ -51,7 +52,7 @@ export async function validateChatInput <T extends object> (interaction: Subcomm
  * @param schema
  * @returns
  */
-export async function validaModalInput <T extends object> (interaction: ModalSubmitInteraction, schema: ObjectPredicate<T>) {
+export async function validaModalInput<T extends object> (interaction: ModalSubmitInteraction, schema: ObjectPredicate<T>) {
   if (!interaction.guild) return
 
   const options = interaction.fields.fields
@@ -62,7 +63,8 @@ export async function validaModalInput <T extends object> (interaction: ModalSub
   try {
     ow(options, schema)
     return { ...options, t }
-  } catch (error) {
+  }
+  catch (error) {
     if (error instanceof ArgumentError) {
       // ? Removes "error <in object X>" from error message
       const errorMessage = error.message.split(' in object ')[0]

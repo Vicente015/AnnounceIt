@@ -30,7 +30,7 @@ export async function addTranslation (interaction: Subcommand.ChatInputCommandIn
   if (!options) return
   const { image, lang, name: id, t, thumbnail } = options
 
-  const announcement = await Announcement.findById(id).exec().catch(() => { return })
+  const announcement = await Announcement.findById(id).exec().catch(() => {})
   if (!announcement) return await reply(interaction, { content: t('commands:add-translation.notFound'), type: 'negative' })
   if (announcement.translations.some((translation) => translation.lang === lang)) {
     return await reply(interaction, {
@@ -103,7 +103,8 @@ export async function addTranslation (interaction: Subcommand.ChatInputCommandIn
 
   try {
     await interaction.showModal(modal)
-  } catch (error) {
+  }
+  catch (error) {
     interaction.client.logger.error(error)
   }
 }

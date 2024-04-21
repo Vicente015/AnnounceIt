@@ -61,7 +61,8 @@ export class ModalHandler extends InteractionHandler {
         content: t('commands:edit.done_translation'),
         type: 'positive'
       })
-    } else {
+    }
+    else {
       const result = await Announcement.findOneAndUpdate(
         { _id: id },
         { color, description, footer, title, url }

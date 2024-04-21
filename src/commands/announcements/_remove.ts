@@ -15,7 +15,8 @@ export async function remove (interaction: Subcommand.ChatInputCommandInteractio
 
   try {
     await Announcement.findByIdAndDelete(id).exec()
-  } catch {
+  }
+  catch {
     return await reply(interaction, { content: t('commands:remove.error'), type: 'negative' })
   }
   return await reply(interaction, { content: t('commands:remove.done'), ephemeral: true, type: 'positive' })

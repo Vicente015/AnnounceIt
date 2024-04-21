@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-
 // @ts-check
-
 import eslint from '@eslint/js'
+import stylistic from '@stylistic/eslint-plugin'
 import eslintPluginSort from 'eslint-plugin-sort'
 import eslintPluginUnicorn from 'eslint-plugin-unicorn'
 import tseslint from 'typescript-eslint'
@@ -12,14 +10,24 @@ import tseslint from 'typescript-eslint'
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
-  ...tseslint.configs.stylisticTypeChecked,
+  stylistic.configs.customize({
+    arrowParens: true,
+    commaDangle: 'never',
+    indent: 2,
+    quotes: 'single',
+    semi: false
+  }),
+  {
+    rules: {
+      '@stylistic/space-before-function-paren': ['error', 'always']
+    }
+  },
   eslintPluginSort.configs['flat/recommended'],
   eslintPluginUnicorn.configs['flat/recommended'],
   {
     languageOptions: {
       parserOptions: {
-        project: './tsconfig.json',
-        tsconfigRootDir: import.meta.dirname
+        project: './tsconfig.json'
       }
     }
   },
@@ -30,10 +38,8 @@ export default tseslint.config(
       '@typescript-eslint/no-base-to-string': 'off',
       '@typescript-eslint/no-non-null-assertion': 'warn',
       '@typescript-eslint/restrict-template-expressions': 'off',
-      '@typescript-eslint/space-before-blocks': 'error',
-      "@typescript-eslint/space-before-function-paren": "error",
       '@typescript-eslint/strict-boolean-expressions': 'off',
-      "space-before-function-paren": "off",
+      'space-before-function-paren': 'off',
       'unicorn/consistent-function-scoping': 'off',
       'unicorn/filename-case': 'off',
       'unicorn/no-array-reduce': 'off',
@@ -48,6 +54,7 @@ export default tseslint.config(
     ],
     name: 'disableSortOnSchemas',
     rules: {
+      '@typescript-eslint/no-unsafe-assignment': 'off',
       'sort/object-properties': 'off'
     }
   }
