@@ -38,9 +38,10 @@ export async function validateChatInput<T extends object> (interaction: Subcomma
     return { ...options, t }
   }
   catch (error) {
+    interaction.client.logger.error(error)
     if (error instanceof ArgumentError) {
       // ? Removes "error <in object X>" from error message
-      const errorMessage = error.message.split(' in object ')[0]
+      const errorMessage = error.message.split(' in object')[0]
       await reply(interaction, { content: t(errorMessage, { defaultValue: '' }), type: 'negative' })
     }
   }
