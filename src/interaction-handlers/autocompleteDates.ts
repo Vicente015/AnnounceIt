@@ -31,7 +31,6 @@ export class AutocompleteNames extends InteractionHandler {
     const parsedValue = Number.parseInt(value)
     const optionValue = !Number.isNaN(parsedValue) && parsedValue > 0 ? parsedValue : 1
 
-    const toUTCUnixString = (date: Dayjs) => date.unix().toString()
     const formatDate = (date: Dayjs) => actualDate.to(date) + date.format(' (YYYY/MM/DD HH:mm') + ' UTC)'
 
     const units: ManipulateType[] = [
@@ -46,7 +45,7 @@ export class AutocompleteNames extends InteractionHandler {
       .filter((date) => date.isBefore(actualDate.add(1, 'year')))
       .map((date) => ({
         name: formatDate(date),
-        value: toUTCUnixString(date)
+        value: date.toISOString()
       }))
 
     return this.some(dates)
