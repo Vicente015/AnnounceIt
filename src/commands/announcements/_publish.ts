@@ -15,9 +15,16 @@ const schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
   name: ow.string,
   channel: ow.object,
-  date: ow.optional.date
-    .after(dayjs.utc().toDate())
-    .before(dayjs.utc().add(1, 'year').toDate())
+  date: ow.optional.string.validate((date) => {
+    const userDate = dayjs(date)
+    const actualDate = dayjs.utc()
+    return {
+      message: 'commands:publish.errorDateValidation',
+      validator: userDate.isValid()
+      && userDate.isAfter(actualDate)
+      && userDate.isBefore(actualDate.add(1, 'year'))
+    }
+  })
     .message('commands:publish.errorDateValidation')
 })
 
