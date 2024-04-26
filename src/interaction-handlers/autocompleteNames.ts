@@ -20,7 +20,7 @@ export class AutocompleteNames extends InteractionHandler {
 
     const announcements = await Announcement.find({ guildId: interaction.guildId })
     const result = announcements
-      .filter(announcement => announcement.name.toLowerCase().includes(optionValue.toString().toLowerCase()))
+      .filter((announcement) => announcement.name.toLowerCase().includes(optionValue.toString().toLowerCase()))
       .map((announcement) => ({ name: announcement.name, value: announcement._id.toString() }))
 
     return this.some(result)

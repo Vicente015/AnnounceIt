@@ -30,7 +30,7 @@ export class AutocompleteLanguages extends InteractionHandler {
     switch (subcommandName) {
       case 'edit': {
         const announcementId = interaction.options.getString('name', true)
-        const announcement = await Announcement.findById(announcementId).exec().catch(() => { return })
+        const announcement = await Announcement.findById(announcementId).exec().catch(() => {})
         if (!announcement) return this.none()
 
         const result = announcement.translations
@@ -38,7 +38,7 @@ export class AutocompleteLanguages extends InteractionHandler {
             name: languages.getName(code, interaction.locale.split('-')[0]) ?? iso.getNativeName(code),
             value: code
           }))
-          .filter(locale => locale.name.toLowerCase().includes(optionValue.toLowerCase()) || locale.value.includes(optionValue.toLowerCase()))
+          .filter((locale) => locale.name.toLowerCase().includes(optionValue.toLowerCase()) || locale.value.includes(optionValue.toLowerCase()))
 
         if (result.length > AutoCompleteLimits.MaximumAmountOfOptions) result.length = AutoCompleteLimits.MaximumAmountOfOptions
         return this.some(result)
@@ -47,7 +47,7 @@ export class AutocompleteLanguages extends InteractionHandler {
       default: {
         const locales = iso
           .getAllCodes()
-          .map(code =>
+          .map((code) =>
             ({
               name: languages.getName(code, interaction.locale.split('-')[0]) ?? iso.getNativeName(code),
               value: code
@@ -55,7 +55,7 @@ export class AutocompleteLanguages extends InteractionHandler {
           )
 
         const result = locales
-          .filter(locale => locale.name.toLowerCase().includes(optionValue.toLowerCase()) || locale.value.includes(optionValue.toLowerCase()))
+          .filter((locale) => locale.name.toLowerCase().includes(optionValue.toLowerCase()) || locale.value.includes(optionValue.toLowerCase()))
 
         if (result.length > AutoCompleteLimits.MaximumAmountOfOptions) result.length = AutoCompleteLimits.MaximumAmountOfOptions
         return this.some(result)

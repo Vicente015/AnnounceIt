@@ -1,4 +1,3 @@
-
 import { Command } from '@sapphire/framework'
 import { applyLocalizedBuilder, fetchT } from '@sapphire/plugin-i18next'
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, chatInputApplicationCommandMention, EmbedBuilder, HexColorString, ImageFormat } from 'discord.js'
@@ -37,7 +36,7 @@ export class HelpCommand extends Command {
       .setColor(config.colors.neutral as HexColorString)
       .setThumbnail(client.user.displayAvatarURL({ extension: ImageFormat.PNG, size: 512 }))
 
-    const buttons = new ActionRowBuilder()
+    const buttons = new ActionRowBuilder<ButtonBuilder>()
       .addComponents(
         new ButtonBuilder()
           .setLabel(t('commands:help.invite'))

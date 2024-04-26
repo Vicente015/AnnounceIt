@@ -50,6 +50,7 @@
   "publish": {
     "errorPerms": "❌ No tiene permiso para enviar mensajes en ese canal.",
     "cannotSend": "❌ No puedo enviar mensajes en ese canal.",
+    "errorDateValidation": "❌ La fecha introducida es inválida.",
     "announcementNotFound": "❌ No se ha encontrado el anuncio.",
     "done": "✅ Anuncio publicado correctamente."
   },

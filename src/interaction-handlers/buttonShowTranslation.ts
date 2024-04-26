@@ -25,7 +25,7 @@ export class ButtonHandler extends InteractionHandler {
     if (!announcement) return this.some({ content: t('common:announcementNotFound'), ephemeral: true })
 
     const translation = announcement
-      .translations.find(translation => translation._id?.toString() === translationId)
+      .translations.find((translation) => translation._id?.toString() === translationId)
     if (!translation) return this.some({ content: t('common:translationNotFound'), ephemeral: true })
 
     const embed = new EmbedBuilder()

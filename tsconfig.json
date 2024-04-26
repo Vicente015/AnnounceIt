@@ -8,7 +8,8 @@
     "removeComments": true,
     "resolveJsonModule": true,
     "sourceMap": true,
-    "strict": true
+    "strict": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules/",
@@ -16,6 +17,7 @@
   ],
   "include": [
     "src",
-    "eslint.config.js"
+    "src/languages/**/*.json",
+    "./eslint.config.js"
   ]
 }

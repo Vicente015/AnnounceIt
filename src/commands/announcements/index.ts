@@ -101,6 +101,12 @@ export class UserCommand extends Subcommand {
                 .setRequired(true)
                 .addChannelTypes(...TextBasedChannels)
             )
+            .addStringOption((option) =>
+              applyDescriptionLocalizedBuilder(option, getOptionDescriptionKey('date', command.name, subcommand.name))
+                .setName('date')
+                .setRequired(false)
+                .setAutocomplete(true)
+            )
         )
         .addSubcommand((subcommand) =>
           applyLocalizedBuilder(subcommand, ...getCommandKeys(command.name, 'list'))

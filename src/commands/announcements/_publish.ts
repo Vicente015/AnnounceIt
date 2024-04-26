@@ -1,18 +1,31 @@
-/* eslint-disable @typescript-eslint/consistent-type-assertions */
-import { InteractionLimits } from '@sapphire/discord-utilities'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { ButtonStyle, ComponentType, EmbedBuilder, GuildTextBasedChannel, PermissionsBitField } from 'discord.js'
-import iso from 'iso-639-1'
+import dayjs from 'dayjs'
+import UTCPlugin from 'dayjs/plugin/utc.js'
+import { GuildTextBasedChannel, PermissionsBitField } from 'discord.js'
 import ow from 'ow'
 import { Announcement } from '../../schemas/Announcement.js'
-import convertHexStringToInt from '../../utils/convertHexStringToInt.js'
+import { ScheduledPost } from '../../schemas/ScheduledPost.js'
+import { buildAnnouncementMessage } from '../../utils/buildAnnouncement.js'
 import { reply } from '../../utils/reply.js'
 import { validateChatInput } from '../../utils/validateOptions.js'
+
+dayjs.extend(UTCPlugin)
 
 const schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
   name: ow.string,
-  channel: ow.object
+  channel: ow.object,
+  date: ow.optional.string.validate((date) => {
+    const userDate = dayjs(date)
+    const actualDate = dayjs.utc()
+    return {
+      message: 'commands:publish.errorDateValidation',
+      validator: userDate.isValid()
+      && userDate.isAfter(actualDate)
+      && userDate.isBefore(actualDate.add(1, 'year'))
+    }
+  })
+    .message('commands:publish.errorDateValidation')
 })
 
 export async function publish (interaction: Subcommand.ChatInputCommandInteraction) {
@@ -20,7 +33,7 @@ export async function publish (interaction: Subcommand.ChatInputCommandInteracti
   if (!client.isReady()) return
   const options = await validateChatInput(interaction, schema)
   if (!options) return
-  const { name: id, t } = options
+  const { date: scheduledDate, name: id, t } = options
   const channel = options.channel as GuildTextBasedChannel
 
   if (!channel.permissionsFor(interaction.user.id)?.has(PermissionsBitField.Flags.SendMessages)) {
@@ -30,48 +43,22 @@ export async function publish (interaction: Subcommand.ChatInputCommandInteracti
     return await reply(interaction, { content: t('commands:publish.cannotSend'), type: 'negative' })
   }
 
-  const announcement = await Announcement.findById(id).exec().catch(() => { return })
+  const announcement = await Announcement.findById(id).exec().catch(() => {})
   if (!announcement) return await reply(interaction, { content: t('commands:publish.announcementNotFound'), type: 'negative' })
-  const haveTranslations = announcement?.translations.length > 0
 
-  const embed = new EmbedBuilder()
-    .setColor(convertHexStringToInt(announcement.color) ?? 'Blurple')
-
-  if (announcement.title) embed.setTitle(announcement.title)
-  if (announcement.description) embed.setDescription(announcement.description)
-  if (announcement.footer) embed.setFooter({ text: announcement.footer })
-  if (announcement.url && announcement.title) embed.setURL(announcement.url)
-  if (announcement.image) embed.setImage(announcement.image)
-  if (announcement.thumbnail) embed.setThumbnail(announcement.thumbnail)
-
-  if (haveTranslations) {
-    const exceedsButtonLimit = announcement.translations.length > InteractionLimits.MaximumButtonsPerActionRow
-
-    const components = {
-      components: exceedsButtonLimit
-        ? [{
-            customId: `selectLang:${announcement.id}`,
-            options: announcement.translations
-              .map((translation) => ({ label: iso.getNativeName(translation.lang), value: translation._id?.toString() })),
-            placeholder: t('common:selectLang'),
-            type: ComponentType.StringSelect
-          }]
-        : announcement.translations.map((translation) => (
-          {
-            customId: translation._id?.toString(),
-            label: iso.getNativeName(translation.lang),
-            style: ButtonStyle.Secondary,
-            type: ComponentType.Button
-          }
-        )),
-      type: ComponentType.ActionRow
-    }
-
-    await channel.send({ components: [components], embeds: [embed] })
-  } else {
-    await channel.send({ embeds: [embed] })
+  if (scheduledDate) {
+    const scheduledPost = new ScheduledPost({
+      announcementId: announcement._id,
+      at: scheduledDate,
+      channelId: channel.id
+    })
+    await scheduledPost.save()
+    // todo: i18n
+    await reply(interaction, { content: 'Mensaje programado correctamente.', ephemeral: true, type: 'positive' })
   }
-
-  await Announcement.findByIdAndUpdate(id, { published: true }).exec()
-  return await reply(interaction, { content: t('commands:publish.done'), ephemeral: true, type: 'positive' })
+  else {
+    await channel.send(buildAnnouncementMessage(announcement, t))
+    await Announcement.findByIdAndUpdate(id, { published: true }).exec()
+    await reply(interaction, { content: t('commands:publish.done'), ephemeral: true, type: 'positive' })
+  }
 }

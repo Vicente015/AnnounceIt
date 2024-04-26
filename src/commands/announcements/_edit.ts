@@ -20,7 +20,7 @@ export async function edit (interaction: Subcommand.ChatInputCommandInteraction)
   if (!options) return
   const { lang, name: id } = options
 
-  const announcement = await Announcement.findById(id).exec().catch(() => { return })
+  const announcement = await Announcement.findById(id).exec().catch(() => {})
   if (!announcement) return await reply(interaction, { content: t('commands:publish.announcementNotFound'), type: 'negative' })
   const translation = lang ? announcement.translations.find((translation) => translation.lang === lang) : undefined
   const target = translation ?? announcement
@@ -49,7 +49,8 @@ export async function edit (interaction: Subcommand.ChatInputCommandInteraction)
 
   try {
     await interaction.showModal(modal)
-  } catch (error) {
+  }
+  catch (error) {
     interaction.client.logger.error(error)
   }
 }
