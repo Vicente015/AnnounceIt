@@ -3,6 +3,7 @@ import { Listener } from '@sapphire/framework'
 import { Cron } from 'croner'
 import type { Client } from 'discord.js'
 import mongoose from 'mongoose'
+import postScheduledJob from '../jobs/postScheduled.js'
 
 export class ReadyListener extends Listener {
   public constructor (context: Listener.LoaderContext, options: Listener.Options) {
@@ -18,6 +19,6 @@ export class ReadyListener extends Listener {
 
     client.logger.info(`Conectado a ${client.guilds.cache.size} servidores`)
 
-    const scheduledAnnouncementsJob = Cron('* * * * *')
+    Cron('* * * * *', async () => postScheduledJob(client))
   }
 }
