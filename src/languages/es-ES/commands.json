@@ -52,7 +52,8 @@
     "cannotSend": "❌ No puedo enviar mensajes en ese canal.",
     "errorDateValidation": "❌ La fecha introducida es inválida.",
     "announcementNotFound": "❌ No se ha encontrado el anuncio.",
-    "done": "✅ Anuncio publicado correctamente."
+    "done": "✅ Anuncio publicado correctamente.",
+    "scheduleDone": "✅ Anuncio programado correctamente."
   },
   "remove": {
     "error": "❌ Se ha producido un error al borrar el comando.",

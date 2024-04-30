@@ -53,8 +53,7 @@ export async function publish (interaction: Subcommand.ChatInputCommandInteracti
       channelId: channel.id
     })
     await scheduledPost.save()
-    // todo: i18n
-    await reply(interaction, { content: 'Mensaje programado correctamente.', ephemeral: true, type: 'positive' })
+    await reply(interaction, { content: t('commands:publish.scheduleDone'), ephemeral: true, type: 'positive' })
   }
   else {
     await channel.send(buildAnnouncementMessage(announcement, t))
