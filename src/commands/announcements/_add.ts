@@ -44,7 +44,6 @@ export async function add (interaction: Subcommand.ChatInputCommandInteraction) 
     .setCustomId(`addAnnouncement:${interaction.id}:${Date.now()}:${id}`)
 
   const components = await getModalComponents(interaction)
-  interaction.client.logger.debug('modal components', components)
 
   modal.setComponents(
     // ? Makes an actionRow for every textInput

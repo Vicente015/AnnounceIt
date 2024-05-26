@@ -5,7 +5,7 @@ import namesPlugin from 'colord/plugins/names'
 import type { ModalSubmitInteraction } from 'discord.js'
 import ow from 'ow'
 import { Announcement } from '../schemas/Announcement.js'
-import isValidColorFormat from '../utils/colorValidation.js'
+import hasValidColorFormat from '../utils/colorValidation.js'
 import { temporaryImgStorage } from '../utils/Globals.js'
 import { reply } from '../utils/reply.js'
 import { validaModalInput } from '../utils/validateOptions.js'
@@ -22,7 +22,7 @@ const Schema = ow.object.exactShape({
   url: ow.optional.string.nonEmpty.url.message(() => 'commands:add-translation.urlNotValid'),
   color: ow.optional.string.nonEmpty.validate((string) => ({
     message: () => 'commands:add.notValidColor',
-    validator: isValidColorFormat(string)
+    validator: hasValidColorFormat(string)
   }))
 })
 

@@ -1,10 +1,8 @@
-import 'discord-api-types/v10'
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
 import { ApplicationCommandOptionType, CacheType, CommandInteractionOptionResolver, ModalSubmitInteraction } from 'discord.js'
 import ow, { ArgumentError, ObjectPredicate } from 'ow'
 import { reply } from './reply.js'
-
 type Options = Omit<CommandInteractionOptionResolver<CacheType>, 'getMessage' | 'getFocused'>
 
 const getValues = {
@@ -26,8 +24,8 @@ const getValues = {
  * @param interaction
  * @param schema
  * @returns
- */
-export async function validateChatInput<T extends object> (interaction: Subcommand.ChatInputCommandInteraction, schema: ObjectPredicate<T>) {
+*/
+export async function validateChatInput<Shape extends object> (interaction: Subcommand.ChatInputCommandInteraction, schema: ObjectPredicate<Shape>) {
   if (!interaction.options.data[0].options || interaction.options.data[0].options.length === 0) return
   const options = interaction.options.data[0].options
     .map((option) => ({ [option.name]: getValues[option.type](option.name, interaction.options) }))

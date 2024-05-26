@@ -2,7 +2,8 @@
   "name": "announceit",
   "version": "2.0.0",
   "description": "",
-  "main": "dist/src/index.js",
+  "main": "./dist/src/index.js",
+  "exports": "./dist/src/index.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
@@ -10,7 +11,8 @@
     "start:build": "pnpm run build && pnpm run start",
     "dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node .\"",
     "lint": "eslint . --ignore-pattern \"dist/\"",
-    "fix": "nr lint --fix"
+    "fix": "nr lint --fix",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "Vicente015 <me@vicente015.dev>",
@@ -48,10 +50,11 @@
     "@eslint/eslintrc": "^3.0.2",
     "@eslint/js": "^9.0.0",
     "@stylistic/eslint-plugin": "^1.7.2",
-    "@tsconfig/node18": "^1.0.3",
     "@types/node": "^18.19.31",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "eslint": "^8.57.0",
+    "eslint-config-love": "^48.0.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^15.7.0",
@@ -61,6 +64,7 @@
     "ts-reset": "^0.0.1",
     "tsc-watch": "^6.0.5",
     "typescript": "^5.4.5",
-    "typescript-eslint": "^7.6.0"
+    "typescript-eslint": "^7.6.0",
+    "vitest": "^1.5.3"
   }
 }

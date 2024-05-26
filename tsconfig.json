@@ -1,15 +1,24 @@
 {
   "compilerOptions": {
+    "declaration": false,
     "esModuleInterop": true,
+    "importsNotUsedAsValues": "remove", /* Specify emit/checking behavior for imports that are only used for types. */
+    "isolatedModules": true, /* Ensure that each file can be safely transpiled without relying on other imports. */
+    "lib": [
+      "ESNext",
+    ],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "outDir": "dist",
     "pretty": true,
-    "removeComments": true,
     "resolveJsonModule": true,
-    "sourceMap": true,
+    "skipLibCheck": true,
+    "sourceMap": true, /* Create source map files for emitted JavaScript files. */
     "strict": true,
-    "skipLibCheck": true
+    "target": "ESNext",
+    "types": [
+      "node"
+    ]
   },
   "exclude": [
     "node_modules/",
@@ -18,6 +27,11 @@
   "include": [
     "src",
     "src/languages/**/*.json",
-    "./eslint.config.js"
-  ]
+    "*.config.*",
+    "src/tests"
+  ],
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true
+  }
 }

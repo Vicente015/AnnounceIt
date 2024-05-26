@@ -3,6 +3,7 @@
 // @ts-check
 import eslint from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
+import eslintConfigLove from 'eslint-config-love'
 import eslintPluginSort from 'eslint-plugin-sort'
 import eslintPluginUnicorn from 'eslint-plugin-unicorn'
 import tseslint from 'typescript-eslint'
@@ -10,6 +11,10 @@ import tseslint from 'typescript-eslint'
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
+  {
+    ...eslintConfigLove,
+    files: ['*.js', '*.jsx', '*.ts', '*.tsx']
+  },
   stylistic.configs.customize({
     arrowParens: true,
     commaDangle: 'never',
@@ -56,6 +61,21 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/no-unsafe-assignment': 'off',
       'sort/object-properties': 'off'
+    }
+  },
+  {
+    files: ['src/tests/*'],
+    name: 'disableOnTests',
+    rules: {
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/require-await': 'off',
+      'unicorn/no-null': 'off'
+    }
+  },
+  {
+    name: 'disableOnType',
+    rules: {
+      '@typescript-eslint/no-floating-promises': 'off'
     }
   }
 )

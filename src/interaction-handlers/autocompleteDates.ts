@@ -9,7 +9,7 @@ dayjs.extend(UTCPlugin)
 dayjs.extend(LocalizedFormatPlugin)
 dayjs.extend(RelativeTimePlugin)
 
-export class AutocompleteNames extends InteractionHandler {
+export class AutocompleteDates extends InteractionHandler {
   public constructor (context: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
     super(context, {
       ...options,
@@ -47,7 +47,6 @@ export class AutocompleteNames extends InteractionHandler {
         name: formatDate(date),
         value: date.toISOString()
       }))
-
     return this.some(dates)
   }
 }

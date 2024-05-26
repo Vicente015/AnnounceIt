@@ -31,6 +31,7 @@ const schema = ow.object.exactShape({
 export async function publish (interaction: Subcommand.ChatInputCommandInteraction) {
   const client = interaction.client
   if (!client.isReady()) return
+
   const options = await validateChatInput(interaction, schema)
   if (!options) return
   const { date: scheduledDate, name: id, t } = options
