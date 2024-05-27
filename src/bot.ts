@@ -16,15 +16,15 @@ export function createClient (override: Partial<ClientOptions> = {}) {
     i18n: {
       defaultLanguageDirectory: 'src/languages/',
       fetchLanguage: (context: InternationalizationContext) => {
-        return context.interactionGuildLocale ?? context.interactionLocale ?? context.guild?.preferredLocale ?? config.defaultLanguage
+        return context.interactionGuildLocale || context.interactionLocale || context.guild?.preferredLocale || config.defaultLanguage
       },
       i18next: { fallbackLng: 'es-ES', returnEmptyString: true, returnNull: false }
     },
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+    intents: [GatewayIntentBits.Guilds],
     loadSubcommandErrorListeners: true,
     logger: { level: config.debug ? LogLevel.Debug : LogLevel.Info },
     makeCache: Options.cacheWithLimits({
-      ...Options.DefaultMakeCacheSettings,
+      AutoModerationRuleManager: 0,
       GuildBanManager: 0,
       GuildEmojiManager: 0,
       GuildInviteManager: 0,
@@ -43,6 +43,7 @@ export function createClient (override: Partial<ClientOptions> = {}) {
       activities: [{ name: 'Publishing announcements', type: ActivityType.Playing }],
       status: PresenceUpdateStatus.Online
     },
+    sweepers: Options.DefaultSweeperSettings,
     ...override
   })
 }

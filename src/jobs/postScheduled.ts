@@ -25,8 +25,10 @@ export default async function postScheduledJob (client: Client) {
     }
     catch (error) {
       client.logger.error('[postScheduled]', error)
-      await ScheduledPost.findByIdAndDelete(post.id).exec()
       continue
+    }
+    finally {
+      await ScheduledPost.findByIdAndDelete(post.id).exec()
     }
   }
 }

@@ -1,3 +1,4 @@
+import '../environment.js'
 import { SapphireClient } from '@sapphire/framework'
 import { ApplicationCommandOptionChoiceData, ApplicationCommandOptionType, Events, Locale } from 'discord.js'
 import { beforeEach, describe, expect, it } from 'vitest'

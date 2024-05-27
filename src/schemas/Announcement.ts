@@ -1,5 +1,5 @@
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
-import * as mongoose from 'mongoose'
+import mongoose from 'mongoose'
 import { URLRegex } from '../utils/Regex.js'
 import { MaxNameLength } from './OwSchemas.js'
 
@@ -54,4 +54,4 @@ const AnnouncementSchema = new mongoose.Schema<AnnouncementType>({
   ]
 })
 
-export const Announcement: mongoose.Model<AnnouncementType> = mongoose.models?.Announcement || mongoose.model<AnnouncementType>('Announcement', AnnouncementSchema)
+export const Announcement: mongoose.Model<AnnouncementType> = mongoose.models.Announcement || mongoose.model<AnnouncementType>('Announcement', AnnouncementSchema)

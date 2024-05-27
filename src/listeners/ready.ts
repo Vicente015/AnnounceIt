@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import '../environment.js'
 import { Listener } from '@sapphire/framework'
 import { Cron } from 'croner'
 import type { Client } from 'discord.js'
@@ -16,8 +16,9 @@ export class ReadyListener extends Listener {
   }
 
   public async run (client: Client) {
-    if (!process.env.MONGO_URI) throw new Error('MONGO_URI env variable not found')
-    await mongoose.connect(process.env.MONGO_URI)
+    const MONGO_URI = globalThis.__MONGO_URI__ ?? process.env.MONGO_URI
+    if (!MONGO_URI) throw new Error('MONGO_URI not found')
+    await mongoose.connect(MONGO_URI)
 
     client.logger.info(`Conectado a ${client.guilds.cache.size} servidores`)
 

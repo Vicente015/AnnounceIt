@@ -13,4 +13,4 @@ const ScheduledPostSchema = new mongoose.Schema<ScheduledPostType>({
   at: { type: Date, required: true }
 })
 
-export const ScheduledPost: mongoose.Model<ScheduledPostType> = mongoose.models?.ScheduledPost || mongoose.model<ScheduledPostType>('ScheduledPost', ScheduledPostSchema)
+export const ScheduledPost: mongoose.Model<ScheduledPostType> = mongoose.models.ScheduledPost || mongoose.model<ScheduledPostType>('ScheduledPost', ScheduledPostSchema)
