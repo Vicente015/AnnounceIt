@@ -16,7 +16,8 @@ export class ReadyListener extends Listener {
   }
 
   public async run (client: Client) {
-    await mongoose.connect(process.env.MONGO_URI ?? '')
+    if (!process.env.MONGO_URI) throw new Error('MONGO_URI env variable not found')
+    await mongoose.connect(process.env.MONGO_URI)
 
     client.logger.info(`Conectado a ${client.guilds.cache.size} servidores`)
 
