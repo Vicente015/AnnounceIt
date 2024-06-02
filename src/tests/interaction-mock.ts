@@ -14,6 +14,8 @@ import {
   ChatInputCommandInteraction,
   Client,
   ComponentType,
+  DiscordjsError,
+  DiscordjsErrorCodes,
   GuildMember,
   GuildMemberFlags,
   type GuildTextBasedChannel,
@@ -182,13 +184,13 @@ function applyInteractionResponseHandlers (interaction: Interaction) {
     // @ts-expect-error dsdsds
     interaction.respond = () => {
       interaction.responded = true
+    }
+  }
 
-      return Promise.resolve(
-        mockInteractionResponse({
-          id: interaction.id,
-          interaction: interaction
-        })
-      )
+  if ('showModal' in interaction) {
+    interaction.showModal = async () => {
+      if (interaction.deferred || interaction.replied) throw new DiscordjsError(DiscordjsErrorCodes.InteractionAlreadyReplied)
+      interaction.replied = true
     }
   }
 
@@ -261,13 +263,15 @@ export function mockChatInputCommandInteraction ({
   client,
   id,
   member,
-  name
+  name,
+  options = []
 }: {
   client: Client
   name: string
   id: string
   channel?: GuildTextBasedChannel
   member?: GuildMember
+  options?: APIApplicationCommandInteractionDataOption[]
 }): ChatInputCommandInteraction {
   if (!channel) {
     channel = mockTextChannel(client)
@@ -286,6 +290,7 @@ export function mockChatInputCommandInteraction ({
       guild_id: channel.guild.id,
       id,
       name,
+      options,
       type: ApplicationCommandType.ChatInput
     }
   }

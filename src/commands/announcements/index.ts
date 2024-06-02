@@ -13,7 +13,7 @@ import { remove } from './_remove.js'
 
 const requiredPermissions = new PermissionsBitField([PermissionsBitField.Flags.ManageGuild, PermissionsBitField.Flags.ManageChannels]).bitfield
 
-export class UserCommand extends Subcommand {
+export class AnnouncementsCommand extends Subcommand {
   public addTranslation = addTranslation
   public add = add
   public publish = publish
@@ -24,6 +24,7 @@ export class UserCommand extends Subcommand {
   public constructor (context: Subcommand.LoaderContext, options: Subcommand.Options) {
     super(context, {
       ...options,
+      name: 'announcements',
       requiredUserPermissions: requiredPermissions,
 
       subcommands: [

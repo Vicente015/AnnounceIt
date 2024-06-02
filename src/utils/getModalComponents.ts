@@ -1,8 +1,8 @@
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
-import { CommandInteraction, ComponentType, TextInputStyle } from 'discord.js'
+import { CommandInteraction, ComponentType, TextInputComponentData, TextInputStyle } from 'discord.js'
 
-const components = [
+const components: Array<Omit<TextInputComponentData, 'label'>> = [
   /*
     {
       customId: 'name',
@@ -56,7 +56,7 @@ const components = [
  * @param interaction The chat input interaction to fetch T
  * @returns Array of modal components
  */
-export default async function getModalComponents (interaction: CommandInteraction, removeColor?: boolean) {
+export default async function getModalComponents (interaction: CommandInteraction, removeColor?: boolean): Promise<TextInputComponentData[]> {
   const t: TFunction = await fetchT(interaction)
   if (removeColor === true) components.pop()
 
