@@ -28,6 +28,7 @@ export async function add (interaction: Subcommand.ChatInputCommandInteraction) 
   if (!options) return
   const { image, name: id, thumbnail } = options
 
+  // todo: refactor, move to own function
   if (image ?? thumbnail) {
     const images: Image[] = []
     if (image) {
@@ -44,7 +45,6 @@ export async function add (interaction: Subcommand.ChatInputCommandInteraction) 
     .setCustomId(`addAnnouncement:${interaction.id}:${Date.now()}:${id}`)
 
   const components = await getModalComponents(interaction)
-
   modal.setComponents(actionRowForEachComponent(components))
 
   try {

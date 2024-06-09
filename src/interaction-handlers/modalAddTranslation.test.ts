@@ -25,13 +25,21 @@ beforeEach(async () => {
   await Announcement.deleteMany({})
 })
 
-describe('modalAddAnnouncement', () => {
+describe('modalAddTranslation', () => {
+  it.todo('should reply with error if announcement does not exist')
   it('should reply to the interaction', async () => {
-    const pastInteractionId = randomSnowflake().toString()
-    const announcementName = 'test1'
+    const interactionId = randomSnowflake().toString()
     const guild = mockGuild(client)
     const channel = mockTextChannel(client, guild)
     const member = mockGuildMember({ client, guild })
+    const announcement = new Announcement({
+      description: 'example',
+      guildId: guild.id,
+      name: 'test1'
+    })
+    await announcement.save()
+    const id = announcement.id as string
+    const lang = 'en'
     const interaction = mockModalSubmitInteraction({
       channel,
       client,
@@ -42,7 +50,7 @@ describe('modalAddAnnouncement', () => {
         { components: [{ custom_id: 'url', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow },
         { components: [{ custom_id: 'color', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow }
       ],
-      id: `addAnnouncement:${pastInteractionId}:${Date.now()}:${announcementName}`,
+      id: `addTranslation:${interactionId}:${Date.now()}:${JSON.stringify([id, lang])}`,
       member
     })
 
@@ -53,39 +61,19 @@ describe('modalAddAnnouncement', () => {
     expect(interaction.replied).toBe(true)
   })
 
-  it('should create the announcement with the provided options', async () => {
-    const pastInteractionId = randomSnowflake().toString()
-    const announcementName = 'test1'
-    const description = 'example'
+  it('should modify the announcement adding the translation', async () => {
+    const interactionId = randomSnowflake().toString()
     const guild = mockGuild(client)
     const channel = mockTextChannel(client, guild)
     const member = mockGuildMember({ client, guild })
-    const interaction = mockModalSubmitInteraction({
-      channel,
-      client,
-      components: [
-        { components: [{ custom_id: 'title', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow },
-        { components: [{ custom_id: 'description', type: ComponentType.TextInput, value: description }], type: ComponentType.ActionRow },
-        { components: [{ custom_id: 'footer', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow },
-        { components: [{ custom_id: 'url', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow },
-        { components: [{ custom_id: 'color', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow }
-      ],
-      id: `addAnnouncement:${pastInteractionId}:${Date.now()}:${announcementName}`,
-      member
+    const announcement = new Announcement({
+      description: 'example',
+      guildId: guild.id,
+      name: 'test1'
     })
-
-    await emitEvent(client, Events.InteractionCreate, interaction)
-
-    const newAnnouncement = await Announcement.findOne({ guildId: guild.id, name: announcementName })
-    expect(newAnnouncement?.description).toBe(description)
-  })
-
-  it.skip('should delete the images from the tmp storage', async () => {
-    const pastInteractionId = randomSnowflake().toString()
-    const announcementName = 'test1'
-    const guild = mockGuild(client)
-    const channel = mockTextChannel(client, guild)
-    const member = mockGuildMember({ client, guild })
+    await announcement.save()
+    const id = announcement.id as string
+    const lang = 'en'
     const interaction = mockModalSubmitInteraction({
       channel,
       client,
@@ -96,7 +84,44 @@ describe('modalAddAnnouncement', () => {
         { components: [{ custom_id: 'url', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow },
         { components: [{ custom_id: 'color', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow }
       ],
-      id: `addAnnouncement:${pastInteractionId}:${Date.now()}:${announcementName}`,
+      id: `addTranslation:${interactionId}:${Date.now()}:${JSON.stringify([id, lang])}`,
+      member
+    })
+
+    await emitEvent(client, Events.InteractionCreate, interaction)
+    const newAnnouncement = await Announcement.findById(announcement.id)
+    const foundTranslation = newAnnouncement?.translations.some((translation) =>
+      translation.lang === lang && translation.description === 'example'
+    )
+
+    expect(foundTranslation).toBe(true)
+  })
+
+  // todo: skip because the temporaryImgStorage is not a singleton and
+  it.skip('should delete the images from the tmp storage', async () => {
+    const pastInteractionId = randomSnowflake().toString()
+    const guild = mockGuild(client)
+    const channel = mockTextChannel(client, guild)
+    const member = mockGuildMember({ client, guild })
+    const announcement = new Announcement({
+      description: 'example',
+      guildId: guild.id,
+      name: 'test1'
+    })
+    await announcement.save()
+    const id = announcement.id as string
+    const lang = 'en'
+    const interaction = mockModalSubmitInteraction({
+      channel,
+      client,
+      components: [
+        { components: [{ custom_id: 'title', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow },
+        { components: [{ custom_id: 'description', type: ComponentType.TextInput, value: 'example' }], type: ComponentType.ActionRow },
+        { components: [{ custom_id: 'footer', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow },
+        { components: [{ custom_id: 'url', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow },
+        { components: [{ custom_id: 'color', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow }
+      ],
+      id: `addTranslation:${pastInteractionId}:${Date.now()}:${JSON.stringify([id, lang])}`,
       member
     })
 

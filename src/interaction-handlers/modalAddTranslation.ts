@@ -34,9 +34,9 @@ export class ModalHandler extends InteractionHandler {
     const { description, footer, t, title, url } = options
     const [id, lang] = JSON.parse(interaction.customId.split(':').at(-1)!) as string[]
     const announcement = await Announcement.findById(id).exec().catch(() => {})
-    if (!announcement) return
+    if (!announcement) return // todo: mensaje de error
 
-    const pastInteractionId = interaction.customId.split(':').at(-3)!
+    const pastInteractionId = interaction.customId.split(':').at(1)!
     const images = temporaryImgStorage.get(pastInteractionId)
     const newImages = images?.map((image) => ({ [image.type.toLowerCase()]: image.url }))
       .reduce((previous, current) => ({ ...previous, ...current }))
@@ -50,6 +50,7 @@ export class ModalHandler extends InteractionHandler {
       ...newImages
     })
     await announcement.save()
+    temporaryImgStorage.delete(pastInteractionId)
 
     return await reply(interaction, {
       content: t('commands:add-translation.done'),

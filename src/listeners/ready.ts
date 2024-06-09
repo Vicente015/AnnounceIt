@@ -21,7 +21,7 @@ export class ReadyListener extends Listener {
     await mongoose.connect(MONGO_URI)
 
     client.logger.info(`Conectado a ${client.guilds.cache.size} servidores`)
-    client.logger.debug(`Conectado a Mongo ${mongoose.connection.host}:${mongoose.connection.port}`)
+    client.logger.debug(`Conectado a Mongo ${mongoose.connection.host}:${mongoose.connection.port} ${mongoose.connection.name}`)
 
     // # CronJobs
     Cron('* * * * *', async () => postScheduledJob(client))
