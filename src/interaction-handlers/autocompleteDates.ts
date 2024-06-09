@@ -28,8 +28,8 @@ export class AutocompleteDates extends InteractionHandler {
     await import(`dayjs/locale/${locale}.js`)
     const actualDate = dayjs().utc().locale(locale)
 
-    const parsedValue = Number.parseInt(value)
-    const optionValue = !Number.isNaN(parsedValue) && parsedValue > 0 ? parsedValue : 1
+    const valueToInt = Number.parseInt(value)
+    const limitedValue = !Number.isNaN(valueToInt) && valueToInt > 0 ? valueToInt : 1
 
     const formatDate = (date: Dayjs) => actualDate.to(date) + date.format(' (YYYY/MM/DD HH:mm') + ' UTC)'
 
@@ -41,7 +41,7 @@ export class AutocompleteDates extends InteractionHandler {
     ]
 
     const dates = units
-      .map((unit) => actualDate.add(optionValue, unit))
+      .map((unit) => actualDate.add(limitedValue, unit))
       .filter((date) => date.isBefore(actualDate.add(1, 'year')))
       .map((date) => ({
         name: formatDate(date),

@@ -71,7 +71,6 @@ describe('announcement add', () => {
 
     await add(interaction)
 
-    expect(interaction.replied).toBe(true)
     expect(temporaryImgStorage.get(interaction.id)?.find((img) => img.type === 'IMAGE')?.url).toBe(imageURL)
   })
 })

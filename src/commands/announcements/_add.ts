@@ -1,9 +1,9 @@
-import { TextInputBuilder } from '@discordjs/builders'
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { ActionRowBuilder, ComponentType, ModalBuilder } from 'discord.js'
+import { ModalBuilder } from 'discord.js'
 import ow from 'ow'
 import { nameSchema } from '../../schemas/OwSchemas.js'
+import actionRowForEachComponent from '../../utils/actionRowForEachComponent.js'
 import getModalComponents from '../../utils/getModalComponents.js'
 import { Image, temporaryImgStorage } from '../../utils/Globals.js'
 import { validateChatInput } from '../../utils/validateOptions.js'
@@ -45,14 +45,7 @@ export async function add (interaction: Subcommand.ChatInputCommandInteraction) 
 
   const components = await getModalComponents(interaction)
 
-  modal.setComponents(
-    // ? Makes an actionRow for every textInput
-    components
-      .map((component) => new ActionRowBuilder<TextInputBuilder>({
-        components: [{ ...component, type: ComponentType.TextInput }],
-        type: ComponentType.ActionRow
-      }))
-  )
+  modal.setComponents(actionRowForEachComponent(components))
 
   try {
     await interaction.showModal(modal)

@@ -3,6 +3,7 @@ import { z } from 'zod'
 
 const environmentVariables = z.object({
   MONGO_URI: z.string(),
+  MONGO_URI_TESTING: z.string(),
   TOKEN: z.string()
 })
 environmentVariables.parse(process.env)

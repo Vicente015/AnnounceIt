@@ -1,9 +1,10 @@
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { ActionRowBuilder, ComponentType, ModalBuilder } from 'discord.js'
+import { ModalBuilder } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
 import { Announcement } from '../../schemas/Announcement.js'
+import actionRowForEachComponent from '../../utils/actionRowForEachComponent.js'
 import getModalComponents from '../../utils/getModalComponents.js'
 import { reply } from '../../utils/reply.js'
 import { validateChatInput } from '../../utils/validateOptions.js'
@@ -35,17 +36,10 @@ export async function edit (interaction: Subcommand.ChatInputCommandInteraction)
   components = components.map((component) => ({
     ...component,
     // véase: https://www.totaltypescript.com/concepts/type-string-cannot-be-used-to-index-type
-    value: target[component.customId as keyof typeof target]
+    value: target[component.customId as keyof typeof target] as string
   }))
 
-  modal.setComponents(
-    // ? Makes an actionRow for every textInput
-    components
-      .map((component) => new ActionRowBuilder({
-        components: [{ ...component, type: ComponentType.TextInput }],
-        type: ComponentType.ActionRow
-      }))
-  )
+  modal.setComponents(actionRowForEachComponent(components))
 
   try {
     await interaction.showModal(modal)

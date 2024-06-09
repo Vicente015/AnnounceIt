@@ -16,6 +16,10 @@ beforeEach(async () => {
   // @ts-expect-error tell mongo to reload all the models
   mongoose.models = {}
   client = await setupBot()
+  // todo: create test ephemeral memory mongo server instead of using another db
+  await mongoose.connect(process.env.MONGO_URI_TESTING)
+  await Announcement.deleteMany({})
+  await ScheduledPost.deleteMany({})
 })
 
 describe('postScheduled', () => {

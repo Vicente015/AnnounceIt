@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 import {
   type APIApplicationCommandAutocompleteInteraction,
   APIApplicationCommandInteractionDataOption,
@@ -6,6 +7,7 @@ import {
   APIMessageButtonInteractionData,
   APIMessageComponentInteraction,
   type APIMessageStringSelectInteractionData,
+  APIModalSubmitInteraction,
   ApplicationCommandType,
   AutocompleteInteraction,
   ButtonInteraction,
@@ -26,6 +28,8 @@ import {
   Locale,
   Message,
   MessagePayload,
+  ModalSubmitActionRowComponent,
+  ModalSubmitInteraction,
   PermissionsBitField,
   type Snowflake,
   StringSelectMenuInteraction,
@@ -301,6 +305,46 @@ export function mockChatInputCommandInteraction ({
   ]) as ChatInputCommandInteraction
   applyInteractionResponseHandlers(command)
   return command
+}
+
+export function mockModalSubmitInteraction ({
+  channel,
+  client,
+  components = [],
+  id,
+  member
+}: {
+  client: Client
+  id: string
+  channel?: GuildTextBasedChannel
+  member?: GuildMember
+  components: ModalSubmitActionRowComponent[]
+}): ModalSubmitInteraction {
+  if (!channel) {
+    channel = mockTextChannel(client)
+  }
+  if (!member) {
+    member = mockGuildMember({ client, guild: channel.guild })
+  }
+  const rawData: APIModalSubmitInteraction = {
+    ...setupMockedInteractionAPIData({
+      applicationId: id,
+      caller: member.user,
+      channel,
+      type: InteractionType.ModalSubmit
+    }),
+    data: {
+      components,
+      custom_id: id
+    }
+  }
+  // TODO: Look into adding command to client cache
+  const interaction = Reflect.construct(ModalSubmitInteraction, [
+    client,
+    rawData
+  ]) as ModalSubmitInteraction
+  applyInteractionResponseHandlers(interaction)
+  return interaction
 }
 
 export function mockAutocompleteInteraction ({

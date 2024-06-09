@@ -47,13 +47,12 @@ export default tseslint.config(
       '@typescript-eslint/no-non-null-assertion': 'warn',
       '@typescript-eslint/restrict-template-expressions': 'off',
       '@typescript-eslint/strict-boolean-expressions': 'off',
-      'space-before-function-paren': 'off',
-      'unicorn/consistent-function-scoping': 'off',
+      'unicorn/consistent-function-scoping': 'warn',
       'unicorn/filename-case': 'off',
       'unicorn/no-array-reduce': 'off',
       'unicorn/no-await-expression-member': 'off',
-      'unicorn/prefer-module': 'off',
-      'unicorn/prefer-top-level-await': 'off'
+      'unicorn/prefer-module': 'warn',
+      'unicorn/prefer-top-level-await': 'warn'
     }
   },
   {
@@ -71,14 +70,7 @@ export default tseslint.config(
     name: 'disableOnTests',
     rules: {
       '@typescript-eslint/no-non-null-assertion': 'off',
-      '@typescript-eslint/require-await': 'off',
       'unicorn/no-null': 'off'
-    }
-  },
-  {
-    name: 'disableOnType',
-    rules: {
-      '@typescript-eslint/no-floating-promises': 'off'
     }
   }
 )

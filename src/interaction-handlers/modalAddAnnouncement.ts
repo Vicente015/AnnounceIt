@@ -8,7 +8,7 @@ import { Announcement } from '../schemas/Announcement.js'
 import hasValidColorFormat from '../utils/colorValidation.js'
 import { temporaryImgStorage } from '../utils/Globals.js'
 import { reply } from '../utils/reply.js'
-import { validaModalInput } from '../utils/validateOptions.js'
+import { validateModalInput } from '../utils/validateOptions.js'
 
 // @ts-expect-error needs research
 extend([namesPlugin])
@@ -40,7 +40,7 @@ export class ModalHandler extends InteractionHandler {
   }
 
   public async run (interaction: ModalSubmitInteraction) {
-    const options = await validaModalInput(interaction, Schema)
+    const options = await validateModalInput(interaction, Schema)
     if (!options) return
     const { description, footer, t, title, url } = options
     let { color } = options

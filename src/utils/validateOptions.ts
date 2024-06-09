@@ -19,6 +19,8 @@ const getValues = {
   [ApplicationCommandOptionType.User]: (optionName: string, options: Options) => options.getUser(optionName, false)
 }
 
+// todo: should test these two
+
 /**
  * Validates and returns the options of a command
  * @param interaction
@@ -51,7 +53,7 @@ export async function validateChatInput<Shape extends object> (interaction: Subc
  * @param schema
  * @returns
  */
-export async function validaModalInput<T extends object> (interaction: ModalSubmitInteraction, schema: ObjectPredicate<T>) {
+export async function validateModalInput<T extends object> (interaction: ModalSubmitInteraction, schema: ObjectPredicate<T>) {
   if (!interaction.guild) return
 
   const options = interaction.fields.fields
@@ -64,6 +66,7 @@ export async function validaModalInput<T extends object> (interaction: ModalSubm
     return { ...options, t }
   }
   catch (error) {
+    console.log('awa', error)
     if (error instanceof ArgumentError) {
       // ? Removes "error <in object X>" from error message
       const errorMessage = error.message.split(' in object ')[0]

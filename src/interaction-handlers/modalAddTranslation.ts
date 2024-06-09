@@ -5,7 +5,7 @@ import ow from 'ow'
 import { Announcement } from '../schemas/Announcement.js'
 import { temporaryImgStorage } from '../utils/Globals.js'
 import { reply } from '../utils/reply.js'
-import { validaModalInput } from '../utils/validateOptions.js'
+import { validateModalInput } from '../utils/validateOptions.js'
 
 const Schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
@@ -29,7 +29,7 @@ export class ModalHandler extends InteractionHandler {
   }
 
   public async run (interaction: ModalSubmitInteraction) {
-    const options = await validaModalInput(interaction, Schema)
+    const options = await validateModalInput(interaction, Schema)
     if (!options) return
     const { description, footer, t, title, url } = options
     const [id, lang] = JSON.parse(interaction.customId.split(':').at(-1)!) as string[]

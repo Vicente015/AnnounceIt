@@ -16,11 +16,12 @@ export class ReadyListener extends Listener {
   }
 
   public async run (client: Client) {
-    const MONGO_URI = globalThis.__MONGO_URI__ ?? process.env.MONGO_URI
+    const MONGO_URI = globalThis.__MONGO_URI__ ?? process.env.NODE_ENV === 'test' ? process.env.MONGO_URI_TESTING : process.env.MONGO_URI
     if (!MONGO_URI) throw new Error('MONGO_URI not found')
     await mongoose.connect(MONGO_URI)
 
     client.logger.info(`Conectado a ${client.guilds.cache.size} servidores`)
+    client.logger.debug(`Conectado a Mongo ${mongoose.connection.host}:${mongoose.connection.port}`)
 
     // # CronJobs
     Cron('* * * * *', async () => postScheduledJob(client))
