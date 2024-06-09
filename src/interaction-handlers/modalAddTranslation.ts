@@ -34,7 +34,7 @@ export class ModalHandler extends InteractionHandler {
     const { description, footer, t, title, url } = options
     const [id, lang] = JSON.parse(interaction.customId.split(':').at(-1)!) as string[]
     const announcement = await Announcement.findById(id).exec().catch(() => {})
-    if (!announcement) return // todo: mensaje de error
+    if (!announcement) return await reply(interaction, { content: t('commands:add-translation.notFound'), type: 'negative' })
 
     const pastInteractionId = interaction.customId.split(':').at(1)!
     const images = temporaryImgStorage.get(pastInteractionId)

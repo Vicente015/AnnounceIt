@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import '../environment.js'
 import { Events, SapphireClient } from '@sapphire/framework'
-import { ComponentType } from 'discord.js'
+import { ComponentType, InteractionReplyOptions } from 'discord.js'
 import mongoose from 'mongoose'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Announcement } from '../schemas/Announcement.js'
@@ -26,7 +26,36 @@ beforeEach(async () => {
 })
 
 describe('modalAddTranslation', () => {
-  it.todo('should reply with error if announcement does not exist')
+  it('should reply with error if announcement does not exist', async () => {
+    const interactionId = randomSnowflake().toString()
+    const guild = mockGuild(client)
+    const channel = mockTextChannel(client, guild)
+    const member = mockGuildMember({ client, guild })
+    const id = 'dskdasjdlkdaj'
+    const lang = 'en'
+    const interaction = mockModalSubmitInteraction({
+      channel,
+      client,
+      components: [
+        { components: [{ custom_id: 'title', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow },
+        { components: [{ custom_id: 'description', type: ComponentType.TextInput, value: 'example' }], type: ComponentType.ActionRow },
+        { components: [{ custom_id: 'footer', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow },
+        { components: [{ custom_id: 'url', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow },
+        { components: [{ custom_id: 'color', type: ComponentType.TextInput, value: '' }], type: ComponentType.ActionRow }
+      ],
+      id: `addTranslation:${interactionId}:${Date.now()}:${JSON.stringify([id, lang])}`,
+      member
+    })
+
+    const replyFunction = vi.spyOn(interaction, 'reply')
+    await emitEvent(client, Events.InteractionCreate, interaction)
+
+    expect(replyFunction).toHaveBeenCalled()
+    const lastReplyCall = replyFunction.mock.lastCall?.at(0) as InteractionReplyOptions
+    expect(interaction.replied).toBe(true)
+    expect(lastReplyCall.ephemeral).toBe(true)
+  })
+
   it('should reply to the interaction', async () => {
     const interactionId = randomSnowflake().toString()
     const guild = mockGuild(client)

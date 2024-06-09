@@ -30,7 +30,7 @@ export async function edit (interaction: Subcommand.ChatInputCommandInteraction)
     .setTitle(t('commands:edit.modalTitle'))
     .setCustomId(`editAnnouncement:${interaction.id}:${Date.now()}:${JSON.stringify([id, lang])}`)
 
-  let components = (await getModalComponents(interaction, !!lang))
+  let components = await getModalComponents(interaction, !!lang)
 
   // ? Add values from announcement to modal components
   components = components.map((component) => ({
