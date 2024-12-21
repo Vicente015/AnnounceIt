@@ -12,7 +12,8 @@
     "dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node .\"",
     "lint": "eslint . --ignore-pattern \"dist/\"",
     "fix": "nr lint --fix",
-    "test": "vitest"
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": "Vicente015 <me@vicente015.dev>",

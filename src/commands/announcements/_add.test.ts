@@ -45,7 +45,7 @@ describe('announcement add', () => {
       options
     })
 
-    await emitEvent(client, Events.InteractionCreate, interaction)
+    await add(client, Events.InteractionCreate, interaction)
 
     expect(interaction.replied).toBe(true)
   })
