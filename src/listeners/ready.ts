@@ -4,7 +4,7 @@ import { Cron } from 'croner'
 import type { Client } from 'discord.js'
 import mongoose from 'mongoose'
 import postScheduledJob from '../jobs/postScheduled.js'
-import pruneOldDataJob from '../jobs/pruneOldData.js'
+// import pruneOldDataJob from '../jobs/pruneOldData.js'
 
 export class ReadyListener extends Listener {
   public constructor (context: Listener.LoaderContext, options: Listener.Options) {
@@ -25,6 +25,7 @@ export class ReadyListener extends Listener {
 
     // # CronJobs
     new Cron('* * * * *', async () => postScheduledJob(client))
-    new Cron('0 0 1 * *', async () => pruneOldDataJob(client))
+    // ? Disabled atm
+    // new Cron('0 0 1 * *', async () => pruneOldDataJob(client))
   }
 }
