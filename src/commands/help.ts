@@ -1,7 +1,7 @@
 import { Command } from '@sapphire/framework'
 import { applyLocalizedBuilder, fetchT } from '@sapphire/plugin-i18next'
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, chatInputApplicationCommandMention, EmbedBuilder, HexColorString, ImageFormat } from 'discord.js'
-import config from '../../config.json' assert { type: 'json' }
+import config from '../../config.json' with { type: 'json' }
 import { getCommandId } from '../utils/getCommandId.js'
 import { getCommandKeys } from '../utils/getLocalizedKeys.js'
 
@@ -19,7 +19,7 @@ export class HelpCommand extends Command {
     )
   }
 
-  public async chatInputRun (interaction: Command.ChatInputCommandInteraction) {
+  public override async chatInputRun (interaction: Command.ChatInputCommandInteraction) {
     const client = interaction.client
     if (!client.isReady()) return
     const t = await fetchT(interaction)

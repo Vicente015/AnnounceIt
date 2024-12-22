@@ -53,7 +53,7 @@ export async function validateChatInput<Shape extends object> (interaction: Subc
  * @param schema
  * @returns
  */
-export async function validateModalInput<T extends object> (interaction: ModalSubmitInteraction, schema: ObjectPredicate<T>) {
+export async function validateModalInput<Shape extends object> (interaction: ModalSubmitInteraction, schema: ObjectPredicate<Shape>) {
   if (!interaction.guild) return
 
   const options = interaction.fields.fields

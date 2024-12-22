@@ -4,7 +4,7 @@ import { LogLevel, SapphireClient } from '@sapphire/framework'
 import { InternationalizationContext } from '@sapphire/plugin-i18next'
 import { ClientOptions } from 'discord.js'
 import { ActivityType, GatewayIntentBits, Options, PresenceUpdateStatus } from 'discord.js'
-import config from '../config.json' assert { type: 'json' }
+import config from '../config.json' with { type: 'json' }
 
 export function createClient (override: Partial<ClientOptions> = {}) {
   return new SapphireClient({

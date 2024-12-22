@@ -24,6 +24,8 @@
     "node_modules/",
     "dist/",
     "coverage/",
+    "src/tests/",
+    "**/**/*.test.*"
   ],
   "include": [
     "src",

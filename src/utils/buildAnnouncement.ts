@@ -1,6 +1,6 @@
 import { InteractionLimits } from '@sapphire/discord-utilities'
+import { TFunction } from '@sapphire/plugin-i18next'
 import { ButtonComponentData, ButtonStyle, ComponentType, EmbedBuilder, MessageCreateOptions, StringSelectMenuComponentData } from 'discord.js'
-import { TFunction } from 'i18next'
 import iso from 'iso-639-1'
 import { AnnouncementType } from '../schemas/Announcement.js'
 import convertHexStringToInt from './convertHexStringToInt.js'

@@ -18,7 +18,7 @@ export default async function postScheduledJob (client: Client) {
       const announcement = await Announcement.findById(post.announcementId).exec()
       if (!announcement) throw new Error('No announcement')
       const channel = await client.channels.fetch(post.channelId)
-      if (!channel || !channel.isTextBased()) throw new Error('No channel')
+      if (!channel || !channel.isSendable()) throw new Error('No channel')
       const t = await fetchT(channel)
       await channel.send(buildAnnouncementMessage(announcement, t))
       await Announcement.findByIdAndUpdate(announcement.id, { published: true }).exec()

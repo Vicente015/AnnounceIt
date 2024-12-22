@@ -24,7 +24,7 @@ export class ReadyListener extends Listener {
     client.logger.debug(`Conectado a Mongo ${mongoose.connection.host}:${mongoose.connection.port} ${mongoose.connection.name}`)
 
     // # CronJobs
-    Cron('* * * * *', async () => postScheduledJob(client))
-    Cron('0 0 1 * *', async () => pruneOldDataJob(client))
+    new Cron('* * * * *', async () => postScheduledJob(client))
+    new Cron('0 0 1 * *', async () => pruneOldDataJob(client))
   }
 }
