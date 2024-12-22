@@ -10,4 +10,5 @@
   "i18n-ally.namespace": true,
   "i18n-ally.pathMatcher": "{locale}/{namespaces}.json",
   "i18n-ally.regex.usageMatch": ["[^\\w\\d]t\\(['\"`]({key})['\"`]"],
+  "eslint.experimental.useFlatConfig": true
 }

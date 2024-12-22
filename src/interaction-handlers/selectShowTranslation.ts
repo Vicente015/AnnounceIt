@@ -1,10 +1,10 @@
-import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
+import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework'
 import { fetchT } from '@sapphire/plugin-i18next'
-import { ButtonInteraction, HexColorString, MessageEmbed, SelectMenuInteraction } from 'discord.js'
-import { Announcement } from '../schemas/Announcement'
+import { ButtonInteraction, EmbedBuilder, HexColorString, SelectMenuInteraction } from 'discord.js'
+import { Announcement } from '../schemas/Announcement.js'
 
 export class ButtonHandler extends InteractionHandler {
-  public constructor (context: PieceContext, options: InteractionHandler.Options) {
+  public constructor (context: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
     super(context, {
       ...options,
       interactionHandlerType: InteractionHandlerTypes.SelectMenu
@@ -16,7 +16,7 @@ export class ButtonHandler extends InteractionHandler {
   }
 
   public override async parse (interaction: SelectMenuInteraction) {
-    if (!interaction.customId.startsWith('selectLang:')) return
+    if (!interaction.customId.startsWith('selectLang:')) return this.none()
     const announcementId = interaction.customId.split(':')[1]
     const t = await fetchT(interaction)
     const announcement = await Announcement.findById(announcementId).exec()
@@ -24,11 +24,11 @@ export class ButtonHandler extends InteractionHandler {
 
     const translationId = interaction.values[0]
     const translation = announcement
-      .translations.find(translation => translation._id?.toString() === translationId)
+      .translations.find((translation) => translation._id?.toString() === translationId)
     if (!translation) return this.some({ content: t('common:translationNotFound'), ephemeral: true })
 
-    const embed = new MessageEmbed()
-      .setColor(announcement.color as HexColorString ?? 'BLURPLE')
+    const embed = new EmbedBuilder()
+      .setColor(announcement.color as HexColorString ?? 'Blurple')
     if (translation.title) embed.setTitle(translation.title)
     if (translation.description) embed.setDescription(translation.description)
     if (translation.footer) embed.setFooter({ text: translation.footer })

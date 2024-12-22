@@ -1,4 +1,3 @@
-
 /**
  * Gets the command's name and description keys
  * @param parameters

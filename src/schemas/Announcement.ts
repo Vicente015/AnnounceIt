@@ -1,7 +1,7 @@
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
-import * as mongoose from 'mongoose'
-import { URLRegex } from '../utils/Regex'
-import { MaxNameLength } from './OwSchemas'
+import mongoose from 'mongoose'
+import { URLRegex } from '../utils/Regex.js'
+import { MaxNameLength } from './OwSchemas.js'
 
 // todo: Integrate ow schema into this??
 export interface AnnouncementType {

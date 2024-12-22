@@ -1,9 +1,9 @@
-import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
+import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework'
 import type { AutocompleteInteraction } from 'discord.js'
-import { Announcement } from '../schemas/Announcement'
+import { Announcement } from '../schemas/Announcement.js'
 
 export class AutocompleteNames extends InteractionHandler {
-  public constructor (context: PieceContext, options: InteractionHandler.Options) {
+  public constructor (context: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
     super(context, {
       ...options,
       interactionHandlerType: InteractionHandlerTypes.Autocomplete
@@ -20,7 +20,7 @@ export class AutocompleteNames extends InteractionHandler {
 
     const announcements = await Announcement.find({ guildId: interaction.guildId })
     const result = announcements
-      .filter(announcement => announcement.name.toLowerCase().includes(optionValue.toString().toLowerCase()))
+      .filter((announcement) => announcement.name.toLowerCase().includes(optionValue.toString().toLowerCase()))
       .map((announcement) => ({ name: announcement.name, value: announcement._id.toString() }))
 
     return this.some(result)

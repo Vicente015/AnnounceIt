@@ -1,10 +1,11 @@
-import { InteractionHandler, InteractionHandlerTypes, PieceContext } from '@sapphire/framework'
+import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework'
 import { fetchT } from '@sapphire/plugin-i18next'
-import { ButtonInteraction, HexColorString, MessageEmbed } from 'discord.js'
-import { Announcement } from '../schemas/Announcement'
+import { ButtonInteraction, EmbedBuilder, HexColorString } from 'discord.js'
+import { isObjectIdOrHexString } from 'mongoose'
+import { Announcement } from '../schemas/Announcement.js'
 
 export class ButtonHandler extends InteractionHandler {
-  public constructor (context: PieceContext, options: InteractionHandler.Options) {
+  public constructor (context: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
     super(context, {
       ...options,
       interactionHandlerType: InteractionHandlerTypes.Button
@@ -19,15 +20,17 @@ export class ButtonHandler extends InteractionHandler {
     const translationId = interaction.customId
     const t = await fetchT(interaction)
 
+    if (!isObjectIdOrHexString(translationId)) return this.none()
     const announcement = await Announcement.findOne({ 'translations._id': translationId }).exec()
     if (!announcement) return this.some({ content: t('common:announcementNotFound'), ephemeral: true })
 
     const translation = announcement
-      .translations.find(translation => translation._id?.toString() === translationId)
+      .translations.find((translation) => translation._id?.toString() === translationId)
     if (!translation) return this.some({ content: t('common:translationNotFound'), ephemeral: true })
 
-    const embed = new MessageEmbed()
-      .setColor(announcement.color as HexColorString ?? 'BLURPLE')
+    const embed = new EmbedBuilder()
+      .setColor(announcement.color as HexColorString ?? 'Blurple')
+
     if (translation.title) embed.setTitle(translation.title)
     if (translation.description) embed.setDescription(translation.description)
     if (translation.footer) embed.setFooter({ text: translation.footer })

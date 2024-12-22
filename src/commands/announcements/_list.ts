@@ -1,18 +1,18 @@
 import { fetchT } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { ColorResolvable } from 'discord.js'
+import { HexColorString } from 'discord.js'
 import ow from 'ow'
 import { Pagination } from 'pagination.djs'
-import config from '../../../config.json'
-import { Announcement } from '../../schemas/Announcement'
-import { reply } from '../../utils/reply'
-import { validateChatInput } from '../../utils/validateOptions'
+import config from '../../../config.json' with { type: 'json' }
+import { Announcement } from '../../schemas/Announcement.js'
+import { reply } from '../../utils/reply.js'
+import { validateChatInput } from '../../utils/validateOptions.js'
 
 const schema = ow.object.exactShape({
   only_published: ow.optional.boolean
 })
 
-export async function list (interaction: Subcommand.ChatInputInteraction<'cached'>) {
+export async function list (interaction: Subcommand.ChatInputCommandInteraction<'cached'>) {
   const validatedOptions = await validateChatInput(interaction, schema)
   const options = validatedOptions ?? { only_published: undefined }
   const t = await fetchT(interaction)
@@ -37,7 +37,7 @@ export async function list (interaction: Subcommand.ChatInputInteraction<'cached
         })
       }))
     )
-    .setColor(config.colors.neutral as ColorResolvable)
+    .setColor(config.colors.neutral as HexColorString)
     .paginateFields()
 
   await pagination.render()

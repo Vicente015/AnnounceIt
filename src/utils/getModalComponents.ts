@@ -1,63 +1,62 @@
 import { EmbedLimits, TextInputLimits } from '@sapphire/discord-utilities'
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
-import { CommandInteraction } from 'discord.js'
-import { MessageComponentTypes, TextInputStyles } from 'discord.js/typings/enums'
+import { CommandInteraction, ComponentType, TextInputComponentData, TextInputStyle } from 'discord.js'
 
-const components = [
+const components: Array<Omit<TextInputComponentData, 'label'>> = [
   /*
     {
       customId: 'name',
       maxLength: 16,
       minLength: 3,
       required: true,
-      style: TextInputStyles.SHORT,
-      type: MessageComponentTypes.TEXT_INPUT
+      style: TextInputStyle.SHORT,
+      type: ComponentType.TEXT_INPUT
     }
   */
   {
     customId: 'title',
     maxLength: EmbedLimits.MaximumTitleLength,
     required: false,
-    style: TextInputStyles.PARAGRAPH,
-    type: MessageComponentTypes.TEXT_INPUT
+    style: TextInputStyle.Paragraph,
+    type: ComponentType.TextInput
   },
   {
     customId: 'description',
     maxLength: TextInputLimits.MaximumValueCharacters,
     required: true,
-    style: TextInputStyles.PARAGRAPH,
-    type: MessageComponentTypes.TEXT_INPUT
+    style: TextInputStyle.Paragraph,
+    type: ComponentType.TextInput
   },
   {
     customId: 'footer',
     maxLength: EmbedLimits.MaximumFooterLength,
     required: false,
-    style: TextInputStyles.PARAGRAPH,
-    type: MessageComponentTypes.TEXT_INPUT
+    style: TextInputStyle.Paragraph,
+    type: ComponentType.TextInput
   },
   {
     customId: 'url',
     required: false,
-    style: TextInputStyles.SHORT,
-    type: MessageComponentTypes.TEXT_INPUT
+    style: TextInputStyle.Short,
+    type: ComponentType.TextInput
   },
   {
     customId: 'color',
     required: false,
-    style: TextInputStyles.SHORT,
-    type: MessageComponentTypes.TEXT_INPUT
+    style: TextInputStyle.Short,
+    type: ComponentType.TextInput
   }
 ]
 
 // type CustomIdTypes = 'title' | 'description' | 'footer' | 'url' | 'color'
-// type ComponentsType = Array<TextInputComponentOptions & { customId: CustomIdTypes }>
+// type ComponentsType = Array<TextInputBuilderOptions & { customId: CustomIdTypes }>
 
 /**
  * Gets the modal components
  * @param interaction The chat input interaction to fetch T
  * @returns Array of modal components
  */
-export default async function getModalComponents (interaction: CommandInteraction, removeColor?: boolean) {
+export default async function getModalComponents (interaction: CommandInteraction, removeColor?: boolean): Promise<TextInputComponentData[]> {
   const t: TFunction = await fetchT(interaction)
   if (removeColor === true) components.pop()
 

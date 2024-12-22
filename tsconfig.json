@@ -1,15 +1,40 @@
 {
-  "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
-    "strict": true,
-    "declaration": true,
-    "pretty": true,
-    "skipLibCheck": true,
+    "declaration": false,
+    "esModuleInterop": true,
+    "importsNotUsedAsValues": "remove", /* Specify emit/checking behavior for imports that are only used for types. */
+    "isolatedModules": true, /* Ensure that each file can be safely transpiled without relying on other imports. */
+    "lib": [
+      "ESNext",
+    ],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "dist",
-    "removeComments": true,
-    "preserveSymlinks": true,
-    "resolveJsonModule": true
+    "pretty": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true, /* Create source map files for emitted JavaScript files. */
+    "strict": true,
+    "target": "ESNext",
+    "types": [
+      "node"
+    ]
   },
-  "exclude": ["old_commands"],
-  "include": ["src/*", "src/**/*", "src/languages/**/*.json"]
+  "exclude": [
+    "node_modules/",
+    "dist/",
+    "coverage/",
+    "src/tests/",
+    "**/**/*.test.*"
+  ],
+  "include": [
+    "src",
+    "src/languages/**/*.json",
+    "*.config.*",
+    "src/tests"
+  ],
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true
+  }
 }

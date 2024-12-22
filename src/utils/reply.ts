@@ -1,5 +1,6 @@
-import { ColorResolvable, CommandInteraction, InteractionReplyOptions, ModalSubmitInteraction } from 'discord.js'
-import config from '../../config.json'
+import { CommandInteraction, InteractionReplyOptions, ModalSubmitInteraction } from 'discord.js'
+import config from '../../config.json' with { type: 'json' }
+import convertHexStringToInt from './convertHexStringToInt.js'
 
 enum AnswerType {
   positive,
@@ -17,7 +18,7 @@ export async function reply (interaction: ModalSubmitInteraction | CommandIntera
 
   return await interaction.reply({
     embeds: [{
-      color: config.colors[type] as ColorResolvable,
+      color: convertHexStringToInt(config.colors[type]),
       description: content
     }],
     ephemeral: type === 'negative' ? true : !!ephemeral

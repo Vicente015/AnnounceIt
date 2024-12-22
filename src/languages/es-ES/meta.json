@@ -26,7 +26,8 @@
       "name": "publicar",
       "description": "Publica un anuncio",
       "options": {
-        "channel": "Canal donde será publicado"
+        "channel": "Canal donde será publicado",
+        "date": "Fecha y hora de publicación, ej 2024-01-31 12:50"
       }
     },
     "list": {

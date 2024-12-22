@@ -1,8 +1,8 @@
-import { Collection } from '@discordjs/collection'
+import { Collection } from 'discord.js'
 
 export interface Image {
   type: 'IMAGE' | 'THUMBNAIL'
   url: string
 }
 
-export const temporaryImgStorage: Collection<string, Image[]> = new Collection()
+export const temporaryImgStorage = new Collection<string, Image[]>()

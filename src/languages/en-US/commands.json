@@ -50,8 +50,10 @@
   "publish": {
     "errorPerms": "❌ You don't have permissions to send messages in that channel.",
     "cannotSend": "❌ I can't send messages in that channel.",
+    "errorDateValidation": "❌ The date provided is invalid.",
     "announcementNotFound": "❌ Announcement not found.",
-    "done": "✅ Announcement published."
+    "done": "✅ Announcement published.",
+    "scheduleDone": "✅ Announcement scheduled."
   },
   "remove": {
     "error": "❌ An error occurred.",

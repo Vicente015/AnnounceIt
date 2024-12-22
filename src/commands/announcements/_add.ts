@@ -1,12 +1,12 @@
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { Modal } from 'discord.js'
+import { ModalBuilder } from 'discord.js'
 import ow from 'ow'
-import { MessageComponentTypes } from 'discord.js/typings/enums'
-import { nameSchema } from '../../schemas/OwSchemas'
-import getModalComponents from '../../utils/getModalComponents'
-import { Image, temporaryImgStorage } from '../../utils/Globals'
-import { validateChatInput } from '../../utils/validateOptions'
+import { nameSchema } from '../../schemas/OwSchemas.js'
+import actionRowForEachComponent from '../../utils/actionRowForEachComponent.js'
+import getModalComponents from '../../utils/getModalComponents.js'
+import { Image, temporaryImgStorage } from '../../utils/Globals.js'
+import { validateChatInput } from '../../utils/validateOptions.js'
 
 export const imageFormats = ['.png', '.jpg', '.jpeg', '.gif', '.webp']
 const schema = ow.object.exactShape({
@@ -22,12 +22,13 @@ const schema = ow.object.exactShape({
   })).message(() => 'commands:add.notValidImage')
 })
 
-export async function add (interaction: Subcommand.ChatInputInteraction) {
+export async function add (interaction: Subcommand.ChatInputCommandInteraction) {
   const t: TFunction = await fetchT(interaction)
   const options = await validateChatInput(interaction, schema)
   if (!options) return
   const { image, name: id, thumbnail } = options
 
+  // todo: refactor, move to own function
   if (image ?? thumbnail) {
     const images: Image[] = []
     if (image) {
@@ -39,25 +40,17 @@ export async function add (interaction: Subcommand.ChatInputInteraction) {
     temporaryImgStorage.set(interaction.id, images)
   }
 
-  const modal = new Modal()
+  const modal = new ModalBuilder()
     .setTitle(t('commands:add.modalTitle'))
     .setCustomId(`addAnnouncement:${interaction.id}:${Date.now()}:${id}`)
 
   const components = await getModalComponents(interaction)
-
-  // @ts-expect-error
-  modal.setComponents([
-    // ? Makes an actionRow for every textInput
-    components
-      .map((component) => ({
-        components: [component],
-        type: MessageComponentTypes.ACTION_ROW
-      }))
-  ])
+  modal.setComponents(actionRowForEachComponent(components))
 
   try {
     await interaction.showModal(modal)
-  } catch (error) {
+  }
+  catch (error) {
     interaction.client.logger.error(error)
   }
 }

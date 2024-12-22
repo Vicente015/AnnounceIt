@@ -1,13 +1,13 @@
 import { fetchT, TFunction } from '@sapphire/plugin-i18next'
 import { Subcommand } from '@sapphire/plugin-subcommands'
-import { Modal } from 'discord.js'
+import { ModalBuilder } from 'discord.js'
 import iso from 'iso-639-1'
 import ow from 'ow'
-import { MessageComponentTypes } from 'discord.js/typings/enums'
-import { Announcement } from '../../schemas/Announcement'
-import getModalComponents from '../../utils/getModalComponents'
-import { reply } from '../../utils/reply'
-import { validateChatInput } from '../../utils/validateOptions'
+import { Announcement } from '../../schemas/Announcement.js'
+import actionRowForEachComponent from '../../utils/actionRowForEachComponent.js'
+import getModalComponents from '../../utils/getModalComponents.js'
+import { reply } from '../../utils/reply.js'
+import { validateChatInput } from '../../utils/validateOptions.js'
 
 const schema = ow.object.exactShape({
   // eslint-disable-next-line sort/object-properties
@@ -15,7 +15,7 @@ const schema = ow.object.exactShape({
   lang: ow.optional.string.oneOf(iso.getAllCodes()).message(() => 'commands:add-translation.notValidLanguage')
 })
 
-export async function edit (interaction: Subcommand.ChatInputInteraction) {
+export async function edit (interaction: Subcommand.ChatInputCommandInteraction) {
   const t: TFunction = await fetchT(interaction)
   const options = await validateChatInput(interaction, schema)
   if (!options) return
@@ -26,31 +26,25 @@ export async function edit (interaction: Subcommand.ChatInputInteraction) {
   const translation = lang ? announcement.translations.find((translation) => translation.lang === lang) : undefined
   const target = translation ?? announcement
 
-  const modal = new Modal()
+  const modal = new ModalBuilder()
     .setTitle(t('commands:edit.modalTitle'))
     .setCustomId(`editAnnouncement:${interaction.id}:${Date.now()}:${JSON.stringify([id, lang])}`)
 
-  let components = (await getModalComponents(interaction, !!lang))
+  let components = await getModalComponents(interaction, !!lang)
+
   // ? Add values from announcement to modal components
   components = components.map((component) => ({
     ...component,
-    // @ts-expect-error
-    value: target[component.customId]
+    // véase: https://www.totaltypescript.com/concepts/type-string-cannot-be-used-to-index-type
+    value: target[component.customId as keyof typeof target] as string
   }))
 
-  // @ts-expect-error
-  modal.setComponents([
-    // ? Makes an actionRow for every textInput
-    components
-      .map((component) => ({
-        components: [component],
-        type: MessageComponentTypes.ACTION_ROW
-      }))
-  ])
+  modal.setComponents(actionRowForEachComponent(components))
 
   try {
     await interaction.showModal(modal)
-  } catch (error) {
+  }
+  catch (error) {
     interaction.client.logger.error(error)
   }
 }
