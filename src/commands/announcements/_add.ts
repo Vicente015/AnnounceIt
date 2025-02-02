@@ -51,6 +51,6 @@ export async function add (interaction: Subcommand.ChatInputCommandInteraction) 
     await interaction.showModal(modal)
   }
   catch (error) {
-    interaction.client.logger.error(error)
+    interaction.client.logger.error(error, components, modal.components)
   }
 }
