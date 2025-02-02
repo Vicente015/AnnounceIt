@@ -65,6 +65,10 @@ export async function addTranslation (interaction: Subcommand.ChatInputCommandIn
     await interaction.showModal(modal)
   }
   catch (error) {
-    interaction.client.logger.error(error)
+    interaction.client.logger.error(error, modal, interaction)
+    await reply(interaction, {
+      content: t('common:weirdError'),
+      type: 'negative'
+    })
   }
 }

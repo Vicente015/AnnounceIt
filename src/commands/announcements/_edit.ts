@@ -45,6 +45,10 @@ export async function edit (interaction: Subcommand.ChatInputCommandInteraction)
     await interaction.showModal(modal)
   }
   catch (error) {
-    interaction.client.logger.error(error)
+    interaction.client.logger.error(error, modal, interaction)
+    await reply(interaction, {
+      content: t('common:weirdError'),
+      type: 'negative'
+    })
   }
 }

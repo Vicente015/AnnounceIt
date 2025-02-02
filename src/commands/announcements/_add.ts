@@ -6,6 +6,7 @@ import { nameSchema } from '../../schemas/OwSchemas.js'
 import actionRowForEachComponent from '../../utils/actionRowForEachComponent.js'
 import getModalComponents from '../../utils/getModalComponents.js'
 import { Image, temporaryImgStorage } from '../../utils/Globals.js'
+import { reply } from '../../utils/reply.js'
 import { validateChatInput } from '../../utils/validateOptions.js'
 
 export const imageFormats = ['.png', '.jpg', '.jpeg', '.gif', '.webp']
@@ -51,6 +52,10 @@ export async function add (interaction: Subcommand.ChatInputCommandInteraction) 
     await interaction.showModal(modal)
   }
   catch (error) {
-    interaction.client.logger.error(error, components, modal.components)
+    interaction.client.logger.error(error, modal, interaction)
+    await reply(interaction, {
+      content: t('common:weirdError'),
+      type: 'negative'
+    })
   }
 }
