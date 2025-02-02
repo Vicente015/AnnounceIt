@@ -46,7 +46,7 @@ const components: Array<Omit<TextInputComponentData, 'label'>> = [
     style: TextInputStyle.Short,
     type: ComponentType.TextInput
   }
-]
+] as const
 
 // type CustomIdTypes = 'title' | 'description' | 'footer' | 'url' | 'color'
 // type ComponentsType = Array<TextInputBuilderOptions & { customId: CustomIdTypes }>
@@ -57,10 +57,11 @@ const components: Array<Omit<TextInputComponentData, 'label'>> = [
  * @returns Array of modal components
  */
 export default async function getModalComponents (interaction: CommandInteraction, removeColor?: boolean): Promise<TextInputComponentData[]> {
+  const mutateComponents = [...components]
   const t: TFunction = await fetchT(interaction)
-  if (removeColor === true) components.pop()
+  if (removeColor === true) mutateComponents.pop()
 
-  return components.map((component) => ({
+  return mutateComponents.map((component) => ({
     ...component,
     label: t(`commands:add.modal.${component.customId}.label`),
     placeholder: t(`commands:add.modal.${component.customId}.placeholder`)
