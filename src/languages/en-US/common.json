@@ -1,5 +1,6 @@
 {
   "announcementNotFound": "❌ Announcement not found.",
   "translationNotFound": "❌ Error, translation not found.",
+  "weirdError": "❌ An error has occurred, please try again or contact our [support server](https://discord.com/invite/2wwsgSz4qu).",
   "selectLang": "Select a language to translate"
 }

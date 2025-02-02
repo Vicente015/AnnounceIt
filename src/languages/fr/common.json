@@ -1,5 +1,6 @@
 {
   "announcementNotFound": "❌ Annonce introuvable.",
   "translationNotFound": "❌ Erreur, traduction introuvable.",
+  "weirdError": "❌ Une erreur s'est produite, veuillez réessayer ou contacter notre [serveur d'assistance](https://discord.com/invite/2wwsgSz4qu).",
   "selectLang": "Selectionnez un langage à traduire"
 }

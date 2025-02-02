@@ -40,8 +40,8 @@ export async function validateChatInput<Shape extends object> (interaction: Subc
   catch (error) {
     interaction.client.logger.error(error)
     if (error instanceof ArgumentError) {
-      // ? Removes "error <in object X>" from error message
-      const errorMessage = error.message.split(' in object')[0]
+      const i18nKeyRegex = /(commands|common|meta):[\w.\-]+(?=\s|$)/g
+      const errorMessage = error.message.match(i18nKeyRegex)?.at(0)?.trim() ?? 'common:weirdError'
       await reply(interaction, { content: t(errorMessage, { defaultValue: '' }), type: 'negative' })
     }
   }
@@ -68,8 +68,8 @@ export async function validateModalInput<Shape extends object> (interaction: Mod
   catch (error) {
     console.log('awa', error)
     if (error instanceof ArgumentError) {
-      // ? Removes "error <in object X>" from error message
-      const errorMessage = error.message.split(' in object ')[0]
+      const i18nKeyRegex = /(commands|common|meta):[\w.\-]+(?=\s|$)/g
+      const errorMessage = error.message.match(i18nKeyRegex)?.at(0)?.trim() ?? 'common:weirdError'
       await reply(interaction, { content: t(errorMessage, { defaultValue: '' }), type: 'negative' })
     }
   }

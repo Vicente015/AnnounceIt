@@ -18,7 +18,13 @@ export function createClient (override: Partial<ClientOptions> = {}) {
       fetchLanguage: (context: InternationalizationContext) => {
         return context.interactionGuildLocale || context.interactionLocale || context.guild?.preferredLocale || config.defaultLanguage
       },
-      i18next: { fallbackLng: 'es-ES', returnEmptyString: true, returnNull: false }
+      i18next: {
+        fallbackLng: 'es-ES',
+        missingKeyHandler: (missingKey) => console.error('Missing i18n key:', missingKey),
+        returnEmptyString: false,
+        returnNull: false,
+        saveMissing: true
+      }
     },
     intents: [GatewayIntentBits.Guilds],
     loadSubcommandErrorListeners: true,
