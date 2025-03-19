@@ -18,9 +18,11 @@ export function createClient (override: Partial<ClientOptions> = {}) {
     i18n: {
       defaultLanguageDirectory: 'src/languages/',
       defaultName: 'en-US',
-      // fetchLanguage: (context: InternationalizationContext) => {
-      //   return context.interactionGuildLocale || context.interactionLocale || context.guild?.preferredLocale || config.defaultLanguage
-      // },
+      fetchLanguage: (context: InternationalizationContext) => {
+        const lng = context.interactionGuildLocale || context.interactionLocale || context.guild?.preferredLocale || config.defaultLanguage
+        if (!languages.includes(lng)) return config.defaultLanguage
+        return lng
+      },
       i18next: {
         fallbackLng: 'en-US',
         load: 'all',
