@@ -16,9 +16,9 @@ export function createClient (override: Partial<ClientOptions> = {}) {
     i18n: {
       defaultLanguageDirectory: 'src/languages/',
       defaultName: 'en-US',
-      fetchLanguage: (context: InternationalizationContext) => {
-        return context.interactionGuildLocale || context.interactionLocale || context.guild?.preferredLocale || config.defaultLanguage
-      },
+      // fetchLanguage: (context: InternationalizationContext) => {
+      //   return context.interactionGuildLocale || context.interactionLocale || context.guild?.preferredLocale || config.defaultLanguage
+      // },
       i18next: {
         fallbackLng: 'en-US',
         missingKeyHandler: (missingKey) => console.error('Missing i18n key:', missingKey),
