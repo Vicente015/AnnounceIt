@@ -20,7 +20,11 @@ export function createClient (override: Partial<ClientOptions> = {}) {
       defaultName: 'en-US',
       fetchLanguage: (context: InternationalizationContext) => {
         const lng = context.interactionGuildLocale || context.interactionLocale || context.guild?.preferredLocale || config.defaultLanguage
-        if (!languages.includes(lng)) return config.defaultLanguage
+        if (!languages.includes(lng)) {
+          // ? Fallback to Spain Spanish when is Spanish Latam
+          if (lng.includes('es')) return 'es-ES'
+          return config.defaultLanguage
+        }
         return lng
       },
       i18next: {
