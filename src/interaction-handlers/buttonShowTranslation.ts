@@ -1,5 +1,5 @@
 import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework'
-import { fetchT } from '@sapphire/plugin-i18next'
+import { fetchLanguage, fetchT } from '@sapphire/plugin-i18next'
 import { ButtonInteraction, EmbedBuilder, HexColorString } from 'discord.js'
 import { isObjectIdOrHexString } from 'mongoose'
 import { Announcement } from '../schemas/Announcement.js'
@@ -18,6 +18,7 @@ export class ButtonHandler extends InteractionHandler {
 
   public override async parse (interaction: ButtonInteraction) {
     const translationId = interaction.customId
+    console.debug('Interaction language debug:', interaction, fetchLanguage(interaction))
     const t = await fetchT(interaction)
 
     if (!isObjectIdOrHexString(translationId)) return this.none()
