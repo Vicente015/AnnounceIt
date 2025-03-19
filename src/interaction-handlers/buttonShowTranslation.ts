@@ -18,7 +18,7 @@ export class ButtonHandler extends InteractionHandler {
 
   public override async parse (interaction: ButtonInteraction) {
     const translationId = interaction.customId
-    console.debug('Interaction language debug:', interaction, fetchLanguage(interaction))
+    console.debug('Interaction language debug:', interaction, await fetchLanguage(interaction))
     const t = await fetchT(interaction)
 
     if (!isObjectIdOrHexString(translationId)) return this.none()
