@@ -6,6 +6,8 @@ import { ClientOptions } from 'discord.js'
 import { ActivityType, GatewayIntentBits, Options, PresenceUpdateStatus } from 'discord.js'
 import config from '../config.json' with { type: 'json' }
 
+const languages = ['es-ES', 'fr', 'en-US']
+
 export function createClient (override: Partial<ClientOptions> = {}) {
   return new SapphireClient({
     allowedMentions: { parse: ['users', 'roles'], repliedUser: false },
@@ -21,10 +23,13 @@ export function createClient (override: Partial<ClientOptions> = {}) {
       // },
       i18next: {
         fallbackLng: 'en-US',
+        load: 'all',
         missingKeyHandler: (missingKey) => console.error('Missing i18n key:', missingKey),
+        preload: languages,
         returnEmptyString: false,
         returnNull: false,
-        saveMissing: true
+        saveMissing: true,
+        supportedLngs: languages
       }
     },
     intents: [GatewayIntentBits.Guilds],
