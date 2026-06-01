@@ -65,7 +65,7 @@
     "tsc-watch": "^6.0.5",
     "typescript": "^5.7",
     "typescript-eslint": "^7.6.0",
-    "vitest": "^1.5.3",
+    "vitest": "^4.1.0",
     "vitest-mongodb": "^0.0.5"
   }
 }
